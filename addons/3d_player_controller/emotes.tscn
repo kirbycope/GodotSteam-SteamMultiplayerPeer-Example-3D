@@ -1,0 +1,194 @@
+[gd_scene load_steps=7 format=3 uid="uid://u2wxuwpmjwha"]
+
+[ext_resource type="Script" uid="uid://c515phty4vvr1" path="res://addons/3d_player_controller/emotes.gd" id="1_j0l6j"]
+[ext_resource type="Texture2D" uid="uid://dtunt7cfmiu0r" path="res://addons/3d_player_controller/assets/textures/game_icons/PNG/White/1x/plus-1.png" id="2_6ja4e"]
+[ext_resource type="Texture2D" uid="uid://pwpbxv8luc5c" path="res://addons/3d_player_controller/assets/textures/emotes/wave.png" id="2_k7sx4"]
+[ext_resource type="Texture2D" uid="uid://vctdg3xl5w3s" path="res://addons/3d_player_controller/assets/textures/emotes/clap.png" id="3_35oc8"]
+[ext_resource type="Texture2D" uid="uid://i1ynt2f1nnye" path="res://addons/3d_player_controller/assets/textures/emotes/cry.png" id="4_unv4w"]
+[ext_resource type="Texture2D" uid="uid://66o7m32dt2p2" path="res://addons/3d_player_controller/assets/textures/emotes/bow.png" id="5_albwf"]
+
+[node name="Emotes" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_j0l6j")
+
+[node name="DPad" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="DPadUp" type="TextureRect" parent="DPad"]
+layout_mode = 0
+offset_left = -50.0
+offset_top = -17.0
+offset_right = 50.0
+offset_bottom = 83.0
+texture = ExtResource("2_6ja4e")
+
+[node name="DPadDown" type="TextureRect" parent="DPad"]
+layout_mode = 0
+offset_left = -50.0
+offset_top = -17.0
+offset_right = 50.0
+offset_bottom = 83.0
+texture = ExtResource("2_6ja4e")
+flip_v = true
+
+[node name="DPadLeft" type="TextureRect" parent="DPad"]
+layout_mode = 0
+offset_left = 50.0
+offset_top = -17.0
+offset_right = 150.0
+offset_bottom = 83.0
+rotation = 1.57079
+texture = ExtResource("2_6ja4e")
+flip_h = true
+flip_v = true
+
+[node name="DPadRight" type="TextureRect" parent="DPad"]
+layout_mode = 0
+offset_left = 50.0
+offset_top = -17.0
+offset_right = 150.0
+offset_bottom = 83.0
+rotation = 1.57079
+texture = ExtResource("2_6ja4e")
+
+[node name="Keyboard" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Tab" type="Label" parent="Keyboard"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -35.5
+offset_top = -45.0
+offset_right = -4.5
+offset_bottom = -22.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_outline_color = Color(0.180392, 0.180392, 0.180392, 1)
+theme_override_constants/outline_size = 8
+text = "TAB"
+
+[node name="B" type="Label" parent="Keyboard"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -72.0
+offset_top = 0.5
+offset_right = -61.0
+offset_bottom = 23.5
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0.180392, 0.180392, 0.180392, 1)
+theme_override_constants/outline_size = 8
+text = "B"
+
+[node name="T" type="Label" parent="Keyboard"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 22.0
+offset_top = 0.5
+offset_right = 33.0
+offset_bottom = 23.5
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0.180392, 0.180392, 0.180392, 1)
+theme_override_constants/outline_size = 8
+text = "T"
+
+[node name="Q" type="Label" parent="Keyboard"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -26.5
+offset_top = 42.0
+offset_right = -13.5
+offset_bottom = 65.0
+grow_horizontal = 2
+theme_override_colors/font_outline_color = Color(0.180392, 0.180392, 0.180392, 1)
+theme_override_constants/outline_size = 8
+text = "Q"
+
+[node name="Emote1" type="Panel" parent="."]
+layout_mode = 0
+offset_left = -32.0
+offset_top = -64.0
+offset_right = 32.0
+
+[node name="Emote1Button" type="TextureButton" parent="Emote1"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = 262.0
+offset_bottom = 262.0
+scale = Vector2(0.2, 0.2)
+texture_normal = ExtResource("2_k7sx4")
+
+[node name="Emote2" type="Panel" parent="."]
+layout_mode = 0
+offset_left = -96.0
+offset_right = -32.0
+offset_bottom = 64.0
+
+[node name="Emote2Button" type="TextureButton" parent="Emote2"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = 262.0
+offset_bottom = 262.0
+scale = Vector2(0.2, 0.2)
+texture_normal = ExtResource("3_35oc8")
+
+[node name="Emote3" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 32.0
+offset_right = 96.0
+offset_bottom = 64.0
+
+[node name="Emote3Button" type="TextureButton" parent="Emote3"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = 262.0
+offset_bottom = 262.0
+scale = Vector2(0.2, 0.2)
+texture_normal = ExtResource("4_unv4w")
+
+[node name="Emote4" type="Panel" parent="."]
+layout_mode = 0
+offset_left = -32.0
+offset_top = 64.0
+offset_right = 32.0
+offset_bottom = 128.0
+
+[node name="Emote4Button" type="TextureButton" parent="Emote4"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = 262.0
+offset_bottom = 262.0
+scale = Vector2(0.2, 0.2)
+texture_normal = ExtResource("5_albwf")
+
+[connection signal="button_down" from="Emote1/Emote1Button" to="." method="_on_emote_1_button_button_down"]
+[connection signal="button_down" from="Emote2/Emote2Button" to="." method="_on_emote_2_button_button_down"]
+[connection signal="button_down" from="Emote3/Emote3Button" to="." method="_on_emote_3_button_button_down"]
+[connection signal="button_down" from="Emote4/Emote4Button" to="." method="_on_emote_4_button_button_down"]

@@ -1,0 +1,336 @@
+[gd_scene load_steps=32 format=3 uid="uid://d1yeyb0luu5cy"]
+
+[ext_resource type="Texture2D" uid="uid://bf7ao2r1en2cq" path="res://addons/virtual_controller/assets/textures/game_icons/PNG/White/2x/buttonA.png" id="1_dyvab"]
+[ext_resource type="Texture2D" uid="uid://gq6lwxhonocy" path="res://addons/virtual_controller/assets/textures/game_icons/PNG/Black/2x/buttonA.png" id="2_k0k70"]
+[ext_resource type="Texture2D" uid="uid://d17g6mlhk5xvx" path="res://addons/virtual_controller/assets/textures/game_icons/PNG/White/2x/buttonB.png" id="3_o41q3"]
+[ext_resource type="Texture2D" uid="uid://koptcqtseyee" path="res://addons/virtual_controller/assets/textures/game_icons/PNG/White/1x/stop.png" id="3_uwa31"]
+[ext_resource type="Texture2D" uid="uid://5q2xmugddyx7" path="res://addons/virtual_controller/assets/textures/playstation_series/Double/white_playstation_button_cross.png" id="4_2hqlr"]
+[ext_resource type="Texture2D" uid="uid://brdf0o13vm14t" path="res://addons/virtual_controller/assets/textures/game_icons/PNG/Black/2x/buttonB.png" id="4_3qn5a"]
+[ext_resource type="Texture2D" uid="uid://mlqenpjx55f2" path="res://addons/virtual_controller/assets/textures/playstation_series/Double/black_playstation_button_cross.png" id="5_2x4f6"]
+[ext_resource type="Texture2D" uid="uid://cw26jjwephqik" path="res://addons/virtual_controller/assets/textures/game_icons/PNG/White/2x/buttonX.png" id="5_aort8"]
+[ext_resource type="Texture2D" uid="uid://bbpqtu1ugpnis" path="res://addons/virtual_controller/assets/textures/game_icons/PNG/Black/2x/buttonX.png" id="6_o41q3"]
+[ext_resource type="Texture2D" uid="uid://dnvya1u1n7dvw" path="res://addons/virtual_controller/assets/textures/game_icons/PNG/White/2x/buttonY.png" id="6_yx8li"]
+[ext_resource type="Texture2D" uid="uid://01tnswshakyt" path="res://addons/virtual_controller/assets/textures/game_icons/PNG/White/2x/buttonStart.png" id="7_o7vf7"]
+[ext_resource type="Texture2D" uid="uid://bb57xq2u6f5xc" path="res://addons/virtual_controller/assets/textures/game_icons/PNG/Black/2x/buttonY.png" id="8_3qn5a"]
+[ext_resource type="Texture2D" uid="uid://c3p18xrk8ilbx" path="res://addons/virtual_controller/assets/textures/playstation_series/Double/white_playstation_button_circle.png" id="8_16rok"]
+[ext_resource type="Texture2D" uid="uid://cnoglo10hvyc1" path="res://addons/virtual_controller/assets/textures/game_icons/PNG/Black/2x/buttonStart.png" id="8_vh2ts"]
+[ext_resource type="Texture2D" uid="uid://c2yn4c21tm50k" path="res://addons/virtual_controller/assets/textures/playstation_series/Double/black_playstation_button_circle.png" id="9_hdapk"]
+[ext_resource type="Texture2D" uid="uid://h3vwbbe6qoep" path="res://addons/virtual_controller/assets/textures/playstation_series/Double/white_playstation_button_square.png" id="12_0u8lu"]
+[ext_resource type="Texture2D" uid="uid://cpl7bnbr2af4k" path="res://addons/virtual_controller/assets/textures/game_icons/PNG/White/2x/button.png" id="12_pcoid"]
+[ext_resource type="Texture2D" uid="uid://bs3x0u2uoe38j" path="res://addons/virtual_controller/assets/textures/switch_2/Default/switch_up.png" id="13_6fb8o"]
+[ext_resource type="Texture2D" uid="uid://bvcjgduexl5t1" path="res://addons/virtual_controller/assets/textures/playstation_series/Double/black_playstation_button_square.png" id="13_hhuy7"]
+[ext_resource type="Texture2D" uid="uid://dxprm05hgebi0" path="res://addons/virtual_controller/assets/textures/switch_2/Default/black_switch_up.png" id="13_wdm52"]
+[ext_resource type="Texture2D" uid="uid://0g16pve55u1o" path="res://addons/virtual_controller/assets/textures/switch_2/Default/switch_down.png" id="14_qcjq4"]
+[ext_resource type="Texture2D" uid="uid://djp0pnw46bdwx" path="res://addons/virtual_controller/assets/textures/switch_2/Default/switch_left.png" id="15_2be4w"]
+[ext_resource type="Texture2D" uid="uid://badj8r1p5y7id" path="res://addons/virtual_controller/assets/textures/switch_2/Default/black_switch_down.png" id="15_6fb8o"]
+[ext_resource type="Texture2D" uid="uid://ctmht3trha3em" path="res://addons/virtual_controller/assets/textures/playstation_series/Double/white_playstation_button_triangle.png" id="16_ajbu6"]
+[ext_resource type="Texture2D" uid="uid://oh366wk4rivr" path="res://addons/virtual_controller/assets/textures/switch_2/Default/switch_right.png" id="16_wdm52"]
+[ext_resource type="Texture2D" uid="uid://cgovkvm8tv21f" path="res://addons/virtual_controller/assets/textures/switch_2/Default/black_switch_left.png" id="17_c4fdf"]
+[ext_resource type="Texture2D" uid="uid://c0rilaeqj1cox" path="res://addons/virtual_controller/assets/textures/playstation_series/Double/black_playstation_button_triangle.png" id="17_iq1u3"]
+[ext_resource type="Texture2D" uid="uid://dfekelui7hmee" path="res://addons/virtual_controller/assets/textures/switch_2/Default/black_switch_right.png" id="19_13uvn"]
+[ext_resource type="Texture2D" uid="uid://d2l4iqe4wxipm" path="res://addons/virtual_controller/assets/textures/game_icons_expansion/PNG/White/2x/joystickR_top.png" id="20_16rok"]
+[ext_resource type="Texture2D" uid="uid://btm0cgc5iaedi" path="res://addons/virtual_controller/assets/textures/game_icons_expansion/PNG/Black/2x/joystickR_top.png" id="21_hdapk"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_2hqlr"]
+font_size = 20
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[node name="VirtualButtonsBottomRight" type="Control"]
+layout_mode = 3
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1280.0
+offset_top = -720.0
+offset_right = -1280.0
+offset_bottom = -720.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="TouchScreenButtonA" type="TouchScreenButton" parent="." groups=["TouchScreenButton"]]
+position = Vector2(-185, -169)
+texture_normal = ExtResource("1_dyvab")
+texture_pressed = ExtResource("2_k0k70")
+passby_press = true
+action = "button_0"
+
+[node name="Background" type="Sprite2D" parent="TouchScreenButtonA"]
+visible = false
+self_modulate = Color(0.000113828, 0.000113828, 0.000113828, 1)
+z_index = -1
+position = Vector2(52, 50)
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("12_pcoid")
+
+[node name="Label" type="Label" parent="TouchScreenButtonA"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -0.5
+offset_top = -28.0
+offset_right = 0.5
+grow_horizontal = 2
+grow_vertical = 0
+label_settings = SubResource("LabelSettings_2hqlr")
+horizontal_alignment = 1
+
+[node name="TouchScreenButtonCross" type="TouchScreenButton" parent="." groups=["TouchScreenButton"]]
+visible = false
+position = Vector2(-185, -169)
+texture_normal = ExtResource("4_2hqlr")
+texture_pressed = ExtResource("5_2x4f6")
+passby_press = true
+action = "button_0"
+
+[node name="Background" type="Sprite2D" parent="TouchScreenButtonCross"]
+visible = false
+self_modulate = Color(0.000113828, 0.000113828, 0.000113828, 1)
+z_index = -1
+position = Vector2(52, 50)
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("12_pcoid")
+
+[node name="TouchScreenButtonB" type="TouchScreenButton" parent="." groups=["TouchScreenButton"]]
+position = Vector2(-105, -249)
+texture_normal = ExtResource("3_o41q3")
+texture_pressed = ExtResource("4_3qn5a")
+passby_press = true
+action = "button_1"
+
+[node name="Background" type="Sprite2D" parent="TouchScreenButtonB"]
+visible = false
+z_index = -1
+position = Vector2(52, 50)
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("12_pcoid")
+
+[node name="Label" type="Label" parent="TouchScreenButtonB"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -0.5
+offset_top = -28.0
+offset_right = 0.5
+grow_horizontal = 2
+grow_vertical = 0
+label_settings = SubResource("LabelSettings_2hqlr")
+horizontal_alignment = 1
+
+[node name="TouchScreenButtonCircle" type="TouchScreenButton" parent="." groups=["TouchScreenButton"]]
+visible = false
+position = Vector2(-105, -249)
+texture_normal = ExtResource("8_16rok")
+texture_pressed = ExtResource("9_hdapk")
+passby_press = true
+action = "button_1"
+
+[node name="Background" type="Sprite2D" parent="TouchScreenButtonCircle"]
+visible = false
+z_index = -1
+position = Vector2(52, 50)
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("12_pcoid")
+
+[node name="TouchScreenButtonX" type="TouchScreenButton" parent="." groups=["TouchScreenButton"]]
+position = Vector2(-265, -249)
+texture_normal = ExtResource("5_aort8")
+texture_pressed = ExtResource("6_o41q3")
+passby_press = true
+action = "button_2"
+
+[node name="Background" type="Sprite2D" parent="TouchScreenButtonX"]
+visible = false
+z_index = -1
+position = Vector2(52, 50)
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("12_pcoid")
+
+[node name="Label" type="Label" parent="TouchScreenButtonX"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -0.5
+offset_top = -28.0
+offset_right = 0.5
+grow_horizontal = 2
+grow_vertical = 0
+label_settings = SubResource("LabelSettings_2hqlr")
+horizontal_alignment = 1
+
+[node name="TouchScreenButtonSquare" type="TouchScreenButton" parent="." groups=["TouchScreenButton"]]
+visible = false
+position = Vector2(-265, -249)
+texture_normal = ExtResource("12_0u8lu")
+texture_pressed = ExtResource("13_hhuy7")
+passby_press = true
+action = "button_2"
+
+[node name="Background" type="Sprite2D" parent="TouchScreenButtonSquare"]
+visible = false
+z_index = -1
+position = Vector2(52, 50)
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("12_pcoid")
+
+[node name="TouchScreenButtonY" type="TouchScreenButton" parent="." groups=["TouchScreenButton"]]
+position = Vector2(-185, -329)
+texture_normal = ExtResource("6_yx8li")
+texture_pressed = ExtResource("8_3qn5a")
+passby_press = true
+action = "button_3"
+
+[node name="Background" type="Sprite2D" parent="TouchScreenButtonY"]
+visible = false
+z_index = -1
+position = Vector2(52, 50)
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("12_pcoid")
+
+[node name="Label" type="Label" parent="TouchScreenButtonY"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -0.5
+offset_top = -28.0
+offset_right = 0.5
+grow_horizontal = 2
+grow_vertical = 0
+label_settings = SubResource("LabelSettings_2hqlr")
+horizontal_alignment = 1
+
+[node name="TouchScreenButtonTriangle" type="TouchScreenButton" parent="." groups=["TouchScreenButton"]]
+visible = false
+position = Vector2(-185, -329)
+texture_normal = ExtResource("16_ajbu6")
+texture_pressed = ExtResource("17_iq1u3")
+passby_press = true
+action = "button_3"
+
+[node name="Background" type="Sprite2D" parent="TouchScreenButtonTriangle"]
+visible = false
+z_index = -1
+position = Vector2(52, 50)
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("12_pcoid")
+
+[node name="TouchScreenButtonStart" type="TouchScreenButton" parent="." groups=["TouchScreenButton"]]
+position = Vector2(-100, -84)
+texture_normal = ExtResource("7_o7vf7")
+texture_pressed = ExtResource("8_vh2ts")
+action = "button_9"
+
+[node name="Label" type="Label" parent="TouchScreenButtonStart"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -0.5
+offset_top = -44.0
+offset_right = 0.5
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 0
+label_settings = SubResource("LabelSettings_2hqlr")
+horizontal_alignment = 1
+
+[node name="TouchScreenButtonR" type="TouchScreenButton" parent="." groups=["TouchScreenButton"]]
+position = Vector2(-300, -100)
+texture_normal = ExtResource("20_16rok")
+texture_pressed = ExtResource("21_hdapk")
+action = "button_11"
+
+[node name="Label" type="Label" parent="TouchScreenButtonR"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -3.0
+offset_top = -28.0
+offset_right = 3.0
+grow_horizontal = 2
+grow_vertical = 0
+label_settings = SubResource("LabelSettings_2hqlr")
+
+[node name="TouchScreenButtonCUp" type="TouchScreenButton" parent="." groups=["TouchScreenButton"]]
+visible = false
+position = Vector2(-119, -324)
+texture_normal = ExtResource("13_6fb8o")
+texture_pressed = ExtResource("13_wdm52")
+passby_press = true
+action = "look_up"
+
+[node name="Background" type="Sprite2D" parent="TouchScreenButtonCUp"]
+visible = false
+z_index = -1
+position = Vector2(32, 32)
+texture = ExtResource("3_uwa31")
+
+[node name="Label" type="Label" parent="TouchScreenButtonCUp"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -24.0
+offset_top = 31.0
+offset_right = 24.0
+offset_bottom = 59.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "look"
+label_settings = SubResource("LabelSettings_2hqlr")
+
+[node name="TouchScreenButtonCDown" type="TouchScreenButton" parent="." groups=["TouchScreenButton"]]
+visible = false
+position = Vector2(-120, -234)
+texture_normal = ExtResource("14_qcjq4")
+texture_pressed = ExtResource("15_6fb8o")
+passby_press = true
+action = "look_down"
+
+[node name="Background" type="Sprite2D" parent="TouchScreenButtonCDown"]
+visible = false
+z_index = -1
+position = Vector2(32, 32)
+texture = ExtResource("3_uwa31")
+
+[node name="TouchScreenButtonCLeft" type="TouchScreenButton" parent="." groups=["TouchScreenButton"]]
+visible = false
+position = Vector2(-173, -279)
+texture_normal = ExtResource("15_2be4w")
+texture_pressed = ExtResource("17_c4fdf")
+passby_press = true
+action = "look_left"
+
+[node name="Background" type="Sprite2D" parent="TouchScreenButtonCLeft"]
+visible = false
+z_index = -1
+position = Vector2(32, 32)
+texture = ExtResource("3_uwa31")
+
+[node name="TouchScreenButtonCRight" type="TouchScreenButton" parent="." groups=["TouchScreenButton"]]
+visible = false
+position = Vector2(-65, -279)
+texture_normal = ExtResource("16_wdm52")
+texture_pressed = ExtResource("19_13uvn")
+passby_press = true
+action = "look_right"
+
+[node name="Background" type="Sprite2D" parent="TouchScreenButtonCRight"]
+visible = false
+z_index = -1
+position = Vector2(32, 32)
+texture = ExtResource("3_uwa31")

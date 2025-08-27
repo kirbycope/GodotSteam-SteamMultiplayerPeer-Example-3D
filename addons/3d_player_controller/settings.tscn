@@ -1,0 +1,259 @@
+[gd_scene load_steps=11 format=3 uid="uid://b4e68syey7fke"]
+
+[ext_resource type="Script" uid="uid://jbgi85ivvf27" path="res://addons/3d_player_controller/settings.gd" id="1_famuw"]
+[ext_resource type="Texture2D" uid="uid://dhbfxkfnc4auv" path="res://addons/3d_player_controller/assets/textures/game_icons/PNG/White/2x/cross.png" id="2_iuyi1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6cb56"]
+size = Vector2(200, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_msaa"]
+size = Vector2(200, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ssaa"]
+size = Vector2(200, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wwdw4"]
+size = Vector2(200, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jidk7"]
+size = Vector2(200, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6bu00"]
+size = Vector2(200, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fsr"]
+size = Vector2(200, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iuyi1"]
+size = Vector2(193, 40)
+
+[node name="Settings" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_famuw")
+
+[node name="Container" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -150.0
+offset_right = 100.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Panel" parent="Container"]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 34.0
+
+[node name="Label" type="Label" parent="Container/Title"]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 34.0
+theme_override_font_sizes/font_size = 24
+text = "SETTINGS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Container"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 34.0
+offset_right = -7.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VSYNC" type="CheckButton" parent="Container/VBoxContainer"]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="Label" type="Label" parent="Container/VBoxContainer/VSYNC"]
+layout_mode = 0
+offset_left = -144.0
+offset_right = -68.0
+offset_bottom = 34.0
+theme_override_font_sizes/font_size = 24
+text = "VSYNC"
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="Container/VBoxContainer/VSYNC"]
+position = Vector2(-49, 15)
+shape = SubResource("RectangleShape2D_6cb56")
+
+[node name="MSAA" type="OptionButton" parent="Container/VBoxContainer"]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+size_flags_horizontal = 8
+item_count = 4
+popup/item_0/text = "Disabled"
+popup/item_0/id = 0
+popup/item_1/text = "2× MSAA"
+popup/item_1/id = 1
+popup/item_2/text = "4× MSAA"
+popup/item_2/id = 2
+popup/item_3/text = "8× MSAA"
+popup/item_3/id = 3
+
+[node name="Label" type="Label" parent="Container/VBoxContainer/MSAA"]
+layout_mode = 0
+offset_left = -88.0
+offset_right = -21.0
+offset_bottom = 34.0
+theme_override_font_sizes/font_size = 24
+text = "MSAA"
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="Container/VBoxContainer/MSAA"]
+position = Vector2(7, 17)
+shape = SubResource("RectangleShape2D_msaa")
+
+[node name="SSAA" type="OptionButton" parent="Container/VBoxContainer"]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+size_flags_horizontal = 8
+item_count = 3
+popup/item_0/text = "Off"
+popup/item_0/id = 0
+popup/item_1/text = "2.25× SSAA"
+popup/item_1/id = 1
+popup/item_2/text = "4× SSAA"
+popup/item_2/id = 2
+
+[node name="Label" type="Label" parent="Container/VBoxContainer/SSAA"]
+layout_mode = 0
+offset_left = -72.0
+offset_right = -14.0
+offset_bottom = 34.0
+theme_override_font_sizes/font_size = 24
+text = "SSAA"
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="Container/VBoxContainer/SSAA"]
+position = Vector2(23, 15)
+shape = SubResource("RectangleShape2D_ssaa")
+
+[node name="FXAA" type="CheckButton" parent="Container/VBoxContainer"]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="Label" type="Label" parent="Container/VBoxContainer/FXAA"]
+layout_mode = 0
+offset_left = -144.0
+offset_right = -85.0
+offset_bottom = 34.0
+theme_override_font_sizes/font_size = 24
+text = "FXAA"
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="Container/VBoxContainer/FXAA"]
+position = Vector2(-49, 13)
+shape = SubResource("RectangleShape2D_wwdw4")
+
+[node name="SSRL" type="CheckButton" parent="Container/VBoxContainer"]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="Label" type="Label" parent="Container/VBoxContainer/SSRL"]
+layout_mode = 0
+offset_left = -144.0
+offset_right = -85.0
+offset_bottom = 34.0
+theme_override_font_sizes/font_size = 24
+text = "SSRL"
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="Container/VBoxContainer/SSRL"]
+position = Vector2(-49, 13)
+shape = SubResource("RectangleShape2D_jidk7")
+
+[node name="TAA" type="CheckButton" parent="Container/VBoxContainer"]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="Label" type="Label" parent="Container/VBoxContainer/TAA"]
+layout_mode = 0
+offset_left = -144.0
+offset_right = -85.0
+offset_bottom = 34.0
+theme_override_font_sizes/font_size = 24
+text = "TAA"
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="Container/VBoxContainer/TAA"]
+position = Vector2(-49, 13)
+shape = SubResource("RectangleShape2D_6bu00")
+
+[node name="FSR" type="OptionButton" parent="Container/VBoxContainer"]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+size_flags_horizontal = 8
+item_count = 3
+popup/item_0/text = "Off"
+popup/item_0/id = 0
+popup/item_1/text = "1.0"
+popup/item_1/id = 1
+popup/item_2/text = "2.2"
+popup/item_2/id = 2
+
+[node name="Label" type="Label" parent="Container/VBoxContainer/FSR"]
+layout_mode = 0
+offset_left = -131.0
+offset_right = -73.0
+offset_bottom = 34.0
+theme_override_font_sizes/font_size = 24
+text = "FSR"
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="Container/VBoxContainer/FSR"]
+position = Vector2(-36, 16)
+shape = SubResource("RectangleShape2D_fsr")
+
+[node name="BackButton" type="TextureButton" parent="Container/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Container/VBoxContainer/BackButton"]
+layout_mode = 0
+offset_left = 160.0
+offset_right = 200.0
+offset_bottom = 40.0
+texture = ExtResource("2_iuyi1")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Container/VBoxContainer/BackButton"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 3.0
+offset_right = 67.0
+offset_bottom = 37.0
+theme_override_font_sizes/font_size = 24
+text = "BACK"
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="Container/VBoxContainer/BackButton"]
+position = Vector2(100, 21)
+shape = SubResource("RectangleShape2D_iuyi1")
+
+[connection signal="toggled" from="Container/VBoxContainer/VSYNC" to="." method="_on_vsync_toggled"]
+[connection signal="pressed" from="Container/VBoxContainer/VSYNC/TouchScreenButton" to="." method="_on_vsync_touch_pressed"]
+[connection signal="item_selected" from="Container/VBoxContainer/MSAA" to="." method="_on_msaa_item_selected"]
+[connection signal="pressed" from="Container/VBoxContainer/MSAA/TouchScreenButton" to="." method="_on_msaa_touch_pressed"]
+[connection signal="item_selected" from="Container/VBoxContainer/SSAA" to="." method="_on_ssaa_item_selected"]
+[connection signal="pressed" from="Container/VBoxContainer/SSAA/TouchScreenButton" to="." method="_on_ssaa_touch_pressed"]
+[connection signal="toggled" from="Container/VBoxContainer/FXAA" to="." method="_on_fxaa_toggled"]
+[connection signal="pressed" from="Container/VBoxContainer/FXAA/TouchScreenButton" to="." method="_on_fxaa_touch_pressed"]
+[connection signal="toggled" from="Container/VBoxContainer/SSRL" to="." method="_on_ssrl_toggled"]
+[connection signal="pressed" from="Container/VBoxContainer/SSRL/TouchScreenButton" to="." method="_on_ssrl_touch_pressed"]
+[connection signal="toggled" from="Container/VBoxContainer/TAA" to="." method="_on_taa_toggled"]
+[connection signal="pressed" from="Container/VBoxContainer/TAA/TouchScreenButton" to="." method="_on_taa_touch_pressed"]
+[connection signal="item_selected" from="Container/VBoxContainer/FSR" to="." method="_on_fsr_item_selected"]
+[connection signal="pressed" from="Container/VBoxContainer/FSR/TouchScreenButton" to="." method="_on_fsr_touch_pressed"]
+[connection signal="pressed" from="Container/VBoxContainer/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="Container/VBoxContainer/BackButton/TouchScreenButton" to="." method="_on_back_button_pressed"]

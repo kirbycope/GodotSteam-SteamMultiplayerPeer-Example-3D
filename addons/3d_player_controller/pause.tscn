@@ -1,0 +1,295 @@
+[gd_scene load_steps=8 format=3 uid="uid://bf6dhhwfpuau6"]
+
+[ext_resource type="Script" uid="uid://br0qym2354jy2" path="res://addons/3d_player_controller/pause.gd" id="1_ef46y"]
+[ext_resource type="Texture2D" uid="uid://62prm5gy7ehu" path="res://addons/3d_player_controller/assets/textures/game_icons/PNG/White/1x/cross.png" id="2_1s3bm"]
+[ext_resource type="Texture2D" uid="uid://cmqsc78wj18cx" path="res://addons/3d_player_controller/assets/textures/game_icons/PNG/White/2x/home.png" id="3_hblcw"]
+[ext_resource type="Texture2D" uid="uid://p7vujqgkgo3v" path="res://addons/3d_player_controller/assets/textures/game_icons/PNG/White/1x/exitLeft.png" id="3_ymsbp"]
+[ext_resource type="Texture2D" uid="uid://b2gt6xlau67im" path="res://addons/3d_player_controller/assets/textures/game_icons/PNG/White/2x/gear.png" id="4_7k071"]
+[ext_resource type="Texture2D" uid="uid://7p5hgmakuehy" path="res://addons/3d_player_controller/assets/textures/game_icons/PNG/White/2x/return.png" id="4_21pvn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7k071"]
+size = Vector2(200, 40)
+
+[node name="Pause" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ef46y")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -150.0
+offset_right = 100.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="Panel"]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 34.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel/Panel"]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 34.0
+theme_override_font_sizes/normal_font_size = 24
+bbcode_enabled = true
+text = "[center]PAUSED[/center]"
+fit_content = true
+scroll_active = false
+scroll_following = true
+autowrap_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 34.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BackToGameButton" type="TextureButton" parent="Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Panel/VBoxContainer/BackToGameButton"]
+layout_mode = 0
+offset_left = 165.0
+offset_top = 4.0
+offset_right = 197.0
+offset_bottom = 36.0
+texture = ExtResource("2_1s3bm")
+expand_mode = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel/VBoxContainer/BackToGameButton"]
+layout_mode = 0
+offset_top = 3.0
+offset_right = 170.0
+offset_bottom = 37.0
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 24
+bbcode_enabled = true
+text = "[center]Back to Game[/center]"
+fit_content = true
+scroll_active = false
+scroll_following = true
+autowrap_mode = 0
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="Panel/VBoxContainer/BackToGameButton"]
+position = Vector2(100, 20)
+shape = SubResource("RectangleShape2D_7k071")
+
+[node name="RestartButton" type="TextureButton" parent="Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Panel/VBoxContainer/RestartButton"]
+layout_mode = 0
+offset_left = 165.0
+offset_top = 4.0
+offset_right = 197.0
+offset_bottom = 36.0
+texture = ExtResource("4_21pvn")
+expand_mode = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel/VBoxContainer/RestartButton"]
+layout_mode = 0
+offset_top = 3.0
+offset_right = 170.0
+offset_bottom = 37.0
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 24
+bbcode_enabled = true
+text = "[center]Restart Level[/center]"
+fit_content = true
+scroll_active = false
+scroll_following = true
+autowrap_mode = 0
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="Panel/VBoxContainer/RestartButton"]
+position = Vector2(100, 20)
+shape = SubResource("RectangleShape2D_7k071")
+
+[node name="ReturnHomeButton" type="TextureButton" parent="Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Panel/VBoxContainer/ReturnHomeButton"]
+layout_mode = 0
+offset_left = 165.0
+offset_top = 4.0
+offset_right = 197.0
+offset_bottom = 36.0
+texture = ExtResource("3_hblcw")
+expand_mode = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel/VBoxContainer/ReturnHomeButton"]
+layout_mode = 0
+offset_top = 3.0
+offset_right = 170.0
+offset_bottom = 37.0
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 24
+bbcode_enabled = true
+text = "[center]Return Home[/center]"
+fit_content = true
+scroll_active = false
+scroll_following = true
+autowrap_mode = 0
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="Panel/VBoxContainer/ReturnHomeButton"]
+position = Vector2(100, 20)
+shape = SubResource("RectangleShape2D_7k071")
+
+[node name="SettingsButton" type="TextureButton" parent="Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Panel/VBoxContainer/SettingsButton"]
+layout_mode = 0
+offset_left = 165.0
+offset_top = 4.0
+offset_right = 197.0
+offset_bottom = 36.0
+texture = ExtResource("4_7k071")
+expand_mode = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel/VBoxContainer/SettingsButton"]
+layout_mode = 0
+offset_top = 3.0
+offset_right = 170.0
+offset_bottom = 37.0
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 24
+bbcode_enabled = true
+text = "[center]Settings[/center]"
+fit_content = true
+scroll_active = false
+scroll_following = true
+autowrap_mode = 0
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="Panel/VBoxContainer/SettingsButton"]
+position = Vector2(100, 20)
+shape = SubResource("RectangleShape2D_7k071")
+
+[node name="LeaveGameButton" type="TextureButton" parent="Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Panel/VBoxContainer/LeaveGameButton"]
+layout_mode = 0
+offset_left = 160.0
+offset_right = 200.0
+offset_bottom = 40.0
+texture = ExtResource("3_ymsbp")
+expand_mode = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel/VBoxContainer/LeaveGameButton"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 3.0
+offset_right = 168.0
+offset_bottom = 37.0
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 24
+bbcode_enabled = true
+text = "[center]Leave Game[/center]"
+fit_content = true
+scroll_active = false
+scroll_following = true
+autowrap_mode = 0
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="Panel/VBoxContainer/LeaveGameButton"]
+position = Vector2(100, 20)
+shape = SubResource("RectangleShape2D_7k071")
+
+[node name="Loading" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -960.0
+offset_top = -540.0
+offset_right = 960.0
+offset_bottom = 540.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="Loading"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -140.5
+offset_top = -22.5
+offset_right = 140.5
+offset_bottom = 22.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+text = "Loading..."
+horizontal_alignment = 1
+
+[node name="Quit" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -960.0
+offset_top = -540.0
+offset_right = 960.0
+offset_bottom = 540.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="Quit"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -140.5
+offset_top = -46.5
+offset_right = 140.5
+offset_bottom = 46.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+text = "Game ended.
+
+Refresh to restart."
+horizontal_alignment = 1
+
+[connection signal="pressed" from="Panel/VBoxContainer/BackToGameButton" to="." method="_on_back_to_game_button_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/BackToGameButton/TouchScreenButton" to="." method="_on_back_to_game_button_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/RestartButton/TouchScreenButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/ReturnHomeButton" to="." method="_on_return_home_button_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/ReturnHomeButton/TouchScreenButton" to="." method="_on_return_home_button_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/SettingsButton/TouchScreenButton" to="." method="toggle_settings"]
+[connection signal="pressed" from="Panel/VBoxContainer/LeaveGameButton" to="." method="_on_leave_game_button_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/LeaveGameButton/TouchScreenButton" to="." method="_on_leave_game_button_pressed"]

@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://ddqj7tbseeds"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_acnot"]
+albedo_color = Color(0.19793725, 0.19793722, 0.19793722, 1)
+
+[node name="Level0" type="Node3D"]
+
+[node name="Ground" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+size = Vector3(64, 1, 64)
+material = SubResource("StandardMaterial3D_acnot")
