@@ -184,7 +184,7 @@ func get_lobby_members() -> void:
 		var member_steam_name: String = Steam.getFriendPersonaName(member_steam_id)
 		# Add them to the list
 		lobby_members.append({"steam_id": member_steam_id, "steam_name": member_steam_name})
-	print("Current lobby members: %s" % lobby_members)
+	print("Current lobby members: %s" % [lobby_members])
 
 
 # https://godotsteam.com/tutorials/lobbies/#persona-changes-avatars-names
