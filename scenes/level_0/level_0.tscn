@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://ddqj7tbseeds"]
 
 [ext_resource type="PackedScene" uid="uid://ujh51l2wv1vk" path="res://addons/3d_player_controller/player_3d.tscn" id="1_epnma"]
-[ext_resource type="Script" uid="uid://dfk1vf0blob8u" path="res://scenes/main/multiplayer_spawner.gd" id="2_iwtyf"]
+[ext_resource type="Script" uid="uid://dfk1vf0blob8u" path="res://scenes/level_0/multiplayer_spawner.gd" id="2_iwtyf"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_epnma"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)

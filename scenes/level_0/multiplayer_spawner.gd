@@ -21,6 +21,7 @@ func _ready() -> void:
 
 ## Creates a new player in the scene.
 func spawn_player(data):
+	print("data: ", data)
 	# Instantiate a new player
 	var player = player_scene.instantiate()
 	# Set the node's multiplayer authority to the given peer
