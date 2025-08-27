@@ -124,10 +124,14 @@ func join_lobby(this_lobby_id: int) -> void:
 	# https://youtu.be/fUBdnocrc3Y?t=463
 	# Create a new Steam multiplayer peer
 	peer = SteamMultiplayerPeer.new()
-	# Connect to the lobby
-	peer.connect_lobby(this_lobby_id)
-	# Set the current lobby ID
+	# Connect to the lobby as a client
+	peer.create_client(this_lobby_id)
+	# Set the multiplayer peer
+	multiplayer.multiplayer_peer = peer
+	# Set the current Lobby ID
 	lobby_id = this_lobby_id
+
+	$GUI.hide()
 
 
 # https://godotsteam.com/tutorials/lobbies/#joining-lobbies
