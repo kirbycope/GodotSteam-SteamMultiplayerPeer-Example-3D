@@ -125,8 +125,8 @@ func join_lobby(this_lobby_id: int) -> void:
 	# Create a new Steam multiplayer peer
 	peer = SteamMultiplayerPeer.new()
 	# Connect to the lobby
-	peer.connect_to_lobby(this_lobby_id)
-	# Set the current Lobby ID
+	peer.connect_lobby(this_lobby_id)
+	# Set the current lobby ID
 	lobby_id = this_lobby_id
 
 
