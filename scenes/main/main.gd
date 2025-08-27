@@ -11,7 +11,7 @@ var steam_id: int = 0
 var steam_username: String = ""
 
 # https://michaelmacha.wordpress.com/2024/04/08/godotsteam-and-steammultiplayerpeer/
-var peer: MultiplayerPeer
+var peer = SteamMultiplayerPeer.new()
 @onready var spawner: MultiplayerSpawner = $MultiplayerSpawner
 
 
@@ -56,8 +56,6 @@ func create_lobby() -> void:
 		Steam.createLobby(Steam.LOBBY_TYPE_PUBLIC, lobby_members_max)
 
 		# https://michaelmacha.wordpress.com/2024/04/08/godotsteam-and-steammultiplayerpeer/
-		# Create a new Steam multiplayer peer
-		peer = SteamMultiplayerPeer.new()
 		# Create the server
 		peer.create_host(0)
 		# Set the new peer to handle the RPC system
@@ -122,10 +120,8 @@ func join_lobby(this_lobby_id: int) -> void:
 	Steam.joinLobby(this_lobby_id)
 
 	# https://youtu.be/fUBdnocrc3Y?t=463
-	# Create a new Steam multiplayer peer
-	peer = SteamMultiplayerPeer.new()
 	# Connect to the lobby as a client
-	peer.create_client(this_lobby_id)
+	peer.create_client(this_lobby_id, 0)
 	# Set the multiplayer peer
 	multiplayer.multiplayer_peer = peer
 	# Set the current Lobby ID
