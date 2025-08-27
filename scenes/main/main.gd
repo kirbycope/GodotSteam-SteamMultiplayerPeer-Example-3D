@@ -2,7 +2,6 @@ extends Node3D
 
 # https://godotsteam.com/tutorials/lobbies/#set-up
 const PACKET_READ_LIMIT: int = 32
-
 var lobby_data
 var lobby_id: int = 0
 var lobby_members: Array = []
@@ -10,6 +9,10 @@ var lobby_members_max: int = 10
 var lobby_vote_kick: bool = false
 var steam_id: int = 0
 var steam_username: String = ""
+
+# https://michaelmacha.wordpress.com/2024/04/08/godotsteam-and-steammultiplayerpeer/
+var peer: MultiplayerPeer
+@onready var spawner: MultiplayerSpawner = $MultiplayerSpawner
 
 
 # https://godotsteam.com/tutorials/lobbies/#the-_ready-function
@@ -25,6 +28,10 @@ func _ready() -> void:
 	Steam.persona_state_change.connect(_on_persona_change)
 	# Check for command line arguments
 	check_command_line()
+	# Define custom spawner
+	spawner.spawn_function = spawn_level
+	# Get a list of lobbies from Steam
+	Steam.requestLobbyList()
 
 
 # https://godotsteam.com/tutorials/lobbies/#the-_ready-function
@@ -47,6 +54,19 @@ func create_lobby() -> void:
 	# Make sure a lobby is not already set
 	if lobby_id == 0:
 		Steam.createLobby(Steam.LOBBY_TYPE_PUBLIC, lobby_members_max)
+
+		# https://michaelmacha.wordpress.com/2024/04/08/godotsteam-and-steammultiplayerpeer/
+		# Create a new Steam multiplayer peer
+		peer = SteamMultiplayerPeer.new()
+		# Create the server
+		peer.create_host(0)
+		# Set the new peer to handle the RPC system
+		multiplayer.multiplayer_peer = peer
+
+		# https://youtu.be/fUBdnocrc3Y?t=360
+		# Spawn the new scene
+		spawner.spawn("res://scenes/level_0/level_0.tscn")
+		$GUI.hide()
 
 
 # https://godotsteam.com/tutorials/lobbies/#creating-lobbies
@@ -129,7 +149,7 @@ func _on_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, resp
 			Steam.CHAT_ROOM_ENTER_RESPONSE_MEMBER_BLOCKED_YOU: fail_reason = "A user in the lobby has blocked you from joining."
 			Steam.CHAT_ROOM_ENTER_RESPONSE_YOU_BLOCKED_MEMBER: fail_reason = "A user you have blocked is in the lobby."
 		print("Failed to join this chat room: %s" % fail_reason)
-		#Reopen the lobby list
+		# Reopen the lobby list
 		_on_open_lobby_list_pressed()
 
 
@@ -227,3 +247,9 @@ func leave_lobby() -> void:
 				Steam.closeP2PSessionWithUser(this_member['steam_id'])
 		# Clear the local lobby list
 		lobby_members.clear()
+
+
+# https://youtu.be/fUBdnocrc3Y?t=322
+func spawn_level(data):
+	# Instantiate and then return the loaded scene
+	return (load(data) as PackedScene).instantiate()

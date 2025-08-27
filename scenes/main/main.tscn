@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://ch2qox21knba7"]
+[gd_scene load_steps=6 format=3 uid="uid://ch2qox21knba7"]
 
 [ext_resource type="Script" uid="uid://bibtsli3k4rpn" path="res://scenes/main/main.gd" id="1_o5qli"]
 [ext_resource type="Script" uid="uid://dcc35njtg6cy6" path="res://scenes/main/steam.gd" id="2_iuonh"]
@@ -16,9 +16,6 @@ sky = SubResource("Sky_k2fmo")
 tonemap_mode = 2
 glow_enabled = true
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iuonh"]
-albedo_color = Color(0.28118682, 0.28118688, 0.28118682, 1)
-
 [node name="Main" type="Node3D"]
 script = ExtResource("1_o5qli")
 
@@ -32,12 +29,10 @@ environment = SubResource("Environment_l3cfh")
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
 shadow_enabled = true
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
-
 [node name="GUI" type="CanvasLayer" parent="."]
 
 [node name="CreateLobby" type="Button" parent="GUI"]
+anchors_preset = -1
 offset_left = 2.0
 offset_top = 2.0
 offset_right = 128.0
@@ -45,13 +40,16 @@ offset_bottom = 33.0
 text = "Create Lobby"
 
 [node name="GetLobbyLists" type="Button" parent="GUI"]
+anchors_preset = -1
 offset_left = 130.0
 offset_top = 2.0
 offset_right = 256.0
 offset_bottom = 33.0
-text = "Get Lobby Lists"
+text = "Refresh Lobbies"
+metadata/_edit_use_anchors_ = true
 
 [node name="LobbyContainer" type="ScrollContainer" parent="GUI"]
+anchors_preset = -1
 offset_left = 2.0
 offset_top = 34.0
 offset_right = 602.0
@@ -60,11 +58,8 @@ offset_bottom = 434.0
 [node name="Lobbies" type="VBoxContainer" parent="GUI/LobbyContainer"]
 layout_mode = 2
 
-[node name="Ground" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
-use_collision = true
-size = Vector3(64, 1, 64)
-material = SubResource("StandardMaterial3D_iuonh")
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("..")
 
 [connection signal="pressed" from="GUI/CreateLobby" to="." method="create_lobby"]
 [connection signal="pressed" from="GUI/GetLobbyLists" to="." method="_on_open_lobby_list_pressed"]
