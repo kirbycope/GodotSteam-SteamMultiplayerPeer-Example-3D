@@ -184,13 +184,14 @@ func get_lobby_members() -> void:
 		var member_steam_name: String = Steam.getFriendPersonaName(member_steam_id)
 		# Add them to the list
 		lobby_members.append({"steam_id": member_steam_id, "steam_name": member_steam_name})
+	print("Current lobby members: %s" % lobby_members)
 
 
 # https://godotsteam.com/tutorials/lobbies/#persona-changes-avatars-names
 func _on_persona_change(this_steam_id: int, _flag: int) -> void:
 	# Make sure you're in a lobby and this user is valid or Steam might spam your console log
 	if lobby_id > 0:
-		print("A user (%s) had information change, update the lobby list" % this_steam_id)
+		print("A user (%s) had information change, updating the lobby list..." % this_steam_id)
 		# Update the player list
 		get_lobby_members()
 
