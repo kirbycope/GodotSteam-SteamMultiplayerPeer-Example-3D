@@ -23,9 +23,10 @@ var target_position: Vector3
 
 ## Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	# Uncomment the next line if using GodotSteam
+	current = is_multiplayer_authority()
 	# Set camera as top level
 	set_as_top_level(true)
-	
 	# Set the camera's raycast to ignore collisions with the player
 	$RayCast3D.add_exception(player)
 
@@ -40,26 +41,22 @@ func _input(event) -> void:
 			if event.is_action_pressed("button_10"):
 				# Move the camera towards the player, slightly
 				zoom_offset = clamp(zoom_offset + zoom_speed, -zoom_max, zoom_max)
-
 			# [zoom out] button _pressed_
 			if event.is_action_pressed("button_11"):
 				# Move the camera away from the player, slightly
 				zoom_offset = clamp(zoom_offset - zoom_speed, -zoom_max, zoom_max)
-
 		# Check for mouse motion and the camera is not locked
 		if event is InputEventMouseMotion and !player.lock_camera:
 			# Check if the mouse is captured
 			if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 				# Rotate camera based on mouse movement
 				camera_rotate_by_mouse(event)
-
 		# [select] button _pressed_ and the camera is not locked
 		if event.is_action_pressed("button_8") and !player.lock_camera:
 			# Check if in third-person
 			if player.perspective == 0:
 				# Switch to "first" person perspective
 				switch_to_first_person()
-
 			# Check if in first-person
 			elif player.perspective == 1:
 				# Switch to "third" person perspective
@@ -196,10 +193,8 @@ func update_raycast_position() -> void:
 			# Get the head bone's world position
 			var head_bone_pose = player.player_skeleton.get_bone_global_pose(head_bone_index)
 			var head_world_pos = player.player_skeleton.global_transform * head_bone_pose.origin
-			
 			# Set the raycast's global position to the head position
 			player.raycast_lookat.global_position = head_world_pos
-			
 			# Set the raycast's rotation to match the camera's rotation (looking where camera looks)
 			player.raycast_lookat.global_rotation = global_rotation
 
@@ -208,10 +203,8 @@ func update_raycast_position() -> void:
 func switch_to_first_person() -> void:
 	# Flag the player as in "first" person
 	player.perspective = 1
-
 	# Align visuals with the camera
 	player.visuals.rotation = Vector3(0.0, 0.0, camera_mount.rotation.z)
-
 	# Show the retical
 	retical.show()
 
@@ -220,9 +213,7 @@ func switch_to_first_person() -> void:
 func switch_to_third_person() -> void:
 	# Flag the player as in "third" person
 	player.perspective = 0
-
 	# Set the visual's rotation
 	player.visuals.rotation = Vector3.ZERO
-
 	# Hide the retical
 	retical.hide()

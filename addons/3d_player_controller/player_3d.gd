@@ -158,29 +158,27 @@ func _ready() -> void:
 
 ## Called each physics frame with the time since the last physics frame as argument (delta, in seconds).
 func _physics_process(delta) -> void:
+	# Uncomment the next line if using GodotSteam
+	if !is_multiplayer_authority(): return
 	# Don't process physics if in ragdoll state - let the physics bones handle everything
 	if current_state == STATES.State.RAGDOLL:
 		return
-
 	# Apply gravity (but not if climbing, driving, hanging, swimming, or noclip)
 	if !is_climbing and !is_driving and !is_hanging:
 		# Check if the player is "swimming" or noclip mode is enabled
 		if is_swimming or enable_noclip:
 			# Ignore the gravity
 			velocity.y = 0.0
-
 		# The player must not be "swimming" or using noclip mode
 		else:
 			# Scale the gravity based on the player's size
 			var gravity_scaled = gravity * scale.y
-
 			# Add the gravity
 			velocity.y -= gravity_scaled * delta
 	# Check if no animation is playing
 	if !animation_player.is_playing():
 		# Flag the animation player no longer locked
 		is_animation_locked = false
-
 		# Reset player state
 		is_kicking_left = false
 		is_kicking_right = false
@@ -188,16 +186,13 @@ func _physics_process(delta) -> void:
 		is_punching_right = false
 		is_swinging_left = false
 		is_swinging_right = false
-
 	# Check if player is not hanging or climbing (these states handle their own movement)
 	# Also check if animation is not locked (prevents movement during transitions)
 	if !is_hanging and !is_climbing and !is_animation_locked:
 		# Handle player movement (input-based movement when not paused, gradual stopping when paused)
 		update_velocity()
-
 	# Move player (physics movement)
 	move_player(delta)
-
 	# Check if the player is not driving
 	if !is_driving:
 		# Update AuxScene position if top_level is true
@@ -226,22 +221,17 @@ func check_kick_collision() -> void:
 	if raycast_low.is_colliding():
 		# Get the object the RayCast is colliding with
 		var collider = raycast_low.get_collider()
-
 		# Get the position of the current collision
 		var collision_position = raycast_low.get_collision_point()
-
 		# Store collision info for delayed force application
 		var stored_collider = collider
 		var stored_collision_position = collision_position
-
 		# Wait 0.4 seconds for animation to play before applying force
 		await get_tree().create_timer(0.4).timeout
-
-		# Apply force to RigidBody3D and SoftBody3D objects after delay
+		# Apply force to RigidBody3D objects after delay
 		if stored_collider is RigidBody3D:
 			# Define the base force to apply to the collided object
 			var base_force = force_kicking_sprinting if is_sprinting else force_kicking
-
 			# Get the appropriate foot bone position for force application at the time of impact
 			var bone_position = global_position # Fallback to player position
 			if player_skeleton:
@@ -250,21 +240,17 @@ func check_kick_collision() -> void:
 				if bone_idx != -1:
 					# Get the current global position of the bone
 					bone_position = player_skeleton.to_global(player_skeleton.get_bone_global_pose(bone_idx).origin)
-
 			# Calculate impulse direction from current bone position to stored collision point
 			var impulse_direction = (stored_collision_position - bone_position).normalized()
-			
 			# Add velocity factor similar to handle_rigidbody_collisions for more powerful impacts
 			var velocity_factor = max(min(velocity.length(), 5.0), 2.0) # Minimum 2.0 for strong kicks even when stationary
 			var impulse = impulse_direction * base_force * velocity_factor * force_pushing_multiplier
-
 			# Apply the force to the object
 			stored_collider.apply_central_impulse(impulse)
-
+		# Apply force to SoftBody3D objects after delay
 		elif stored_collider is SoftBody3D:
 			# Define the base force to apply to the collided object
 			var base_force = force_kicking_sprinting if is_sprinting else force_kicking
-
 			# Get the appropriate foot bone position for force application at the time of impact
 			var bone_position = global_position # Fallback to player position
 			if player_skeleton:
@@ -273,42 +259,33 @@ func check_kick_collision() -> void:
 				if bone_idx != -1:
 					# Get the current global position of the bone
 					bone_position = player_skeleton.to_global(player_skeleton.get_bone_global_pose(bone_idx).origin)
-
 			# Calculate impulse direction from current bone position to stored collision point
 			var impulse_direction = (stored_collision_position - bone_position).normalized()
-			
 			# Add velocity factor similar to handle_rigidbody_collisions for more powerful impacts
 			var velocity_factor = max(min(velocity.length(), 5.0), 2.0) # Minimum 2.0 for strong kicks even when stationary
 			var impulse = impulse_direction * base_force * velocity_factor * force_pushing_multiplier
-
 			# Apply the force to the SoftBody3D
 			stored_collider.apply_central_impulse(impulse)
-
 		# Check if kicking left
 		if is_kicking_left:
 			# Check if the collider has the appropriate function
 			if stored_collider.has_method("animate_hit_low_left"):
 				# Play the appropriate hit animation
 				stored_collider.call("animate_hit_low_left")
-
 		# Must be kicking right
 		else:
 			# Check if the collider has the appropriate function
 			if stored_collider.has_method("animate_hit_low_right"):
 				# Play the appropriate hit animation
 				stored_collider.call("animate_hit_low_right")
-
 		# Check if controller vibration is enabled
 		if enable_vibration:
 			# Vibrate the controller
 			Input.start_joy_vibration(0, 0.0, 1.0, 0.1)
-
 		# Additional delay for animation reset (0.2 more seconds, total 0.6s)
 		await get_tree().create_timer(0.2).timeout
-
 		# Flag the animation player no longer locked
 		is_animation_locked = false
-
 		# Reset action flag(s)
 		is_kicking_left = false
 		is_kicking_right = false
@@ -320,22 +297,17 @@ func check_punch_collision() -> void:
 	if raycast_middle.is_colliding():
 		# Get the object the RayCast is colliding with
 		var collider = raycast_middle.get_collider()
-
 		# Get the position of the current collision
 		var collision_position = raycast_middle.get_collision_point()
-
 		# Store collision info for delayed force application
 		var stored_collider = collider
 		var stored_collision_position = collision_position
-
 		# Wait 0.2 seconds for animation to play before applying force
 		await get_tree().create_timer(0.2).timeout
-
-		# Apply force to RigidBody3D and SoftBody3D objects after delay
+		# Apply force to RigidBody3D objects after delay
 		if stored_collider is RigidBody3D:
 			# Define the base force to apply to the collided object
 			var base_force = force_punching_sprinting if is_sprinting else force_punching
-
 			# Get the appropriate hand bone position for force application at the time of impact
 			var bone_position = global_position # Fallback to player position
 			if player_skeleton:
@@ -344,21 +316,17 @@ func check_punch_collision() -> void:
 				if bone_idx != -1:
 					# Get the current global position of the bone
 					bone_position = player_skeleton.to_global(player_skeleton.get_bone_global_pose(bone_idx).origin)
-
 			# Calculate impulse direction from current bone position to stored collision point
 			var impulse_direction = (stored_collision_position - bone_position).normalized()
-			
 			# Add velocity factor similar to handle_rigidbody_collisions for more powerful impacts
 			var velocity_factor = max(min(velocity.length(), 5.0), 1.5) # Minimum 1.5 for strong punches even when stationary
 			var impulse = impulse_direction * base_force * velocity_factor * force_pushing_multiplier
-
 			# Apply the force to the object
 			stored_collider.apply_central_impulse(impulse)
-
+		# Apply force to SoftBody3D objects after delay
 		elif stored_collider is SoftBody3D:
 			# Define the base force to apply to the collided object
 			var base_force = force_punching_sprinting if is_sprinting else force_punching
-
 			# Get the appropriate hand bone position for force application at the time of impact
 			var bone_position = global_position # Fallback to player position
 			if player_skeleton:
@@ -367,42 +335,33 @@ func check_punch_collision() -> void:
 				if bone_idx != -1:
 					# Get the current global position of the bone
 					bone_position = player_skeleton.to_global(player_skeleton.get_bone_global_pose(bone_idx).origin)
-
 			# Calculate impulse direction from current bone position to stored collision point
 			var impulse_direction = (stored_collision_position - bone_position).normalized()
-			
 			# Add velocity factor similar to handle_rigidbody_collisions for more powerful impacts
 			var velocity_factor = max(min(velocity.length(), 5.0), 1.5) # Minimum 1.5 for strong punches even when stationary
 			var impulse = impulse_direction * base_force * velocity_factor * force_pushing_multiplier
-
 			# Apply the force to the SoftBody3D
 			stored_collider.apply_central_impulse(impulse)
-
 		# Check if punching left
 		if is_punching_left:
 			# Check if the collider has the appropriate function
 			if stored_collider.has_method("animate_hit_high_left"):
 				# Play the appropriate hit animation
 				stored_collider.call("animate_hit_high_left")
-
 		# Must be punching right
 		else:
 			# Check if the collider has the appropriate function
 			if stored_collider.has_method("animate_hit_high_right"):
 				# Play the appropriate hit animation
 				stored_collider.call("animate_hit_high_right")
-
 		# Check if controller vibration is enabled
 		if enable_vibration:
 			# Vibrate the controller
 			Input.start_joy_vibration(0, 1.0, 0.0, 0.1)
-
 		# Additional delay for animation reset (0.1 more seconds, total 0.3s)
 		await get_tree().create_timer(0.1).timeout
-
 		# Flag the animation player no longer locked
 		is_animation_locked = false
-
 		# Reset action flag(s)
 		is_punching_left = false
 		is_punching_right = false
@@ -479,7 +438,6 @@ func check_tool_collision() -> void:
 								var impulse = impulse_direction * base_force * velocity_factor * force_pushing_multiplier
 								# Apply the force to the SoftBody3D
 								stored_body.apply_central_impulse(impulse)
-
 							# Check if swinging left
 							if is_swinging_left:
 								# Check if the body has the appropriate function
@@ -492,18 +450,14 @@ func check_tool_collision() -> void:
 								if stored_body.has_method("animate_hit_high_right"):
 									# Play the appropriate hit animation
 									stored_body.call("animate_hit_high_right")
-
 							# Check if controller vibration is enabled
 							if enable_vibration:
 								# Vibrate the controller (stronger vibration for tool impact)
 								Input.start_joy_vibration(0, 0.8, 0.8, 0.2)
-
 							# Break after processing the first collision to avoid multiple hits
 							break
-
 					# Wait a frame before checking again to avoid blocking the main thread
 					await get_tree().process_frame
-
 				# If collision was detected, wait for animation to finish before resetting flags
 				if collision_detected:
 					# Wait for animation to complete before resetting flags
@@ -523,7 +477,6 @@ func move_player(delta: float) -> void:
 	# Set the shapecast position to the player's potential new position
 	shapecast.global_position.x = global_position.x + velocity.x * delta
 	shapecast.global_position.z = global_position.z + velocity.z * delta
-
 	# Check if the player is grounded
 	if is_on_floor():
 		# Adjust the position to be at the player's feet
@@ -531,27 +484,20 @@ func move_player(delta: float) -> void:
 	else:
 		# Move the shapecast up to avoid most collisions
 		shapecast.target_position.y = 0.0
-
 	# Create a new physics query object used for checking collisions in 3D space
 	var query = PhysicsShapeQueryParameters3D.new()
-
 	# Tell the physics query to ignore _this_ node when checking for collisions
 	query.exclude = [self]
-
 	# Set the collision shape to match the "shapecast" object's shape
 	query.shape = shapecast.shape
-
 	# Set the position and rotation (transform) to match where the shapecast is in global space
 	query.transform = shapecast.global_transform
-
 	# Get the current 3D world, give direct access to the physics engine, and check if the shape intersects with anything (limited to 1 result)
 	var result = get_world_3d().direct_space_state.intersect_shape(query, 1)
-
 	# Check if no collisions were detected
 	if !result:
 		# Force the shapecast to update its state
 		shapecast.force_shapecast_update()
-
 	# Check if the shapecast is colliding, the player is moving down (or not at all), no direct collision was found, and the angle of the slope isn't too great
 	if shapecast.is_colliding() and velocity.y <= 0.0 and !result and shapecast.get_collision_normal(0).angle_to(Vector3.UP) < floor_max_angle:
 		# Set the character's Y position to match the collision point (likely the ground)
@@ -559,11 +505,9 @@ func move_player(delta: float) -> void:
 
 		# Stop vertical movement by zeroing the Y velocity
 		velocity.y = 0.0
-
 	# Handle noclip mode
 	if enable_noclip:
 		velocity.y = 0.0
-
 	# Moves the body based on velocity.
 	if !is_driving:
 		move_and_slide()
@@ -702,34 +646,25 @@ func update_velocity() -> void:
 		if is_on_floor():
 			# Scale the speed based on the player's size for consistent stopping
 			var speed_current_scaled = speed_current * scale.x
-
 			# Gradually reduce horizontal velocity to zero
 			velocity.x = move_toward(velocity.x, 0, speed_current_scaled)
 			velocity.z = move_toward(velocity.z, 0, speed_current_scaled)
-
 		# Update [virtual] velocity to zero as well
 		virtual_velocity = Vector3.ZERO
-
 		# Don't process any input when paused
 		return
-
 	# Get an input vector by specifying four actions for the positive and negative X and Y axes
 	var input_dir = Input.get_vector("move_left", "move_right", "move_up", "move_down")
-
 	# Create a normalized 3D direction vector from the 2D input
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-
 	# Calculate the input magnitude (intensity of the left-analog stick)
 	var input_magnitude = input_dir.length()
-
 	# Set the player's movement speed based on the input magnitude
 	if speed_current == 0.0 and input_magnitude != 0.0:
 		#speed_current = input_magnitude * speed_running 
 		speed_current = speed_running # ToDo: Fine tune walking with the left-analog stick
-
 	# Scale the speed based on the player's size
 	var speed_current_scaled = speed_current * scale.x
-
 	# Check for directional movement
 	if direction:
 		# Check if the animation player is unlocked
@@ -738,60 +673,48 @@ func update_velocity() -> void:
 			if perspective == 0 and !is_climbing and !is_hanging:
 				# Update the camera to look in the direction based on player input
 				visuals.look_at(position + direction)
-
 			# Check if movement along the x-axis is locked
 			if lock_movement_x:
 				# Update [virtual] horizontal velocity
 				virtual_velocity.x = direction.x * speed_current_scaled
-
 			# The x-axis movement not locked
 			else:
 				# Update horizontal velocity
 				velocity.x = direction.x * speed_current_scaled
-
 			# Check if movement along the z-axis is locked
 			if lock_movement_y:
 				# Update vertical velocity
 				virtual_velocity.z = direction.z * speed_current_scaled
-
 			# The y-axis movement not locked
 			else:
 				# Update vertical velocity
 				velocity.z = direction.z * speed_current_scaled
-
 	# No movement detected
 	else:
 		# Check if the player is skateboarding and grounded
 		if is_skateboarding and is_on_floor():
 			# Set the friction to the skateboarding friction
 			var friction_current = friction_skateboarding
-
 			# Ⓨ/[Ctrl] action _pressed_
 			if is_crouching:
 				# Slow down the player, more than usual
 				friction_current = friction_current * 10
-
 			# Apply gradual deceleration when skating
 			velocity.x = move_toward(velocity.x, 0, speed_current_scaled * friction_current)
 			velocity.z = move_toward(velocity.z, 0, speed_current_scaled * friction_current)
-
 		# Check if the player is skateboarding but in the air (preserve momentum)
 		elif is_skateboarding and !is_on_floor():
 			# Preserve horizontal momentum while skateboarding in the air
 			# Don't modify velocity.x and velocity.z to maintain jump momentum
 			pass
-
 		# The player is not skateboarding (on the ground)
 		else:
 			# Update horizontal velocity
 			velocity.x = move_toward(velocity.x, 0, speed_current_scaled)
-
 			# Update vertical velocity
 			velocity.z = move_toward(velocity.z, 0, speed_current_scaled)
-
 			# Update [virtual] velocity
 			virtual_velocity = Vector3.ZERO
-
 	# Check for collisions with RigidBody3D objects during movement
 	handle_rigidbody_collisions()
 
@@ -802,7 +725,6 @@ func handle_rigidbody_collisions() -> void:
 	for i in get_slide_collision_count():
 		var collision = get_slide_collision(i)
 		var collider = collision.get_collider()
-
 		# Handle RigidBody3D collisions
 		if collider is RigidBody3D:
 			# Calculate push force based on player velocity and movement
@@ -810,10 +732,8 @@ func handle_rigidbody_collisions() -> void:
 			var push_direction = collision.get_normal() * -1.0 # Opposite of collision normal
 			var velocity_factor = min(velocity.length(), 5.0) # Cap velocity factor to prevent excessive force
 			var impulse = push_direction * push_force * velocity_factor * force_pushing_multiplier
-
 			# Apply the impulse to the RigidBody3D
 			collider.apply_central_impulse(impulse)
-
 		# Handle SoftBody3D collisions
 		elif collider is SoftBody3D:
 			# Calculate push force based on player velocity and movement
@@ -821,6 +741,5 @@ func handle_rigidbody_collisions() -> void:
 			var push_direction = collision.get_normal() * -1.0 # Opposite of collision normal
 			var velocity_factor = min(velocity.length(), 5.0) # Cap velocity factor to prevent excessive force
 			var impulse = push_direction * push_force * velocity_factor * force_pushing_multiplier
-
 			# Apply the impulse to the SoftBody3D
 			collider.apply_central_impulse(impulse)

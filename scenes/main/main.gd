@@ -128,6 +128,8 @@ func join_lobby(this_lobby_id: int) -> void:
 	lobby_id = this_lobby_id
 
 	$GUI.hide()
+	# Spawn the level for clients joining the lobby
+	spawner.spawn("res://scenes/level_0/level_0.tscn")
 
 
 # https://godotsteam.com/tutorials/lobbies/#joining-lobbies
