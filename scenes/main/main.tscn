@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://ch2qox21knba7"]
 
 [ext_resource type="Script" uid="uid://bibtsli3k4rpn" path="res://scenes/main/main.gd" id="1_o5qli"]
-[ext_resource type="PackedScene" uid="uid://ujh51l2wv1vk" path="res://addons/3d_player_controller/player_3d.tscn" id="2_iuonh"]
+[ext_resource type="Script" uid="uid://dcc35njtg6cy6" path="res://scenes/main/steam.gd" id="2_iuonh"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_iuonh"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -22,6 +22,9 @@ albedo_color = Color(0.28118682, 0.28118688, 0.28118682, 1)
 [node name="Main" type="Node3D"]
 script = ExtResource("1_o5qli")
 
+[node name="Steam" type="Node" parent="."]
+script = ExtResource("2_iuonh")
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_l3cfh")
 
@@ -29,10 +32,39 @@ environment = SubResource("Environment_l3cfh")
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
 shadow_enabled = true
 
-[node name="Player" parent="." instance=ExtResource("2_iuonh")]
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 
-[node name="CSGBox3D" type="CSGBox3D" parent="."]
+[node name="GUI" type="CanvasLayer" parent="."]
+
+[node name="CreateLobby" type="Button" parent="GUI"]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 128.0
+offset_bottom = 33.0
+text = "Create Lobby"
+
+[node name="GetLobbyLists" type="Button" parent="GUI"]
+offset_left = 130.0
+offset_top = 2.0
+offset_right = 256.0
+offset_bottom = 33.0
+text = "Get Lobby Lists"
+
+[node name="LobbyContainer" type="ScrollContainer" parent="GUI"]
+offset_left = 2.0
+offset_top = 34.0
+offset_right = 602.0
+offset_bottom = 434.0
+
+[node name="Lobbies" type="VBoxContainer" parent="GUI/LobbyContainer"]
+layout_mode = 2
+
+[node name="Ground" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 use_collision = true
 size = Vector3(64, 1, 64)
 material = SubResource("StandardMaterial3D_iuonh")
+
+[connection signal="pressed" from="GUI/CreateLobby" to="." method="create_lobby"]
+[connection signal="pressed" from="GUI/GetLobbyLists" to="." method="_on_open_lobby_list_pressed"]
