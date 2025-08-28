@@ -127,25 +127,36 @@ func join_lobby(this_lobby_id: int) -> void:
 
 	# Don't assign the peer to the SceneTree until it's fully connected —
 	# assigning while still disconnected can surface as CONNECTION_DISCONNECTED.
-	# Wait for the Steam peer to report CONNECTED (with a short timeout).
-	var timeout_sec: float = 5.0
-	var elapsed: float = 0.0
-	var poll_interval: float = 0.1
-	while elapsed < timeout_sec:
-		# Use the MultiplayerPeer connection status constant
-		if peer.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTED:
-			multiplayer.multiplayer_peer = peer
-			$GUI.hide()
-			print("Connected to host, multiplayer peer assigned.")
-			return
-		# wait a short time and poll again
-		await get_tree().create_timer(poll_interval).timeout
-		elapsed += poll_interval
+	# Wait for the Steam peer to report CONNECTED. Use a longer timeout, with
+	# a few retry attempts and some diagnostic logging to help debug failures.
+	var timeout_sec: float = 15.0
+	var poll_interval: float = 0.2
+	var max_attempts: int = 3
+	var attempt: int = 1
+	while attempt <= max_attempts:
+		var elapsed: float = 0.0
+		var last_status: int = -1
+		while elapsed < timeout_sec:
+			# Poll the connection status
+			last_status = peer.get_connection_status()
+			if last_status == MultiplayerPeer.CONNECTION_CONNECTED:
+				multiplayer.multiplayer_peer = peer
+				$GUI.hide()
+				print("Connected to host, multiplayer peer assigned (attempt %d)." % attempt)
+				return
+			# wait a short time and poll again
+			await get_tree().create_timer(poll_interval).timeout
+			elapsed += poll_interval
 
-	# If we get here we failed to connect in time
-	print("Warning: failed to connect to lobby owner within %.1f seconds." % timeout_sec)
-	# Optionally still assign the peer (commented out) or re-open the lobby UI
-	# multiplayer.multiplayer_peer = peer
+		# Attempt failed — log status and back off before retrying
+		print("Attempt %d/%d: failed to connect within %.1f seconds (status=%d)." % [attempt, max_attempts, timeout_sec, last_status])
+		attempt += 1
+		# Exponential-ish backoff (short): wait a bit before next attempt
+		await get_tree().create_timer(0.5 * attempt).timeout
+
+	# All attempts failed
+	print("Warning: failed to connect to lobby owner after %d attempts." % max_attempts)
+	# Re-open the lobby UI so the player can retry or pick another lobby
 	_on_open_lobby_list_pressed()
 
 
