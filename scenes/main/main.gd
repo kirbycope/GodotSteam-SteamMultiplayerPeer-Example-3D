@@ -63,11 +63,6 @@ func create_lobby() -> void:
 		# Set the new peer to handle the RPC system
 		multiplayer.multiplayer_peer = peer
 
-		# https://youtu.be/fUBdnocrc3Y?t=360
-		# Spawn the new scene
-		spawner.spawn("res://scenes/level_0/level_0.tscn")
-		$GUI.hide()
-
 
 # https://godotsteam.com/tutorials/lobbies/#creating-lobbies
 func _on_lobby_created(connection: int, this_lobby_id: int) -> void:
@@ -122,11 +117,6 @@ func join_lobby(this_lobby_id: int) -> void:
 	# Make the lobby join request to Steam
 	Steam.joinLobby(this_lobby_id)
 
-	# Note: do NOT create the client or assign the multiplayer peer here because
-	# Steam.joinLobby is asynchronous and lobby ownership/availability may not
-	# be valid yet. The actual client connection is handled in
-	# _on_lobby_joined after a successful join.
-
 
 # https://godotsteam.com/tutorials/lobbies/#joining-lobbies
 func _on_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, response: int) -> void:
@@ -137,18 +127,22 @@ func _on_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, resp
 		lobby_id = this_lobby_id
 		# Get the lobby members
 		get_lobby_members()
-		# Create the client peer and connect to the lobby owner.
-		# This ensures the MultiplayerPeer is in a connecting/connected state
-		# before assigning it to the SceneTree, avoiding the error:
-		# "Supplied MultiplayerPeer must be connecting or connected".
-		var host_steam_id: int = Steam.getLobbyOwner(this_lobby_id)
-		peer.create_client(host_steam_id, 0)
-		multiplayer.multiplayer_peer = peer
-		# Spawn the level now that we're connected as a client
-		spawner.spawn("res://scenes/level_0/level_0.tscn")
-		$GUI.hide()
 		# Make the initial handshake
 		#make_p2p_handshake()
+
+		# https://youtu.be/fUBdnocrc3Y?t=360
+		# Spawn the new scene
+		spawner.spawn("res://scenes/level_0/level_0.tscn")
+		$GUI.hide()
+
+		if !is_multiplayer_authority():
+			var host_steam_id: int = Steam.getLobbyOwner(this_lobby_id)
+			peer.create_client(host_steam_id, 0)
+			multiplayer.multiplayer_peer = peer
+		# Spawn the level now that we're connected as a client
+		#spawner.spawn("res://scenes/level_0/level_0.tscn")
+
+		$GUI.hide()
 	# Else it failed for some reason
 	else:
 		# Get the failure reason
