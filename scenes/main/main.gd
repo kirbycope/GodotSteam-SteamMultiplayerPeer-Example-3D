@@ -122,16 +122,10 @@ func join_lobby(this_lobby_id: int) -> void:
 	# Make the lobby join request to Steam
 	Steam.joinLobby(this_lobby_id)
 
-	# https://michaelmacha.wordpress.com/2024/04/08/godotsteam-and-steammultiplayerpeer/
-	# Connect to the lobby as a client
-	var host_steam_id = Steam.getLobbyOwner(this_lobby_id)
-	peer.create_client(host_steam_id, 0)
-	# Set the multiplayer peer
-	multiplayer.multiplayer_peer = peer
-	# Set the current Lobby ID
-	lobby_id = this_lobby_id
-
-	$GUI.hide()
+	# Note: do NOT create the client or assign the multiplayer peer here because
+	# Steam.joinLobby is asynchronous and lobby ownership/availability may not
+	# be valid yet. The actual client connection is handled in
+	# _on_lobby_joined after a successful join.
 
 
 # https://godotsteam.com/tutorials/lobbies/#joining-lobbies
@@ -143,6 +137,16 @@ func _on_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, resp
 		lobby_id = this_lobby_id
 		# Get the lobby members
 		get_lobby_members()
+		# Create the client peer and connect to the lobby owner.
+		# This ensures the MultiplayerPeer is in a connecting/connected state
+		# before assigning it to the SceneTree, avoiding the error:
+		# "Supplied MultiplayerPeer must be connecting or connected".
+		var host_steam_id: int = Steam.getLobbyOwner(this_lobby_id)
+		peer.create_client(host_steam_id, 0)
+		multiplayer.multiplayer_peer = peer
+		# Spawn the level now that we're connected as a client
+		spawner.spawn("res://scenes/level_0/level_0.tscn")
+		$GUI.hide()
 		# Make the initial handshake
 		#make_p2p_handshake()
 	# Else it failed for some reason
