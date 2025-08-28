@@ -26,6 +26,10 @@ func _ready() -> void:
 	Steam.lobby_match_list.connect(_on_lobby_match_list)
 	#Steam.lobby_message.connect(_on_lobby_message)
 	Steam.persona_state_change.connect(_on_persona_change)
+
+	# Multiplayer connection signals
+	multiplayer.connected_to_server.connect(_on_multiplayer_connected)
+	multiplayer.connection_failed.connect(_on_multiplayer_connection_failed)
 	# Check for command line arguments
 	check_command_line()
 	# Define custom spawner
@@ -121,13 +125,8 @@ func join_lobby(this_lobby_id: int) -> void:
 	# Make the lobby join request to Steam
 	Steam.joinLobby(this_lobby_id)
 
-	# https://michaelmacha.wordpress.com/2024/04/08/godotsteam-and-steammultiplayerpeer/
-	var id := Steam.getLobbyOwner(this_lobby_id)
-	peer.create_client(id, 0)
-	# Now assign the peer after it is connecting/connected
-	multiplayer.multiplayer_peer = peer
-	# Hide the Lobby GUI
-	$GUI.hide()
+	# Client creation is handled in _on_lobby_joined once Steam confirms
+	# the lobby join. This avoids racing with Steam callbacks.
 
 
 # https://godotsteam.com/tutorials/lobbies/#joining-lobbies
@@ -143,6 +142,16 @@ func _on_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, resp
 		#make_p2p_handshake()
 		# Set the current Lobby ID
 		lobby_id = this_lobby_id
+
+		# If we're not the lobby owner, create the Steam client peer to the owner
+		var owner_id := Steam.getLobbyOwner(this_lobby_id)
+		if owner_id != Steam.getSteamID():
+			peer = SteamMultiplayerPeer.new()
+			peer.create_client(owner_id, 0)
+			# Assign the peer to the SceneTree; the engine will emit
+			# connected_to_server or connection_failed which we handle below.
+			multiplayer.multiplayer_peer = peer
+			print("Created Steam client to owner %s; waiting for connection." % owner_id)
 
 	# Else it failed for some reason
 	else:
@@ -265,3 +274,18 @@ func leave_lobby() -> void:
 func spawn_level(data):
 	# Instantiate and then return the loaded scene
 	return (load(data) as PackedScene).instantiate()
+
+
+func _on_multiplayer_connected() -> void:
+	print("Multiplayer: connected to server.")
+	# Hide lobby UI if still visible
+	if $GUI.visible:
+		$GUI.hide()
+
+
+func _on_multiplayer_connection_failed() -> void:
+	print("Multiplayer: connection failed.")
+	# Clear the peer to allow retry
+	multiplayer.multiplayer_peer = null
+	# Show lobby UI so player can retry
+	$GUI.show()
