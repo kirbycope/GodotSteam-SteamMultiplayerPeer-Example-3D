@@ -27,10 +27,6 @@ func _ready() -> void:
 	#Steam.lobby_message.connect(_on_lobby_message)
 	Steam.persona_state_change.connect(_on_persona_change)
 
-	# Multiplayer connection signals
-	multiplayer.connected_to_server.connect(_on_multiplayer_connected)
-	multiplayer.connection_failed.connect(_on_multiplayer_connection_failed)
-
 	# Check for command line arguments
 	check_command_line()
 	# Define custom spawner
@@ -126,6 +122,8 @@ func join_lobby(this_lobby_id: int) -> void:
 	lobby_members.clear()
 	# Make the lobby join request to Steam
 	Steam.joinLobby(this_lobby_id)
+	# Hide the Lobby GUI
+	$GUI.hide()
 
 
 # https://godotsteam.com/tutorials/lobbies/#joining-lobbies
@@ -285,18 +283,3 @@ func leave_lobby() -> void:
 func spawn_level(data):
 	# Instantiate and then return the loaded scene
 	return (load(data) as PackedScene).instantiate()
-
-
-func _on_multiplayer_connected() -> void:
-	print("Multiplayer: connected to server.")
-	# Hide lobby UI if still visible
-	if $GUI.visible:
-		$GUI.hide()
-
-
-func _on_multiplayer_connection_failed() -> void:
-	print("Multiplayer: connection failed.")
-	# Clear the peer to allow retry
-	multiplayer.multiplayer_peer = null
-	# Show lobby UI so player can retry
-	$GUI.show()
