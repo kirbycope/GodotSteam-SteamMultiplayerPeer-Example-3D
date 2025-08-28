@@ -284,4 +284,3 @@ func handle_command(message_text: String) -> void:
 		# UNKNOWN
 		else:
 			create_message_for_all.rpc("System", "Unknown command: " + command)
-
