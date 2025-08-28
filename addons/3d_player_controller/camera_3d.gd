@@ -65,6 +65,8 @@ func _input(event) -> void:
 
 ## Called each physics frame with the time since the last physics frame as argument (delta, in seconds).
 func _physics_process(delta) -> void:
+	# Uncomment the next line if using GodotSteam
+	if !is_multiplayer_authority(): return
 	# Handle input-driven look controls only when the game is not paused
 	var look_actions = ["look_down", "look_up", "look_left", "look_right"]
 	if !player.game_paused:
