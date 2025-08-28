@@ -3,8 +3,6 @@ extends BaseState
 const ANIMATION_PUSHING := "Push_In_Place" + "/mixamo_com"
 const NODE_NAME := "Pushing"
 
-# ToDo: Square up the player when moving directly into the object
-# ToDo: Move to "standing" when moving away from the object
 
 ## Called every frame. '_delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:

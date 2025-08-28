@@ -14,6 +14,8 @@ func _input(event: InputEvent) -> void:
 
 ## Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	# Uncomment the next line if using GodotSteam
+	if !is_multiplayer_authority(): return
 	# Check if the game is not paused
 	if !player.game_paused:
 		time_ragdoll += delta
