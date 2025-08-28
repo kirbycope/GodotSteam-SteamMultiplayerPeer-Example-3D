@@ -215,6 +215,34 @@ func _process(delta: float) -> void:
 				global_position = global_position + Vector3(0, delta * 10, 0)
 
 
+func animate_hit_low_left() -> void:
+	# Lock the player animation
+	is_animation_locked = true
+	# Play the low left hit animation
+	animation_player.play("Reaction_Low_Left" + "/mixamo_com")
+
+
+func animate_hit_low_right() -> void:
+	# Lock the player animation
+	is_animation_locked = true
+	# Play the low right hit animation
+	animation_player.play("Reaction_Low_Right" + "/mixamo_com")
+
+
+func animate_hit_high_left() -> void:
+	# Lock the player animation
+	is_animation_locked = true
+	# Play the high left hit animation
+	animation_player.play("Reaction_High_Left" + "/mixamo_com")
+
+
+func animate_hit_high_right() -> void:
+	# Lock the player animation
+	is_animation_locked = true
+	# Play the high right hit animation
+	animation_player.play("Reaction_High_Right" + "/mixamo_com")
+
+
 ## Check if the kick hits anything.
 func check_kick_collision() -> void:
 	# Check if the RayCast3D is colliding with something
