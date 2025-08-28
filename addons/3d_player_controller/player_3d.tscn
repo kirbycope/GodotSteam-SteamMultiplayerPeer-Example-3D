@@ -248,4 +248,5 @@ replication_config = SubResource("SceneReplicationConfig_0pvj7")
 
 [node name="NameLabel" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+billboard = 1
 script = ExtResource("31_ij4ox")
