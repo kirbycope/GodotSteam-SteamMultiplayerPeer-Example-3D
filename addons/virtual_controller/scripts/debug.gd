@@ -271,8 +271,6 @@ func _input(event: InputEvent) -> void:
 
 # Called every frame. '_delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	# Uncomment the next line if using GodotSteam
-	if !is_multiplayer_authority(): return
 	# Check is the current Input Event was triggered by a controller
 	if (controls.current_input_type == controls.InputType.MICROSOFT) \
 		or (controls.current_input_type == controls.InputType.NINTENDO) \

@@ -22,8 +22,6 @@ func _input(event) -> void:
 
 ## Called every frame. '_delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	# Uncomment the next line if using GodotSteam
-	if !is_multiplayer_authority(): return
 	# Check is the Debug Panel is visible
 	if visible:
 		# Panel 1
