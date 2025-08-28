@@ -130,19 +130,16 @@ func _on_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, resp
 		# Make the initial handshake
 		#make_p2p_handshake()
 
+		if !is_multiplayer_authority():
+			var host_steam_id: int = Steam.getLobbyOwner(this_lobby_id)
+			peer.create_client(host_steam_id, 0)
+			multiplayer.multiplayer_peer = peer
+
 		# https://youtu.be/fUBdnocrc3Y?t=360
 		# Spawn the new scene
 		spawner.spawn("res://scenes/level_0/level_0.tscn")
 		$GUI.hide()
 
-		if !is_multiplayer_authority():
-			var host_steam_id: int = Steam.getLobbyOwner(this_lobby_id)
-			peer.create_client(host_steam_id, 0)
-			multiplayer.multiplayer_peer = peer
-		# Spawn the level now that we're connected as a client
-		#spawner.spawn("res://scenes/level_0/level_0.tscn")
-
-		$GUI.hide()
 	# Else it failed for some reason
 	else:
 		# Get the failure reason
