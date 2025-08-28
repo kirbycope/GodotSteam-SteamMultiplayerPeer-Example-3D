@@ -9,22 +9,14 @@ var players = {}
 func _ready() -> void:
 	# Define custom spawner
 	spawn_function = spawn_player
-	# Debug and setup
-	print("[MultiplayerSpawner] _ready - is_multiplayer_authority: %s" % is_multiplayer_authority())
 	# Check if local system is the multiplayer authority (host)
 	if is_multiplayer_authority():
 		# Spawn the host player (ID = 1)
-		print("[MultiplayerSpawner] Spawning host player (1)")
 		spawn(1)
-		# Connect peer connect/disconnect signals to our handlers
-		multiplayer.peer_connected.connect(Callable(self, "_on_peer_connected"))
-		multiplayer.peer_disconnected.connect(Callable(self, "_on_peer_disconnected"))
-
-	# If this spawner is created on a client, we still want to be able to
-	# respond to peer disconnections (host might disconnect later).
-	if not is_multiplayer_authority():
-		print("[MultiplayerSpawner] Running on client")
-		multiplayer.peer_disconnected.connect(Callable(self, "_on_peer_disconnected"))
+		# Connect "peer_connected" event to `spawn()`
+		multiplayer.peer_connected.connect(spawn)
+		# Connect "peer_disconnected" event to `remove_player()`
+		multiplayer.peer_disconnected.connect(remove_player)
 
 
 ## Creates a new player in the scene.
@@ -43,24 +35,9 @@ func spawn_player(data):
 	return player
 
 
-## Called when another peer connects (host-only)
-func _on_peer_connected(id: int) -> void:
-	print("[MultiplayerSpawner] peer_connected: %s" % id)
-	# Spawn the player for the connected peer
-	spawn(id)
-
-
-## Called when a peer disconnects
-func _on_peer_disconnected(id: int) -> void:
-	print("[MultiplayerSpawner] peer_disconnected: %s" % id)
-	remove_player(id)
-
-
 ## Removes a player from the scene.
 func remove_player(data):
-	# Safely remove the player from the scene
-	if players.has(data):
-		players[data].queue_free()
-		players.erase(data)
-	else:
-		print("[MultiplayerSpawner] remove_player: no player for id %s" % data)
+	# Remove the player from the scene
+	players[data].queue_free()
+	# Remove the player data
+	players.erase(data)

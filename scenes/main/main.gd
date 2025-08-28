@@ -141,11 +141,6 @@ func _on_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, resp
 		get_lobby_members()
 		# Make the initial handshake
 		make_p2p_handshake()
-		# Load the level scene on the client so the MultiplayerSpawner node exists
-		# (If you're the host, the spawner is already present.)
-		if not multiplayer.is_multiplayer_authority():
-			print("[Main] Lobby joined as client - loading level scene")
-			spawner.spawn("res://scenes/level_0/level_0.tscn")
 	# Else it failed for some reason
 	else:
 		# Get the failure reason
