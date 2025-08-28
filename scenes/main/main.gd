@@ -120,6 +120,8 @@ func join_lobby(this_lobby_id: int) -> void:
 	lobby_members.clear()
 	# Make the lobby join request to Steam
 	Steam.joinLobby(this_lobby_id)
+	# Hide the Lobby GUI
+	$GUI.hide()
 
 
 # https://godotsteam.com/tutorials/lobbies/#joining-lobbies
