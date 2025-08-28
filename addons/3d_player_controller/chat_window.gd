@@ -27,7 +27,7 @@ func _ready():
 ## Called every frame. '_delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	# Uncomment the next line if using GodotSteam
-	#if !is_multiplayer_authority(): return
+	if !is_multiplayer_authority(): return
 	# Show the chat window if chat is enabled
 	visible = player.enable_chat
 
