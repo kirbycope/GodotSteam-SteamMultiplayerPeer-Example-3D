@@ -371,11 +371,21 @@ func check_punch_collision() -> void:
 			# Apply the force to the SoftBody3D
 			stored_collider.apply_central_impulse(impulse)
 		# Check if punching left
-		if is_punching_left:
-			# Check if the collider has the appropriate function
-			if stored_collider.has_method("animate_hit_high_left"):
-				# Play the appropriate hit animation
-				stored_collider.call("animate_hit_high_left")
+		# Find the actual node that implements the hit animation method.
+		# Raycasts often return a collision shape or a child node; walk up the parents until
+		# we find a node that implements the animate_hit_high_* methods (or run out of parents).
+		var hit_receiver = stored_collider
+		while hit_receiver != null and not (hit_receiver.has_method("animate_hit_high_left") or hit_receiver.has_method("animate_hit_high_right")):
+			if hit_receiver.get_parent() == null:
+				break
+			hit_receiver = hit_receiver.get_parent()
+
+		# If we found a receiver, call the appropriate animation method on it.
+		if hit_receiver != null:
+			if is_punching_left and hit_receiver.has_method("animate_hit_high_left"):
+				hit_receiver.call("animate_hit_high_left")
+			elif not is_punching_left and hit_receiver.has_method("animate_hit_high_right"):
+				hit_receiver.call("animate_hit_high_right")
 		# Must be punching right
 		else:
 			# Check if the collider has the appropriate function
