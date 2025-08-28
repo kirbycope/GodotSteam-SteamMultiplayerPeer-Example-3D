@@ -30,7 +30,9 @@ func _ready() -> void:
 	check_command_line()
 	# Define custom spawner
 	spawner.spawn_function = spawn_level
-	# Get a list of lobbies from Steam
+	# Set the physical distance for which we search lobbies
+	Steam.addRequestLobbyListDistanceFilter(Steam.LOBBY_DISTANCE_FILTER_WORLDWIDE)
+	# Get a filtered list of relevant lobbies.
 	Steam.requestLobbyList()
 
 
@@ -79,15 +81,15 @@ func _on_lobby_created(connection: int, this_lobby_id: int) -> void:
 		Steam.setLobbyData(lobby_id, "name", str(Steam.getPersonaName() + "'s lobby"))
 		Steam.setLobbyData(lobby_id, "mode", "GodotSteam test")
 		# Allow P2P connections to fallback to being relayed through Steam if needed
-		var set_relay: bool = Steam.allowP2PPacketRelay(true)
-		print("Allowing Steam to be relay backup: %s" % set_relay)
+		#var set_relay: bool = Steam.allowP2PPacketRelay(true)
+		#print("Allowing Steam to be relay backup: %s" % set_relay)
 
 
 # https://godotsteam.com/tutorials/lobbies/#get-lobby-lists
 func _on_open_lobby_list_pressed() -> void:
 	# Set distance to worldwide
 	Steam.addRequestLobbyListDistanceFilter(Steam.LOBBY_DISTANCE_FILTER_WORLDWIDE)
-	print("Requesting a lobby list")
+	print("Requesting a lobby list...")
 	Steam.requestLobbyList()
 
 
@@ -109,6 +111,7 @@ func _on_lobby_match_list(lobbies: Array) -> void:
 		lobby_button.connect("pressed", Callable(self, "join_lobby").bind(lobby))
 		# Add the new lobby to the list
 		$GUI/LobbyContainer/Lobbies.add_child(lobby_button)
+	print("Lobby list updated.")
 
 
 # https://godotsteam.com/tutorials/lobbies/#joining-lobbies
@@ -140,7 +143,7 @@ func _on_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, resp
 		# Get the lobby members
 		get_lobby_members()
 		# Make the initial handshake
-		make_p2p_handshake()
+		#make_p2p_handshake()
 	# Else it failed for some reason
 	else:
 		# Get the failure reason
