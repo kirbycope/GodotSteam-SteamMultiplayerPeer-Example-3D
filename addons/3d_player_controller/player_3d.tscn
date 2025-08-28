@@ -59,6 +59,9 @@ properties/4/replication_mode = 1
 properties/5/path = NodePath("Visuals/AuxScene:rotation")
 properties/5/spawn = true
 properties/5/replication_mode = 1
+properties/6/path = NodePath("NameLabel:text")
+properties/6/spawn = true
+properties/6/replication_mode = 1
 
 [node name="Player" type="CharacterBody3D" groups=["Player"]]
 script = ExtResource("1_f3dlg")
@@ -124,6 +127,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 shape = SubResource("CapsuleShape3D_5e6s3")
 
 [node name="Controls" parent="." instance=ExtResource("2_j65kv")]
+
+[node name="NameLabel" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+billboard = 1
+script = ExtResource("31_ij4ox")
 
 [node name="ShapeCast3D" type="ShapeCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
@@ -245,8 +253,3 @@ target_position = Vector3(0, 0, -1)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_0pvj7")
-
-[node name="NameLabel" type="Label3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
-billboard = 1
-script = ExtResource("31_ij4ox")
