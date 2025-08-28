@@ -124,10 +124,29 @@ func join_lobby(this_lobby_id: int) -> void:
 	# https://michaelmacha.wordpress.com/2024/04/08/godotsteam-and-steammultiplayerpeer/
 	var id := Steam.getLobbyOwner(this_lobby_id)
 	peer.create_client(id, 0)
-	# Now assign the peer after it is connecting/connected
-	multiplayer.multiplayer_peer = peer
-	# Hide the Lobby GUI
-	$GUI.hide()
+
+	# Don't assign the peer to the SceneTree until it's fully connected —
+	# assigning while still disconnected can surface as CONNECTION_DISCONNECTED.
+	# Wait for the Steam peer to report CONNECTED (with a short timeout).
+	var timeout_sec: float = 5.0
+	var elapsed: float = 0.0
+	var poll_interval: float = 0.1
+	while elapsed < timeout_sec:
+		# Use the MultiplayerPeer connection status constant
+		if peer.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTED:
+			multiplayer.multiplayer_peer = peer
+			$GUI.hide()
+			print("Connected to host, multiplayer peer assigned.")
+			return
+		# wait a short time and poll again
+		await get_tree().create_timer(poll_interval).timeout
+		elapsed += poll_interval
+
+	# If we get here we failed to connect in time
+	print("Warning: failed to connect to lobby owner within %.1f seconds." % timeout_sec)
+	# Optionally still assign the peer (commented out) or re-open the lobby UI
+	# multiplayer.multiplayer_peer = peer
+	_on_open_lobby_list_pressed()
 
 
 # https://godotsteam.com/tutorials/lobbies/#joining-lobbies
