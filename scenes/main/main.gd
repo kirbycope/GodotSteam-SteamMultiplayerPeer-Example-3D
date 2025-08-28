@@ -27,12 +27,23 @@ func _ready() -> void:
 	#Steam.lobby_message.connect(_on_lobby_message)
 	Steam.persona_state_change.connect(_on_persona_change)
 
+	multiplayer.connection_failed.connect(_on_connection_failed)
+	multiplayer.connected_to_server.connect(_on_connection_success)
+
 	# Check for command line arguments
 	check_command_line()
 	# Define custom spawner
 	spawner.spawn_function = spawn_level
 	# Get lobby list
 	_on_open_lobby_list_pressed()
+
+
+func _on_connection_success():
+	print("Connection success!")
+
+
+func _on_connection_failed():
+	print("Connection failed.")
 
 
 # https://godotsteam.com/tutorials/lobbies/#the-_ready-function
@@ -160,7 +171,7 @@ func _on_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, resp
 			peer = SteamMultiplayerPeer.new()
 			peer.create_client(steam_id, 0)
 			multiplayer.set_multiplayer_peer(peer)
-			print("Created Steam client to owner %s; waiting for connection." % owner_id)
+			print("Created Steam client to owner %s; waiting for connection...." % owner_id)
 
 	# Else it failed for some reason
 	else:
