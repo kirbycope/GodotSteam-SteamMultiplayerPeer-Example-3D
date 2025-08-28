@@ -30,10 +30,8 @@ func _ready() -> void:
 	check_command_line()
 	# Define custom spawner
 	spawner.spawn_function = spawn_level
-	# Set the physical distance for which we search lobbies
-	Steam.addRequestLobbyListDistanceFilter(Steam.LOBBY_DISTANCE_FILTER_WORLDWIDE)
-	# Get a filtered list of relevant lobbies.
-	Steam.requestLobbyList()
+	# Get lobby list
+	_on_open_lobby_list_pressed()
 
 
 # https://godotsteam.com/tutorials/lobbies/#the-_ready-function
@@ -62,6 +60,12 @@ func create_lobby() -> void:
 		peer.create_host(0)
 		# Set the new peer to handle the RPC system
 		multiplayer.multiplayer_peer = peer
+
+		# https://youtu.be/fUBdnocrc3Y?t=360
+		# Spawn the new scene
+		spawner.spawn("res://scenes/level_0/level_0.tscn")
+		# Hide the Lobby GUI
+		$GUI.hide()
 
 
 # https://godotsteam.com/tutorials/lobbies/#creating-lobbies
@@ -130,15 +134,14 @@ func _on_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, resp
 		# Make the initial handshake
 		#make_p2p_handshake()
 
+		# Set the peer to handle the RPC system
+		multiplayer.multiplayer_peer = peer
+		# Set the current Lobby ID
+		lobby_id = this_lobby_id
+
 		if !is_multiplayer_authority():
 			var host_steam_id: int = Steam.getLobbyOwner(this_lobby_id)
 			peer.create_client(host_steam_id, 0)
-			multiplayer.multiplayer_peer = peer
-
-		# https://youtu.be/fUBdnocrc3Y?t=360
-		# Spawn the new scene
-		spawner.spawn("res://scenes/level_0/level_0.tscn")
-		$GUI.hide()
 
 	# Else it failed for some reason
 	else:
