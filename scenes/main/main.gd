@@ -120,6 +120,10 @@ func join_lobby(this_lobby_id: int) -> void:
 	lobby_members.clear()
 	# Make the lobby join request to Steam
 	Steam.joinLobby(this_lobby_id)
+	var host_steam_id: int = Steam.getLobbyOwner(this_lobby_id)
+	peer.create_client(host_steam_id, 0)
+	# Now assign the peer after it is connecting/connected
+	multiplayer.multiplayer_peer = peer
 	# Hide the Lobby GUI
 	$GUI.hide()
 
@@ -135,18 +139,8 @@ func _on_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, resp
 		get_lobby_members()
 		# Make the initial handshake
 		#make_p2p_handshake()
-
 		# Set the current Lobby ID
 		lobby_id = this_lobby_id
-
-		if !is_multiplayer_authority():
-			var host_steam_id: int = Steam.getLobbyOwner(this_lobby_id)
-			peer.create_client(host_steam_id, 0)
-			# Now assign the peer after it is connecting/connected
-			multiplayer.multiplayer_peer = peer
-		else:
-			# Host already assigned peer in create_lobby()
-			multiplayer.multiplayer_peer = peer
 
 	# Else it failed for some reason
 	else:
