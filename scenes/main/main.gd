@@ -13,6 +13,9 @@ var steam_username: String = ""
 # https://michaelmacha.wordpress.com/2024/04/08/godotsteam-and-steammultiplayerpeer/
 var peer: SteamMultiplayerPeer
 @onready var spawner: MultiplayerSpawner = $MultiplayerSpawner
+var pending_owner_id: int = 0
+var connection_timeout_timer: Timer = null
+const CONNECTION_TIMEOUT: float = 10.0
 
 
 # https://godotsteam.com/tutorials/lobbies/#the-_ready-function
@@ -31,6 +34,11 @@ func _ready() -> void:
 	multiplayer.connected_to_server.connect(_on_connection_success)
 
 	# Check for command line arguments
+	# Cache our Steam ID and persona name (used when creating/closing P2P sessions)
+	steam_id = Steam.getSteamID()
+	steam_username = Steam.getPersonaName()
+	print("Local Steam ID: %s, name: %s" % [steam_id, steam_username])
+
 	check_command_line()
 	# Define custom spawner
 	spawner.spawn_function = spawn_level
@@ -40,10 +48,17 @@ func _ready() -> void:
 
 func _on_connection_success():
 	print("Connection success!")
+	# Stop any connection timeout timer
+	_stop_connection_timeout()
 
 
 func _on_connection_failed():
 	print("Connection failed.")
+	# Cleanup any pending connection attempt
+	if pending_owner_id != 0:
+		Steam.closeP2PSessionWithUser(pending_owner_id)
+		pending_owner_id = 0
+	_stop_connection_timeout()
 
 
 # https://godotsteam.com/tutorials/lobbies/#the-_ready-function
@@ -169,9 +184,12 @@ func _on_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, resp
 		var owner_id := Steam.getLobbyOwner(this_lobby_id)
 		if owner_id != Steam.getSteamID():
 			peer = SteamMultiplayerPeer.new()
-			peer.create_client(steam_id, 0)
+			# Use the owner's Steam ID so we attempt to connect to them
+			peer.create_client(owner_id, 0)
 			multiplayer.set_multiplayer_peer(peer)
 			print("Created Steam client to owner %s; waiting for connection...." % owner_id)
+			# Start a timeout in case the P2P connection never completes
+			_start_connection_timeout(owner_id)
 
 	# Else it failed for some reason
 	else:
@@ -294,3 +312,38 @@ func leave_lobby() -> void:
 func spawn_level(data):
 	# Instantiate and then return the loaded scene
 	return (load(data) as PackedScene).instantiate()
+
+
+# Connection timeout helpers
+func _start_connection_timeout(owner_id: int) -> void:
+	# Save pending owner so we can cleanup on timeout
+	pending_owner_id = owner_id
+	# Create timer if not present
+	if connection_timeout_timer == null:
+		connection_timeout_timer = Timer.new()
+		connection_timeout_timer.one_shot = true
+		connection_timeout_timer.wait_time = CONNECTION_TIMEOUT
+		connection_timeout_timer.connect("timeout", Callable(self, "_on_connection_timeout"))
+		add_child(connection_timeout_timer)
+	# Start/restart the timer
+	connection_timeout_timer.start()
+	print("Started connection timeout (%ss) for owner %s" % [CONNECTION_TIMEOUT, owner_id])
+
+
+func _stop_connection_timeout() -> void:
+	if connection_timeout_timer != null and connection_timeout_timer.is_inside_tree():
+		connection_timeout_timer.stop()
+		connection_timeout_timer.queue_free()
+	connection_timeout_timer = null
+	pending_owner_id = 0
+
+
+func _on_connection_timeout() -> void:
+	print("Connection to owner %s timed out after %s seconds." % [pending_owner_id, CONNECTION_TIMEOUT])
+	# Close any open P2P session to the owner
+	if pending_owner_id != 0:
+		Steam.closeP2PSessionWithUser(pending_owner_id)
+		pending_owner_id = 0
+	# Reset multiplayer peer if set
+	if multiplayer.get_multiplayer_peer() != null:
+		multiplayer.set_multiplayer_peer(null)
