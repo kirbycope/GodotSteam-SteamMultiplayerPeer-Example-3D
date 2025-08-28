@@ -12,6 +12,8 @@ const SWIMMING_ENTRY_LERP_DURATION: float = 0.08
 
 ## Called every frame. '_delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
+	# Uncomment the next line if using GodotSteam
+	if !is_multiplayer_authority(): return
 	# Check if the game is not paused
 	if !player.game_paused:
 		# Smooth entry into water
