@@ -11,7 +11,7 @@ var steam_id: int = 0
 var steam_username: String = ""
 
 # https://michaelmacha.wordpress.com/2024/04/08/godotsteam-and-steammultiplayerpeer/
-var peer = SteamMultiplayerPeer.new()
+var peer: SteamMultiplayerPeer
 @onready var spawner: MultiplayerSpawner = $MultiplayerSpawner
 
 
@@ -30,6 +30,7 @@ func _ready() -> void:
 	# Multiplayer connection signals
 	multiplayer.connected_to_server.connect(_on_multiplayer_connected)
 	multiplayer.connection_failed.connect(_on_multiplayer_connection_failed)
+
 	# Check for command line arguments
 	check_command_line()
 	# Define custom spawner
@@ -60,10 +61,11 @@ func create_lobby() -> void:
 		Steam.createLobby(Steam.LOBBY_TYPE_PUBLIC, lobby_members_max)
 
 		# https://michaelmacha.wordpress.com/2024/04/08/godotsteam-and-steammultiplayerpeer/
+		peer = SteamMultiplayerPeer.new()
 		# Create the server
 		peer.create_host(0)
 		# Set the new peer to handle the RPC system
-		multiplayer.multiplayer_peer = peer
+		multiplayer.set_multiplayer_peer(peer)
 
 		# https://youtu.be/fUBdnocrc3Y?t=360
 		# Spawn the new scene
@@ -125,13 +127,24 @@ func join_lobby(this_lobby_id: int) -> void:
 	# Make the lobby join request to Steam
 	Steam.joinLobby(this_lobby_id)
 
-	# Client creation is handled in _on_lobby_joined once Steam confirms
-	# the lobby join. This avoids racing with Steam callbacks.
-
 
 # https://godotsteam.com/tutorials/lobbies/#joining-lobbies
 func _on_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, response: int) -> void:
-	print("Joined lobby %s with response code %s" % [this_lobby_id, response])
+	var response_str: String
+	match response:
+		Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS: response_str = "CHAT_ROOM_ENTER_RESPONSE_SUCCESS"
+		Steam.CHAT_ROOM_ENTER_RESPONSE_DOESNT_EXIST: response_str = "CHAT_ROOM_ENTER_RESPONSE_DOESNT_EXIST"
+		Steam.CHAT_ROOM_ENTER_RESPONSE_NOT_ALLOWED: response_str = "CHAT_ROOM_ENTER_RESPONSE_NOT_ALLOWED"
+		Steam.CHAT_ROOM_ENTER_RESPONSE_FULL: response_str = "CHAT_ROOM_ENTER_RESPONSE_FULL"
+		Steam.CHAT_ROOM_ENTER_RESPONSE_ERROR: response_str = "CHAT_ROOM_ENTER_RESPONSE_ERROR"
+		Steam.CHAT_ROOM_ENTER_RESPONSE_BANNED: response_str = "CHAT_ROOM_ENTER_RESPONSE_BANNED"
+		Steam.CHAT_ROOM_ENTER_RESPONSE_LIMITED: response_str = "CHAT_ROOM_ENTER_RESPONSE_LIMITED"
+		Steam.CHAT_ROOM_ENTER_RESPONSE_CLAN_DISABLED: response_str = "CHAT_ROOM_ENTER_RESPONSE_CLAN_DISABLED"
+		Steam.CHAT_ROOM_ENTER_RESPONSE_COMMUNITY_BAN: response_str = "CHAT_ROOM_ENTER_RESPONSE_COMMUNITY_BAN"
+		Steam.CHAT_ROOM_ENTER_RESPONSE_MEMBER_BLOCKED_YOU: response_str = "CHAT_ROOM_ENTER_RESPONSE_MEMBER_BLOCKED_YOU"
+		Steam.CHAT_ROOM_ENTER_RESPONSE_YOU_BLOCKED_MEMBER: response_str = "CHAT_ROOM_ENTER_RESPONSE_YOU_BLOCKED_MEMBER"
+		_: response_str = "UNKNOWN_RESPONSE(%s)" % response
+	print("Joined lobby %s with response code %s (%s)" % [this_lobby_id, response, response_str])
 	# If joining was successful
 	if response == Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS:
 		# Set this lobby ID as your lobby ID
@@ -147,10 +160,8 @@ func _on_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, resp
 		var owner_id := Steam.getLobbyOwner(this_lobby_id)
 		if owner_id != Steam.getSteamID():
 			peer = SteamMultiplayerPeer.new()
-			peer.create_client(owner_id, 0)
-			# Assign the peer to the SceneTree; the engine will emit
-			# connected_to_server or connection_failed which we handle below.
-			multiplayer.multiplayer_peer = peer
+			peer.create_client(steam_id, 0)
+			multiplayer.set_multiplayer_peer(peer)
 			print("Created Steam client to owner %s; waiting for connection." % owner_id)
 
 	# Else it failed for some reason
