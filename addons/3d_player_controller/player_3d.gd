@@ -507,6 +507,18 @@ func check_tool_collision() -> void:
 					is_swinging_right = false
 
 
+# Getter for the player's username (Steam, then OS environment)
+func get_username() -> String:
+	var username = ""
+	# Uncomment the next line if using GodotSteam
+	username = str(Steam.getPersonaName())
+	if username.is_empty():
+		username = OS.get_environment("USERNAME")
+	if username.is_empty():
+		username = OS.get_environment("USER")
+	return username
+
+
 ## Moves the player based on velocity and shapecast collision.
 func move_player(delta: float) -> void:
 	# Don't move the player if in ragdoll state - let physics bones handle movement

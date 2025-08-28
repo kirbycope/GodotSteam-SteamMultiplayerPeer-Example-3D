@@ -140,16 +140,8 @@ func send_message() -> void:
 		handle_command(message_text)
 	# The message must not be a command
 	else:
-		# Get the username from Steam
-		var username = str(Steam.getPersonaName())
-		# Check if the username is empty
-		if username.is_empty():
-			# Get the username from the OS environment (Windows)
-			username = OS.get_environment("USERNAME")
-		# Check if the username is empty
-		if username.is_empty():
-			# Get the username from the OS environment (Linux/macOS)
-			username = OS.get_environment("USER")
+		# Get the username
+		var username = player.get_username()
 		# Format the message text with italics
 		message_text = "[i]" + message_text
 		# Always create message locally first for immediate feedback
