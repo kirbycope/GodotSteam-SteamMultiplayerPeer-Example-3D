@@ -9,8 +9,10 @@ func _ready() -> void:
 	text = str(player.get_username())
 
 
-## Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+## Called every frame. '_delta' is the elapsed time since the previous frame.
+func _process(_delta: float) -> void:
 	# Hide nameplate if alone
 	if multiplayer.get_peers().size() == 0:
 		hide()
+	else:
+		show()
