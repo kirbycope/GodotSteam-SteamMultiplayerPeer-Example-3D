@@ -32,7 +32,6 @@ func _process(_delta: float) -> void:
 	if player.is_on_floor() and player.velocity.y == 0.0:
 		# Start "standing"
 		transition(NODE_NAME, "Standing")
-
 	# Check if the player is "paragliding"
 	if player.is_paragliding:
 		# Play the animation

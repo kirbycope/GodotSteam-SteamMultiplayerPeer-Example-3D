@@ -32,19 +32,14 @@ func play_animation() -> void:
 func start() -> void:
 	# Enable _this_ state node
 	process_mode = PROCESS_MODE_INHERIT
-
 	# Set the player's new state
 	player.current_state = STATES.State.DRIVING
-
 	# Flag the player as "driving"
 	player.is_driving = true
-
 	# Set the player's movement speed
 	player.speed_current = 10.0
-
 	# Disable CollisionShape3D
 	player.collision_shape.disabled = true
-
 	# [Re]Set the driving time
 	time_driving = 0.0
 
@@ -53,39 +48,30 @@ func start() -> void:
 func stop() -> void:
 	# Disable _this_ state node
 	process_mode = PROCESS_MODE_DISABLED
-
 	# Flag player as not "driving"
 	player.is_driving = false
-
 	# Reset player velocity to prevent flying when exiting
 	player.velocity = Vector3.ZERO
-
 	# Check if player is still parented to the vehicle
 	if player.is_driving_in and player.get_parent() != get_tree().current_scene:
 		# Store global position before reparenting
 		var player_global_pos = player.global_position
 		var player_global_rot = player.global_rotation
-		
 		# Reparent player back to main scene
 		var current_parent = player.get_parent()
 		current_parent.remove_child(player)
 		get_tree().current_scene.add_child(player)
-		
 		# Restore global position
 		player.global_position = player_global_pos
 		player.global_rotation = player_global_rot
-
 	# Remove the player from the vehicle
 	if player.is_driving_in:
 		player.is_driving_in.player = null
-
 	# Remove the vehicle with the player
 	player.is_driving_in = null
-
 	# Wait 2 physics frames before re-enabling collision
 	await get_tree().physics_frame
 	await get_tree().physics_frame
 	player.collision_shape.disabled = false
-
 	# [Re]Set the driving time
 	time_driving = 0.0

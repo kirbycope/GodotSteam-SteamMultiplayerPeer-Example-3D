@@ -75,16 +75,12 @@ func _physics_process(delta) -> void:
 		for action in look_actions:
 			if Input.is_action_pressed(action) and !player.lock_camera:
 				camera_rotate_by_controller(delta)
-
-	# ALWAYS update the camera position/rotation to follow the player
-	# (the follow behaviour must run even while the game is paused)
+	# Update the camera position/rotation to follow the player
 	if player.perspective == 1:
 		move_camera_to_head()
 	else:
 		follow_camera_mount(delta)
-
-	# Update raycast position regardless of pause state so the camera look
-	# origin stays consistent with the player's head
+	# Update raycast position so the camera look stays consistent with the player's head
 	update_raycast_position()
 
 

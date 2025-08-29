@@ -5,7 +5,7 @@ const BONE_NAME_LEFT_HAND = "LeftHand"
 const BONE_NAME_RIGHT_HAND = "RightIndexProximal" # Right hand index finger proximal bone
 const BONE_NAME_LEFT_FOOT = "LeftFoot"
 const BONE_NAME_RIGHT_FOOT = "RightFoot"
-const STATES = preload("res://addons/3d_player_controller/states/states.gd")
+const STATES = preload("uid://dodroqwgmf811")
 
 # Note: `@export` variables are available for editing in the property editor.
 @export var current_state: STATES.State = STATES.State.STANDING ## The current state of the player.
@@ -151,7 +151,6 @@ var virtual_velocity: Vector3 = Vector3.ZERO ## The velocity of the player if th
 func _ready() -> void:
 	# Set the canvas layer behind all other Control nodes
 	$Controls.layer = -1
-
 	# Start "standing"
 	$States/Standing.start()
 

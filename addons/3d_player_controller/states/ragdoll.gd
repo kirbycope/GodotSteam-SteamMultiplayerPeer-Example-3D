@@ -29,20 +29,16 @@ func _process(delta: float) -> void:
 func start() -> void:
 	# Enable this state node
 	process_mode = PROCESS_MODE_INHERIT
-
 	# Set the player's new state
 	player.current_state = STATES.State.RAGDOLL
-
 	# Reset timer
 	time_ragdoll = 0.0
-
 	# Make sure the skeleton is at the current player position
 	if not player.physical_bone_simulator:
 		return
 	# Ensure collision is disabled
 	player.collision_shape.disabled = true
 	player.shapecast.enabled = false
-
 	# Now activate the ragdoll simulation
 	player.physical_bone_simulator.active = true
 	player.physical_bone_simulator.physical_bones_start_simulation()
@@ -52,15 +48,12 @@ func start() -> void:
 func stop() -> void:
 	# Disable this state node
 	process_mode = PROCESS_MODE_DISABLED
-
 	# Ensure ragdoll is properly stopped
 	if player.physical_bone_simulator.active:
 		player.physical_bone_simulator.physical_bones_stop_simulation()
 		player.physical_bone_simulator.active = false
-
 	# Ensure collision is re-enabled
 	player.collision_shape.disabled = false
 	player.shapecast.enabled = true
-
 	# [Re]Set time spent in ragdoll state
 	time_ragdoll = 0.0

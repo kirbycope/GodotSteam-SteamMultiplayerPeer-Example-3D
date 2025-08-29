@@ -1,6 +1,6 @@
 extends Control
 
-const MESSAGE_SCENE: PackedScene = preload("res://addons/3d_player_controller/message.tscn")
+const MESSAGE_SCENE: PackedScene = preload("uid://bg4y0xmf13rf5")
 
 @export var time_node_path: String = "" # "Sky3D"
 @export var weather_node_path: String = "" # "HUD/BottomRight/Weather"

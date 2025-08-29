@@ -147,7 +147,6 @@ func _on_ssrl_toggled(toggled_on: bool) -> void:
 func _on_taa_toggled(toggled_on: bool) -> void:
 	# Get the current viewport
 	var viewport = get_viewport()
-
 	# Apply the Temporal Anti-Aliasing setting
 	viewport.use_taa = toggled_on
 
@@ -156,7 +155,6 @@ func _on_taa_toggled(toggled_on: bool) -> void:
 func _on_fsr_item_selected(index: int) -> void:
 	# Get the current viewport
 	var viewport = get_viewport()
-
 	# Apply the FSR mode based on the selected index
 	viewport.scaling_3d_mode = index
 

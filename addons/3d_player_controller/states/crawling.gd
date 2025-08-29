@@ -25,12 +25,10 @@ func _process(_delta: float) -> void:
 	if player.velocity == Vector3.ZERO:
 		# Start "crouching"		
 		transition(NODE_NAME, "Crouching")
-
 	# Ⓨ/[Ctrl] just _released_
 	if Input.is_action_just_released("button_3"):
 		# Start "standing"
 		transition(NODE_NAME, "Standing")
-
 	# Check if the player is "crawling"
 	if player.is_crawling:
 		# Play the animation
@@ -43,7 +41,6 @@ func play_animation() -> void:
 	if !player.is_animation_locked:
 		# Check if in first person and moving backwards
 		var play_backwards = player.perspective == 1 and Input.is_action_pressed("move_down")
-		
 		# Check if the player is "holding a rifle"
 		if player.is_holding_rifle:
 			# Check if the animation player is not already playing the appropriate animation
@@ -53,7 +50,6 @@ func play_animation() -> void:
 					player.animation_player.play_backwards(ANIMATION_CROUCHING_MOVE_HOLDING_RIFLE)
 				else:
 					player.animation_player.play(ANIMATION_CROUCHING_MOVE_HOLDING_RIFLE, -1, 0.75)
-
 		# The player must be unarmed
 		else:
 			# Check if the animation player is not already playing the appropriate animation
@@ -69,19 +65,14 @@ func play_animation() -> void:
 func start() -> void:
 	# Enable _this_ state node
 	process_mode = PROCESS_MODE_INHERIT
-
 	# Set the player's new state
 	player.current_state = STATES.State.CRAWLING
-
 	# Flag the player as "crawling"
 	player.is_crawling = true
-
 	# Set the player's movement speed
 	player.speed_current = player.speed_crawling
-
 	# Set CollisionShape3D height
 	player.get_node("CollisionShape3D").shape.height = player.collision_height / 2
-
 	# Set CollisionShape3D position
 	player.get_node("CollisionShape3D").position = player.collision_position / 2
 
@@ -90,12 +81,9 @@ func start() -> void:
 func stop() -> void:
 	# Disable _this_ state node
 	process_mode = PROCESS_MODE_DISABLED
-
 	# Flag the player as not "crawling"
 	player.is_crawling = false
-
 	# Reset CollisionShape3D height
 	player.get_node("CollisionShape3D").shape.height = player.collision_height
-
 	# Reset CollisionShape3D position
 	player.get_node("CollisionShape3D").position = player.collision_position
