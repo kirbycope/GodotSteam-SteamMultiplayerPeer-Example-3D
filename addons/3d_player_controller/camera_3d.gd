@@ -32,7 +32,7 @@ func _ready() -> void:
 
 
 ## Called when there is an input event.
-func _input(event) -> void:
+func _input(event: InputEvent) -> void:
 	# Uncomment the next line if using GodotSteam
 	if !is_multiplayer_authority(): return
 	# Check if the game is not paused

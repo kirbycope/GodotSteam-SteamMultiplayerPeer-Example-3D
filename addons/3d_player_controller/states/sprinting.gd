@@ -8,6 +8,8 @@ const NODE_NAME := "Sprinting"
 
 ## Called when there is an input event.
 func _input(event: InputEvent) -> void:
+	# Uncomment the next line if using GodotSteam
+	if !is_multiplayer_authority(): return
 	# Check if the game is not paused
 	if !player.game_paused:
 		# Ⓐ/[Space] _pressed_ and jumping is enabled -> Start "jumping"

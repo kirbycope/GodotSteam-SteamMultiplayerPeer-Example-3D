@@ -432,6 +432,8 @@ func _ready() -> void:
 
 ## Called when there is an input event.
 func _input(event: InputEvent) -> void:
+	# Uncomment the next line if using GodotSteam
+	if !is_multiplayer_authority(): return
 	# Set the current input type
 	set_current_input_type(event)
 

@@ -6,6 +6,8 @@ var time_ragdoll: float = 0.0 ## The time spent in the "ragdoll" state."
 
 
 func _input(event: InputEvent) -> void:
+	# Uncomment the next line if using GodotSteam
+	if !is_multiplayer_authority(): return
 	# (A)/[Space] _pressed_ after 3 seconds -> Stop ragdoll state
 	if event.is_action_pressed("button_0") and time_ragdoll > 3.0:
 		# Start standing

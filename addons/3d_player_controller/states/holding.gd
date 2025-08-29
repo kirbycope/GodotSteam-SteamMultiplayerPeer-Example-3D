@@ -22,6 +22,8 @@ var manual_rotation_z := 0.0 ## Track the manual rotation of the "held" object a
 
 ## Called when there is an input event.
 func _input(event: InputEvent) -> void:
+	# Uncomment the next line if using GodotSteam
+	if !is_multiplayer_authority(): return
 	# Check if the game is not paused
 	if !player.game_paused:
 		# (L1)/[L-Clk] _pressed_ (and holding something) -> Throw the held object
