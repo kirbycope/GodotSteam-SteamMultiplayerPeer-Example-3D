@@ -52,12 +52,13 @@ func _process(_delta: float) -> void:
 	var current_peer = multiplayer.get_multiplayer_peer()
 	if current_peer != null:
 		# Check if the owner is still connected
+		# Check if the owner is still connected
 		if lobby_id > 0 and not multiplayer.is_server():
 			var owner_id = Steam.getLobbyOwner(lobby_id)
-			if owner_id != steam_id:
-				# Check if we can still communicate with the owner
+			if owner_id != steam_id:  # We're not the owner
+				# Check if we're actually disconnected (not just connecting)
 				var peer_state = current_peer.get_connection_status()
-				if peer_state == MultiplayerPeer.CONNECTION_DISCONNECTED or peer_state == MultiplayerPeer.CONNECTION_CONNECTING:
+				if peer_state == MultiplayerPeer.CONNECTION_DISCONNECTED:
 					print("Multiplayer peer is no longer active. Disconnecting gracefully...")
 					# Leave the lobby on Steam
 					leave_lobby()
