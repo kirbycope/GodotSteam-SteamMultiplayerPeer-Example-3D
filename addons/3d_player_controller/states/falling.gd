@@ -9,7 +9,7 @@ var time_falling: float ## The time spent in the "falling" state.
 
 ## Called when there is an input event.
 func _input(event: InputEvent) -> void:
-	# Uncomment the next line if using GodotSteam
+	# Do nothing if not the authority
 	if !is_multiplayer_authority(): return
 	# Check if the game is not paused
 	if !player.game_paused:
@@ -41,7 +41,7 @@ func _input(event: InputEvent) -> void:
 
 ## Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	# Uncomment the next line if using GodotSteam
+	# Do nothing if not the authority
 	if !is_multiplayer_authority(): return
 	# Check if the game is not paused
 	if !player.game_paused:

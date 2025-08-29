@@ -32,7 +32,7 @@ func _process(_delta: float) -> void:
 
 ## Called when there is an input event.
 func _input(event: InputEvent) -> void:
-	# Uncomment the next line if using GodotSteam
+	# Do nothing if not the authority
 	if !is_multiplayer_authority(): return
 	# [chat] button _released_ and not selecting an emote and not rotating an object
 	if event.is_action_released("button_15") and !player.game_paused and !player.emotes_menu.visible and !player.is_rotating_object:
@@ -99,7 +99,7 @@ func _on_cancel_button_pressed() -> void:
 
 ## Called when the mouse enters the chat display area.
 func _on_chat_display_mouse_entered() -> void:
-	# Uncomment the next line if using GodotSteam
+	# Do nothing if not the authority
 	if !is_multiplayer_authority(): return
 	# Show all messages
 	for message in chat_display.get_children():
@@ -109,7 +109,7 @@ func _on_chat_display_mouse_entered() -> void:
 
 ## Called when the mouse exits the chat display area.
 func _on_chat_display_mouse_exited() -> void:
-	# Uncomment the next line if using GodotSteam
+	# Do nothing if not the authority
 	if !is_multiplayer_authority(): return
 	# Hide messages that should be hidden (timer expired)
 	for message in chat_display.get_children():

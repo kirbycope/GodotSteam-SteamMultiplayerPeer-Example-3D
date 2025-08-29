@@ -23,7 +23,7 @@ var target_position: Vector3
 
 ## Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	# Uncomment the next line if using GodotSteam
+	# Set camera as current for _this_ player
 	current = is_multiplayer_authority()
 	# Set camera as top level
 	set_as_top_level(true)
@@ -33,7 +33,7 @@ func _ready() -> void:
 
 ## Called when there is an input event.
 func _input(event: InputEvent) -> void:
-	# Uncomment the next line if using GodotSteam
+	# Do nothing if not the authority
 	if !is_multiplayer_authority(): return
 	# Check if the game is not paused
 	if !player.game_paused:
@@ -67,7 +67,7 @@ func _input(event: InputEvent) -> void:
 
 ## Called each physics frame with the time since the last physics frame as argument (delta, in seconds).
 func _physics_process(delta) -> void:
-	# Uncomment the next line if using GodotSteam
+	# Do nothing if not the authority
 	if !is_multiplayer_authority(): return
 	# Handle input-driven look controls only when the game is not paused
 	var look_actions = ["look_down", "look_up", "look_left", "look_right"]

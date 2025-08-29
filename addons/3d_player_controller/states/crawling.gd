@@ -7,7 +7,7 @@ const NODE_NAME := "Crawling"
 
 ## Called when there is an input event.
 func _input(event: InputEvent) -> void:
-	# Uncomment the next line if using GodotSteam
+	# Do nothing if not the authority
 	if !is_multiplayer_authority(): return
 	# Check if the game is not paused
 	if !player.game_paused:
@@ -19,7 +19,7 @@ func _input(event: InputEvent) -> void:
 
 ## Called every frame. '_delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	# Uncomment the next line if using GodotSteam
+	# Do nothing if not the authority
 	if !is_multiplayer_authority(): return
 	# Check if the player is not moving
 	if player.velocity == Vector3.ZERO:

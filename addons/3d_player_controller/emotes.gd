@@ -11,7 +11,7 @@ const ANIMATION_WAVING := "Waving" + "/mixamo_com"
 
 ## Called once for every event before _unhandled_input(), allowing you to consume some events.
 func _input(event: InputEvent) -> void:
-	# Uncomment the next line if using GodotSteam
+	# Do nothing if not the authority
 	if !is_multiplayer_authority(): return
 	# Check if the game is paused
 	if player.game_paused:

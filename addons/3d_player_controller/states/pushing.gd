@@ -6,7 +6,7 @@ const NODE_NAME := "Pushing"
 
 ## Called every frame. '_delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	# Uncomment the next line if using GodotSteam
+	# Do nothing if not the authority
 	if !is_multiplayer_authority(): return
 	# Check if the player is moving and the is nothing blocking the player
 	if player.velocity != Vector3.ZERO and not (player.raycast_middle.is_colliding() or player.raycast_high.is_colliding()):
