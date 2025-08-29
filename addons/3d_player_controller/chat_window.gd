@@ -99,6 +99,8 @@ func _on_cancel_button_pressed() -> void:
 
 ## Called when the mouse enters the chat display area.
 func _on_chat_display_mouse_entered() -> void:
+	# Uncomment the next line if using GodotSteam
+	if !is_multiplayer_authority(): return
 	# Show all messages
 	for message in chat_display.get_children():
 		if message is Message:
@@ -107,6 +109,8 @@ func _on_chat_display_mouse_entered() -> void:
 
 ## Called when the mouse exits the chat display area.
 func _on_chat_display_mouse_exited() -> void:
+	# Uncomment the next line if using GodotSteam
+	if !is_multiplayer_authority(): return
 	# Hide messages that should be hidden (timer expired)
 	for message in chat_display.get_children():
 		if message is Message and message.hide_timer.is_stopped():
