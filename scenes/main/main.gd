@@ -11,10 +11,11 @@ var steam_id: int = 0
 
 # https://michaelmacha.wordpress.com/2024/04/08/godotsteam-and-steammultiplayerpeer/
 const CONNECTION_TIMEOUT: float = 10.0
+var connection_timeout_timer: Timer = null
 var peer: SteamMultiplayerPeer
 var pending_owner_id: int = 0
-var connection_timeout_timer: Timer = null
 @onready var spawner: MultiplayerSpawner = $MultiplayerSpawner
+
 
 ## Prints the console message if in debug mode.
 func _debug_print(message: String) -> void:
