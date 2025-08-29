@@ -157,8 +157,6 @@ func send_message() -> void:
 @rpc("any_peer", "call_local")
 ## Creates a new message for all peers.
 func create_message_for_all(sender: String, message_text: String) -> void:
-	# Uncomment the next line if using GodotSteam
-	if !is_multiplayer_authority(): return
 	# Create a new message instance
 	var message = MESSAGE_SCENE.instantiate()
 	chat_display.add_child(message)

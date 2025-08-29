@@ -24,12 +24,12 @@ func _on_hide_timer_timeout() -> void:
 
 ## Sets the message content and sender, and starts the hide timer.
 func set_message(sender: String, content: String) -> void:
+	# Uncomment the next line if using GodotSteam
+	if !is_multiplayer_authority(): return
 	# Set the content
 	sender_label.text = sender
 	content_label.text = content
-
 	# Start the hide timer when message is set
 	hide_timer.start(HIDE_DELAY)
-
 	# Ensure message is visible when first set
 	show()
