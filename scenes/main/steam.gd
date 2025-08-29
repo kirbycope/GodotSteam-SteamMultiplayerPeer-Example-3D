@@ -36,17 +36,17 @@ func _ready() -> void:
 	_debug_print("Initializing Steam API...")
 	steam_initialized = Steam.steamInit()
 	if steam_initialized:
-		_debug_print("Steam API initialized successfully.")
+		_debug_print("└── Steam API initialized successfully.")
 	else:
-		push_warning("[STEAM] steamInit failed; Steam features disabled.")
+		push_warning("└── [STEAM] steamInit failed; Steam features disabled.")
 		return
 	# Initialize Steam Input after Steam API is ready
 	_debug_print("Initializing Steam Input...")
 	input_initialized = Steam.inputInit()
 	if input_initialized:
-		_debug_print("Steam Input initialized successfully.")
+		_debug_print("└── Steam Input initialized successfully.")
 	else:
-		push_warning("[STEAM] Steam Input failed to initialize.")
+		push_warning("└── [STEAM] Steam Input failed to initialize.")
 		return
 	# Get connected controllers
 	enumerate_controllers()
@@ -56,10 +56,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	# Required to pump Steam callbacks each frame
 	if steam_initialized:
-		if Steam.has_method("run_callbacks"):
-			Steam.call("run_callbacks")
-		elif Steam.has_method("runCallbacks"):
-			Steam.call("runCallbacks")
+		Steam.run_callbacks()
 
 
 ## Called when the node is about to leave the SceneTree.
@@ -104,21 +101,21 @@ func _get_controller_type_name(controller_type: SteamInputType) -> String:
 			return "Unknown Controller Type (%d)" % controller_type
 
 
+## List the connected controllers.
 func enumerate_controllers() -> void:
-	if steam_initialized:
-		if Steam.has_method("run_callbacks"):
-			Steam.call("run_callbacks")
-		elif Steam.has_method("runCallbacks"):
-			Steam.call("runCallbacks")
+	Steam.run_callbacks()
 	_debug_print("Getting connected controllers...")
 	var controllers: Array = []
 	if input_initialized:
 		controllers = Steam.getConnectedControllers()
-	for handle in controllers:
-		var controller_type := SteamInputType.UNKNOWN
-		var type_name := "Unknown"
-		if Steam.has_method("getInputTypeForHandle"):
-			var steam_type = Steam.call("getInputTypeForHandle", handle)
-			controller_type = steam_type as SteamInputType
-			type_name = _get_controller_type_name(controller_type)
-		_debug_print("Steam Input controller handle: %s, type: %s (%d)" % [handle, type_name, controller_type])
+	if controllers.size() == 0:
+		_debug_print("└── No Steam Input controllers connected.")
+	else:
+		for handle in controllers:
+			var controller_type := SteamInputType.UNKNOWN
+			var type_name := "Unknown"
+			if Steam.has_method("getInputTypeForHandle"):
+				var steam_type = Steam.call("getInputTypeForHandle", handle)
+				controller_type = steam_type as SteamInputType
+				type_name = _get_controller_type_name(controller_type)
+			_debug_print("└── Steam Input controller handle: %s, type: %s (%d)" % [handle, type_name, controller_type])

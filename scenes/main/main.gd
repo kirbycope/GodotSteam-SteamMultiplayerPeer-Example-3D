@@ -149,7 +149,7 @@ func _on_lobby_match_list(lobbies: Array) -> void:
 		lobby_button.connect("pressed", Callable(self, "join_lobby").bind(lobby))
 		# Add the new lobby to the list
 		$GUI/LobbyContainer/Lobbies.add_child(lobby_button)
-	_debug_print("Lobby list updated.")
+	_debug_print("└── Lobby list updated.")
 
 
 # https://godotsteam.com/tutorials/lobbies/#joining-lobbies
