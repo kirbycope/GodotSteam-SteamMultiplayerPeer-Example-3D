@@ -5,7 +5,12 @@ extends Label3D
 
 ## Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	# Set playername
+	# Set player nameplate
 	text = str(player.get_username())
-	# Hide (locally, will show on clients if not synced)
-	hide()
+
+
+## Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	# Hide nameplate if alone
+	if multiplayer.get_peers().size() == 0:
+		hide()
