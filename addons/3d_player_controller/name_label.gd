@@ -7,6 +7,5 @@ extends Label3D
 func _ready() -> void:
 	# Set playername
 	text = str(player.get_username())
-	# Hide if alone
-	if multiplayer.get_peers().size() == 0:
-		hide()
+	# Hide (locally, will show on clients if not synced)
+	hide()
