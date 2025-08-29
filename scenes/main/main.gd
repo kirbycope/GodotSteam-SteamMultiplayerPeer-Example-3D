@@ -17,9 +17,6 @@ var pending_owner_id: int = 0
 var connection_timeout_timer: Timer = null
 const CONNECTION_TIMEOUT: float = 10.0
 
-# Track previous connection status to avoid premature disconnect
-var prev_connection_status: int = -1
-
 
 # https://godotsteam.com/tutorials/lobbies/#the-_ready-function
 func _ready() -> void:
@@ -54,23 +51,25 @@ func _process(_delta: float) -> void:
 	# Check if multiplayer peer is disconnected (client side)
 	var current_peer = multiplayer.get_multiplayer_peer()
 	if current_peer != null:
-		var status = current_peer.get_connection_status()
-		if prev_connection_status == MultiplayerPeer.CONNECTION_CONNECTED and status != MultiplayerPeer.CONNECTION_CONNECTED:
-			print("Multiplayer peer is no longer active. Disconnecting gracefully...")
-			# Leave the lobby on Steam
-			leave_lobby()
-			# Clean up multiplayer peer
-			multiplayer.set_multiplayer_peer(null)
-			# Show lobby UI again
-			if $GUI:
-				$GUI.show()
-			# Reset lobby info
-			lobby_id = 0
-			lobby_members.clear()
-			pending_owner_id = 0
-		prev_connection_status = status
-	else:
-		prev_connection_status = current_peer.get_connection_status()
+		# Check if the owner is still connected
+		if lobby_id > 0 and not multiplayer.is_server():
+			var owner_id = Steam.getLobbyOwner(lobby_id)
+			if owner_id != steam_id:
+				# Check if we can still communicate with the owner
+				var peer_state = current_peer.get_connection_status()
+				if peer_state == MultiplayerPeer.CONNECTION_DISCONNECTED or peer_state == MultiplayerPeer.CONNECTION_CONNECTING:
+					print("Multiplayer peer is no longer active. Disconnecting gracefully...")
+					# Leave the lobby on Steam
+					leave_lobby()
+					# Clean up multiplayer peer
+					multiplayer.set_multiplayer_peer(null)
+					# Show lobby UI again
+					if $GUI:
+						$GUI.show()
+					# Reset lobby info
+					lobby_id = 0
+					lobby_members.clear()
+					pending_owner_id = 0
 
 
 func _on_connection_success():
