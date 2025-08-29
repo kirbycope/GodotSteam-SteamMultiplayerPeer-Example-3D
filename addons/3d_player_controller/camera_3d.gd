@@ -33,6 +33,8 @@ func _ready() -> void:
 
 ## Called when there is an input event.
 func _input(event) -> void:
+	# Uncomment the next line if using GodotSteam
+	if !is_multiplayer_authority(): return
 	# Check if the game is not paused
 	if !player.game_paused:
 		# Check if the camera is using a third-person perspective and the perspective is not locked and the camera is not locked

@@ -20,6 +20,8 @@ func _ready():
 
 ## Called once for every event before _unhandled_input(), allowing you to consume some events.
 func _input(event) -> void:
+	# Uncomment the next line if using GodotSteam
+	if !is_multiplayer_authority(): return
 	# Check if the [pause] action _pressed_
 	if event.is_action_pressed("button_9"):
 		# Toggle game paused
