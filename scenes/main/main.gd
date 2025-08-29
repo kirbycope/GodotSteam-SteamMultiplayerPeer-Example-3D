@@ -49,19 +49,21 @@ func _ready() -> void:
 ## Called every frame. '_delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	# Check if multiplayer peer is disconnected (client side)
-	if multiplayer.get_multiplayer_peer() != null and not multiplayer.get_multiplayer_peer().is_active():
-		print("Multiplayer peer is no longer active. Disconnecting gracefully...")
-		# Leave the lobby on Steam
-		leave_lobby()
-		# Clean up multiplayer peer
-		multiplayer.set_multiplayer_peer(null)
-		# Show lobby UI again
-		if $GUI:
-			$GUI.show()
-		# Reset lobby info
-		lobby_id = 0
-		lobby_members.clear()
-		pending_owner_id = 0
+	var current_peer = multiplayer.get_multiplayer_peer()
+	if current_peer != null:
+		if current_peer.get_connection_status() != MultiplayerPeer.CONNECTION_CONNECTED:
+			print("Multiplayer peer is no longer active. Disconnecting gracefully...")
+			# Leave the lobby on Steam
+			leave_lobby()
+			# Clean up multiplayer peer
+			multiplayer.set_multiplayer_peer(null)
+			# Show lobby UI again
+			if $GUI:
+				$GUI.show()
+			# Reset lobby info
+			lobby_id = 0
+			lobby_members.clear()
+			pending_owner_id = 0
 
 
 func _on_connection_success():
