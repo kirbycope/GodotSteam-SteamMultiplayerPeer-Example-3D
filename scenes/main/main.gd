@@ -1,19 +1,17 @@
 extends Node3D
 
-var steam_id: int = 0
-
 @onready var spawner: MultiplayerSpawner = $MultiplayerSpawner
 
 
 func _ready() -> void:
 	# Connect signals
 	Steam.lobby_match_list.connect(_on_lobby_match_list)
-	# Cache SteamID for logged in user
-	steam_id = Steam.getSteamID()
 	# Define custom spawner
 	spawner.spawn_function = spawn_level
 	# Check for command line arguments
 	check_command_line()
+	# Populate the lobby list
+	_on_open_lobby_list_pressed()
 
 
 ## Called every frame. '_delta' is the elapsed time since the previous frame.
@@ -24,7 +22,7 @@ func _process(_delta: float) -> void:
 		# Check if the owner is still connected
 		if $SteamLobby.lobby_id > 0 and not multiplayer.is_server():
 			var owner_id = Steam.getLobbyOwner($SteamLobby.lobby_id)
-			if owner_id != steam_id:  # We're not the owner
+			if owner_id != Steam.getSteamID():  # We're not the owner
 				# Check if we're actually disconnected (not just connecting)
 				var peer_state = current_peer.get_connection_status()
 				if peer_state == MultiplayerPeer.CONNECTION_DISCONNECTED:
@@ -42,11 +40,13 @@ func _process(_delta: float) -> void:
 					$SteamLobby.pending_owner_id = 0
 
 
+## Connected to the Signal: $CreateLobby.pressed()
 func _on_create_lobby_pressed() -> void:
 	if $SteamLobby.lobby_id == 0:
 		$SteamLobby.create_lobby()
 
 
+## Connected to the Signal: $GetLobbyLists.pressed()
 func _on_open_lobby_list_pressed() -> void:
 	$SteamLobby.update_lobby_list()
 

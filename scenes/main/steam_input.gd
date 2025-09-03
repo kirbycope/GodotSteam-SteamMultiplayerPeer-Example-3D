@@ -26,9 +26,9 @@ func _ready() -> void:
 	print("Initializing Steam Input...")
 	input_initialized = Steam.inputInit()
 	if input_initialized:
-		print("└── Steam Input initialized successfully.")
+		print("└── Steam Input initialization successful.")
 	else:
-		push_warning("└── [STEAM] Steam Input failed to initialize.")
+		push_warning("└── Steam Input initialization failed.")
 		return
 	# Get connected controllers
 	enumerate_controllers()

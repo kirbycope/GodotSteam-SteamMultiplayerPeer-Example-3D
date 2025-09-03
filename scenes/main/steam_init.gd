@@ -12,9 +12,9 @@ func _ready() -> void:
 	print("Initializing Steam API...")
 	steam_initialized = Steam.steamInit()
 	if steam_initialized:
-		print("└── Steam API initialized successfully.")
+		print("└── Steam API initialization successful.")
 	else:
-		push_warning("└── [STEAM] steamInit failed; Steam features disabled.")
+		push_warning("└── Steam API initialization failed; Steam features disabled.")
 		return
 
 
