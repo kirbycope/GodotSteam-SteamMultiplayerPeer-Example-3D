@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://ch2qox21knba7"]
+[gd_scene load_steps=8 format=3 uid="uid://ch2qox21knba7"]
 
 [ext_resource type="Script" uid="uid://bibtsli3k4rpn" path="res://scenes/main/main.gd" id="1_o5qli"]
 [ext_resource type="Script" uid="uid://cdlobyabet30t" path="res://scenes/main/steam_init.gd" id="3_k2fmo"]
 [ext_resource type="Script" uid="uid://c6hrn3h5vo8xq" path="res://scenes/main/steam_input.gd" id="3_l3cfh"]
+[ext_resource type="Script" uid="uid://bmnmt3g3fmxxx" path="res://scenes/main/steam_lobby.gd" id="4_l3cfh"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_iuonh"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -25,6 +26,9 @@ script = ExtResource("3_k2fmo")
 
 [node name="SteamInput" type="Node" parent="."]
 script = ExtResource("3_l3cfh")
+
+[node name="SteamLobby" type="Node" parent="."]
+script = ExtResource("4_l3cfh")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_l3cfh")
@@ -62,5 +66,5 @@ layout_mode = 2
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 spawn_path = NodePath("..")
 
-[connection signal="pressed" from="GUI/CreateLobby" to="." method="create_lobby"]
+[connection signal="pressed" from="GUI/CreateLobby" to="." method="_on_create_lobby_pressed"]
 [connection signal="pressed" from="GUI/GetLobbyLists" to="." method="_on_open_lobby_list_pressed"]
