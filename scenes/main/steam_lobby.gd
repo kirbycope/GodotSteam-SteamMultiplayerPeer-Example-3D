@@ -381,9 +381,8 @@ func read_p2p_voice_packet():
 			#var players_in_scene: Array = get_tree().get_nodes_in_group("players")
 			var players_in_scene: Array = get_tree().get_nodes_in_group("Player")
 			for player in players_in_scene:
-				print("player.steam_id: %s" % player.steam_id)
-				print("player.steam_username: %s" % player.steam_username)
 				if player.steam_id == packet_sender:
+					print_rich("[color=Dimgrey][INFO] Found matching player: %s[/color]" % player.steam_username)
 					player.process_voice_data(readable_data, "network")
 				else:
 					pass
