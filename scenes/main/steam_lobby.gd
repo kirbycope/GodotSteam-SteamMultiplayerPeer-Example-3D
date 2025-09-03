@@ -373,12 +373,14 @@ func read_p2p_voice_packet():
 	if packet_size > 0:
 		var this_packet: Dictionary = Steam.readP2PPacket(packet_size, 1)
 		var packet_sender: int = this_packet["remote_steam_id"]
+		print("reading voice packet from %s" % packet_sender)
 		var packet_code: PackedByteArray = this_packet["data"]
 		var readable_data: Dictionary = bytes_to_var(packet_code)
 		if readable_data.has("voice_data"):
 			print("reading ", readable_data["username"], "'s voice data.")
 			var players_in_scene: Array = get_tree().get_nodes_in_group("players")
 			for player in players_in_scene:
+				print("player.steam_id: %s" % player.steam_id)
 				if player.steam_id == packet_sender:
 					player.process_voice_data(readable_data, "network")
 				else:
