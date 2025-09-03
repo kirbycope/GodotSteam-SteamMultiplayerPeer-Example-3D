@@ -180,7 +180,7 @@ func _ready() -> void:
 	else:
 		steam_id = multiplayer.multiplayer_peer.get_steam64_from_peer_id(get_multiplayer_authority())
 		steam_username = Steam.getFriendPersonaName(steam_id)
-
+	print("steam username: %s" % steam_username)
 
 ## Called each physics frame with the time since the last physics frame as argument (delta, in seconds).
 func _physics_process(delta) -> void:

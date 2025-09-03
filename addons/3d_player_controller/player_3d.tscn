@@ -65,13 +65,13 @@ properties/5/spawn = true
 properties/5/replication_mode = 1
 properties/6/path = NodePath("NameLabel:text")
 properties/6/spawn = true
-properties/6/replication_mode = 1
+properties/6/replication_mode = 2
 properties/7/path = NodePath(".:steam_id")
 properties/7/spawn = true
-properties/7/replication_mode = 1
+properties/7/replication_mode = 2
 properties/8/path = NodePath(".:steam_username")
 properties/8/spawn = true
-properties/8/replication_mode = 1
+properties/8/replication_mode = 2
 
 [node name="Player" type="CharacterBody3D" groups=["Player"]]
 script = ExtResource("1_f3dlg")
