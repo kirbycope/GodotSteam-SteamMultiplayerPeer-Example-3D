@@ -885,7 +885,7 @@ func process_voice_data(voice_data: Dictionary, voice_source: String) -> void:
 			var amplitude: float = float(raw_value - 32768) / 32768.0
 			# Push frame to audio buffer
 			playback_to_use.push_frame(Vector2(amplitude, amplitude))
-			print_rich("[color=Dimgray][INFO] Pushed audio frame to %s[/color]" % playback_to_use.name)
+			print_rich("[color=Dimgray][INFO] Pushed audio frame to %s[/color]" % playback_to_use)
 
 
 #endregion
