@@ -14,3 +14,7 @@ config/name="GodotSteam GDExtension Example 3D"
 run/main_scene="uid://ch2qox21knba7"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
+
+[audio]
+
+driver/enable_input=true
