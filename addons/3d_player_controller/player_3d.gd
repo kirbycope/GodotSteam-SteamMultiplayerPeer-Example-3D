@@ -872,7 +872,6 @@ func process_voice_data(voice_data: Dictionary, voice_source: String) -> void:
 		print_rich("[color=Dimgray][INFO] Decompressed network voice data.[/color]")
 	if decompressed_voice['result'] == Steam.VOICE_RESULT_OK and decompressed_voice['uncompressed'].size() > 0:
 		var playback_to_use = local_playback if voice_source == "local" else network_playback
-		print_rich("[color=Dimgray][INFO] Playback to use: %s[/color]" % playback_to_use)
 		var voice_buffer = decompressed_voice['uncompressed']
 		voice_buffer.resize(decompressed_voice['size'])
 		var frames_available = playback_to_use.get_frames_available()
@@ -886,6 +885,7 @@ func process_voice_data(voice_data: Dictionary, voice_source: String) -> void:
 			var amplitude: float = float(raw_value - 32768) / 32768.0
 			# Push frame to audio buffer
 			playback_to_use.push_frame(Vector2(amplitude, amplitude))
+			print_rich("[color=Dimgray][INFO] Pushed audio frame to %s[/color]" % playback_to_use.name)
 
 
 #endregion
