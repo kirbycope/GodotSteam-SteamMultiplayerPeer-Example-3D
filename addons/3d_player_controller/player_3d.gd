@@ -174,13 +174,12 @@ func _ready() -> void:
 	proximity_chat_network.stream.mix_rate = current_sample_rate
 	proximity_chat_network.play()
 	network_playback = proximity_chat_network.get_stream_playback()
-	if is_multiplayer_authority():
-		steam_id = Steam.getSteamID()
-		steam_username = Steam.getPersonaName()
-	else:
-		steam_id = multiplayer.multiplayer_peer.get_steam64_from_peer_id(get_multiplayer_authority())
-		steam_username = Steam.getFriendPersonaName(steam_id)
+	if !is_multiplayer_authority():
+		return
+	steam_id = Steam.getSteamID()
+	steam_username = Steam.getPersonaName()
 	print("steam username: %s" % steam_username)
+
 
 ## Called each physics frame with the time since the last physics frame as argument (delta, in seconds).
 func _physics_process(delta) -> void:
