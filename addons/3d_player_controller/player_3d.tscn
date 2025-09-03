@@ -102,6 +102,7 @@ visible = false
 
 [node name="ChatWindow" parent="CameraMount/Camera3D" instance=ExtResource("5_k4p2k")]
 visible = false
+anchors_preset = 2
 
 [node name="Debug" parent="CameraMount/Camera3D" instance=ExtResource("3_xex47")]
 visible = false
