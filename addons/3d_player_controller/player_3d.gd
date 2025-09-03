@@ -866,10 +866,13 @@ func process_voice_data(voice_data: Dictionary, voice_source: String) -> void:
 	var decompressed_voice: Dictionary
 	if voice_source == "local":
 		decompressed_voice = Steam.decompressVoice(voice_data['buffer'], current_sample_rate)
+		print_rich("[color=Dimgray][INFO] Decompressed local voice data.[/color]")
 	elif voice_source == "network":
 		decompressed_voice = Steam.decompressVoice(voice_data['voice_data'], current_sample_rate)
+		print_rich("[color=Dimgray][INFO] Decompressed network voice data.[/color]")
 	if decompressed_voice['result'] == Steam.VOICE_RESULT_OK and decompressed_voice['uncompressed'].size() > 0:
 		var playback_to_use = local_playback if voice_source == "local" else network_playback
+		print_rich("[color=Dimgray][INFO] Playback to use: %s[/color]" % playback_to_use)
 		var voice_buffer = decompressed_voice['uncompressed']
 		voice_buffer.resize(decompressed_voice['size'])
 		var frames_available = playback_to_use.get_frames_available()
