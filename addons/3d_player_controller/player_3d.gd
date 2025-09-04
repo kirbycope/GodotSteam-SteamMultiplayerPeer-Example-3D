@@ -819,19 +819,18 @@ func handle_rigidbody_collisions() -> void:
 #region Proximity Voice Chat
 
 
+## Called when there is an input event.
 func _input(event: InputEvent) -> void:
 	if !is_multiplayer_authority():
 		return
-	#if Input.is_action_just_pressed("voice_record"):
 	if Input.is_action_just_pressed("button_12"):
 		record_voice(true)
-	#elif Input.is_action_just_released("voice_record"):
 	elif Input.is_action_just_released("button_12"):
 		record_voice(false)
 
 
+## Toggles [local] voice recording on or off.
 func record_voice(is_recording: bool) -> void:
-	#Steam.setInGameVoiceSpeaking(SteamManager.STEAM_ID, is_recording)
 	Steam.setInGameVoiceSpeaking($"/root/Main/SteamLobby".steam_id, is_recording)
 	if is_recording:
 		print("Recording %s's voice..." % Steam.getFriendPersonaName($"/root/Main/SteamLobby".steam_id))
@@ -841,17 +840,18 @@ func record_voice(is_recording: bool) -> void:
 		print("└── Recording stopped.")
 
 
+## Checks for available voice data [input] and processes it if found.
 func check_for_voice() -> void:
 	var available_voice: Dictionary = Steam.getAvailableVoice()
 	if available_voice['result'] == Steam.VOICE_RESULT_OK and available_voice['buffer'] > 0:
 		var voice_data: Dictionary = Steam.getVoice()
 		if voice_data['result'] == Steam.VOICE_RESULT_OK:
-			#SteamManager.send_voice_data(voice_data['buffer'])
 			$"/root/Main/SteamLobby".send_voice_data(voice_data['buffer'])
 			if has_loopback:
 				process_voice_data(voice_data, "local")
 
 
+## Gets the optimal sample rate for voice processing.
 func get_sample_rate(is_toggled: bool = true) -> void:
 	if is_toggled:
 		current_sample_rate = Steam.getVoiceOptimalSampleRate()
@@ -861,6 +861,7 @@ func get_sample_rate(is_toggled: bool = true) -> void:
 	proximity_chat_network.stream.mix_rate = current_sample_rate
 
 
+## Processes and plays back the decompressed voice data.
 func process_voice_data(voice_data: Dictionary, voice_source: String) -> void:
 	get_sample_rate()
 	var decompressed_voice: Dictionary
@@ -885,5 +886,6 @@ func process_voice_data(voice_data: Dictionary, voice_source: String) -> void:
 			var amplitude: float = float(raw_value - 32768) / 32768.0
 			# Push frame to audio buffer
 			playback_to_use.push_frame(Vector2(amplitude, amplitude))
+
 
 #endregion

@@ -136,12 +136,6 @@ func _on_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, resp
 		$".."._on_open_lobby_list_pressed()
 
 
-# https://godotsteam.com/tutorials/lobbies/#p2p-handshakes
-#func make_p2p_handshake() -> void:
-#	print("Sending P2P handshake to the lobby")
-#	send_p2p_packet(0, {"message": "handshake", "from": steam_id})
-
-
 # https://godotsteam.com/tutorials/lobbies/#getting-lobby-members
 func get_lobby_members() -> void:
 	# Clear your previous lobby list
@@ -281,6 +275,7 @@ func _on_connection_timeout() -> void:
 #region Proximity Voice Chat
 
 
+## Called every frame. '_delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	if lobby_id > 0:
 		read_all_p2p_msg_packets()
@@ -305,7 +300,6 @@ func send_voice_data(voice_data: PackedByteArray):
 
 
 func send_p2p_packet(this_target: int, packet_data: Dictionary, send_type: int = 0):
-	
 	var channel: int = 0
 	var this_data: PackedByteArray
 	this_data.append_array(var_to_bytes(packet_data))
@@ -377,8 +371,6 @@ func read_p2p_voice_packet():
 		var packet_code: PackedByteArray = this_packet["data"]
 		var readable_data: Dictionary = bytes_to_var(packet_code)
 		if readable_data.has("voice_data"):
-			#print("reading ", readable_data["username"], "'s voice data.")
-			#var players_in_scene: Array = get_tree().get_nodes_in_group("players")
 			var players_in_scene: Array = get_tree().get_nodes_in_group("Player")
 			for player in players_in_scene:
 				if player.steam_id == packet_sender:
