@@ -10,7 +10,6 @@ const STATES = preload("uid://dodroqwgmf811")
 # Note: `@export` variables are available for editing in the property editor.
 @export var current_state: STATES.State = STATES.State.STANDING ## The current state of the player.
 @export var game_paused: bool = false ## Is the game paused?
-
 @export_group("Toggle Features")
 @export var enable_chat: bool = true ## Enable the chat window
 @export var enable_emotes: bool = true ## Enable emotes
@@ -53,7 +52,6 @@ const STATES = preload("uid://dodroqwgmf811")
 @export var force_pushing: float = 0.2 ## Force applied when pushing
 @export var force_pushing_sprinting: float = 0.4 ## Force applied when pushing while sprinting
 @export var force_pushing_multiplier: float = 1.0 ## Global multiplier for all pushing/hitting forces
-
 @export var throw_force: float = 3.5 ## Force applied when throwing
 
 # State machine variables

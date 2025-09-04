@@ -52,10 +52,6 @@ func _process(_delta: float) -> void:
 	check_for_voice()
 
 
-
-
-
-
 ## Checks for available voice data [input] and processes it if found.
 func check_for_voice() -> void:
 	var available_voice: Dictionary = Steam.getAvailableVoice()
