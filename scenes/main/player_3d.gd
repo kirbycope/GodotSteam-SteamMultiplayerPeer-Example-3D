@@ -109,6 +109,7 @@ func process_voice_data(voice_data: Dictionary, voice_source: String) -> void:
 			# Push frame to audio buffer
 			playback_to_use.push_frame(Vector2(amplitude, amplitude))
 
+
 ## Toggles [local] voice recording on or off.
 func record_voice(is_recording: bool) -> void:
 	Steam.setInGameVoiceSpeaking($"/root/Main/SteamLobby".steam_id, is_recording)
