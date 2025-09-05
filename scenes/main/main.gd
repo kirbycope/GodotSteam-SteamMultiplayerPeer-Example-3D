@@ -3,6 +3,7 @@ extends Node3D
 @onready var spawner: MultiplayerSpawner = $MultiplayerSpawner
 
 
+## Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# Connect signals
 	Steam.lobby_match_list.connect(_on_lobby_match_list)

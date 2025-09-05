@@ -15,6 +15,7 @@ var peer: SteamMultiplayerPeer
 var pending_owner_id: int = 0
 
 var steam_id: int
+var steam_username: String
 
 
 # https://godotsteam.com/tutorials/lobbies/#the-_ready-function
@@ -30,8 +31,11 @@ func _ready() -> void:
 	Steam.persona_state_change.connect(_on_persona_change)
 	multiplayer.connection_failed.connect(_on_connection_failed)
 	multiplayer.connected_to_server.connect(_on_connection_success)
-	# Cache SteamID for logged in user
+	# Cache Steam info for logged in user
 	steam_id = Steam.getSteamID()
+	steam_username = Steam.getPersonaName()
+	# Connect the signal
+	Steam.p2p_session_request.connect(_on_p2p_session_request)
 
 
 # https://godotsteam.com/tutorials/lobbies/#creating-lobbies
@@ -58,7 +62,7 @@ func create_lobby() -> void:
 # https://godotsteam.com/tutorials/lobbies/#creating-lobbies
 func _on_lobby_created(connection: int, this_lobby_id: int) -> void:
 	if connection == 1:
-		print("└── Created lobby: " , this_lobby_id)
+		print("└── Created lobby: ", this_lobby_id)
 		# Set the lobby ID
 		lobby_id = this_lobby_id
 		# Set this lobby as joinable, just in case, though this should be done by default
@@ -130,13 +134,6 @@ func _on_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, resp
 		print("Failed to join this chat room: %s" % fail_reason)
 		# Reopen the lobby list
 		$".."._on_open_lobby_list_pressed()
-
-
-# https://godotsteam.com/tutorials/lobbies/#p2p-handshakes
-func make_p2p_handshake() -> void:
-	#print("Sending P2P handshake to the lobby")
-	#send_p2p_packet(0, {"message": "handshake", "from": steam_id})
-	pass
 
 
 # https://godotsteam.com/tutorials/lobbies/#getting-lobby-members
@@ -271,5 +268,116 @@ func _on_connection_timeout() -> void:
 	# Reset multiplayer peer if set
 	if multiplayer.get_multiplayer_peer() != null:
 		multiplayer.set_multiplayer_peer(null)
+
+#endregion
+
+
+#region Proximity Voice Chat
+
+
+## Called every frame. '_delta' is the elapsed time since the previous frame.
+func _process(_delta: float) -> void:
+	if lobby_id > 0:
+		read_all_p2p_msg_packets()
+		read_all_p2p_voice_packets()
+
+
+func _on_p2p_session_request(remote_id: int):
+	print("[P2P] session request from %s..." % remote_id)
+	var success = Steam.acceptP2PSessionWithUser(remote_id)
+	if success:
+		print("└── [P2P] session accepted.")
+	else:
+		push_warning("└── [P2P] session failed to accept.")
+
+
+func make_p2p_handshake() -> void:
+	send_p2p_packet(0, {"message": "handshake", "steam_id": steam_id, "username": steam_username})
+
+
+func send_voice_data(voice_data: PackedByteArray):
+	send_p2p_packet(1, {"voice_data": voice_data, "steam_id": steam_id, "username": steam_username})
+
+
+func send_p2p_packet(this_target: int, packet_data: Dictionary, send_type: int = 0):
+	var channel: int = 0
+	var this_data: PackedByteArray
+	this_data.append_array(var_to_bytes(packet_data))
+	if this_target == 0:
+		if lobby_members.size() > 1:
+			for member in lobby_members:
+				if member["steam_id"] != steam_id:
+					print("[P2P] Sending message packet to remote steam id %s: " % member["steam_id"])
+					var success = Steam.sendP2PPacket(member["steam_id"], this_data, send_type, channel)
+					if success:
+						print("└── [P2P] Packet sent.")
+					else:
+						push_warning("└── [P2P] Packet failed to send.")
+	elif this_target == 1:
+		if lobby_members.size() > 1:
+			for member in lobby_members:
+				if member["steam_id"] != steam_id:
+					print("[P2P] Sending voice packet to remote steam id %s: " % member["steam_id"])
+					var success = Steam.sendP2PPacket(member["steam_id"], this_data, send_type, 1)
+					if success:
+						print("└── [P2P] Packet sent.")
+					else:
+						push_warning("└── [P2P] Packet failed to send.")
+	else:
+		print("[P2P] Sending packet to _this_ target %s..." % this_target)
+		var success = Steam.sendP2PPacket(this_target, this_data, send_type, channel)
+		if success:
+			print("└── [P2P] Packet sent.")
+		else:
+			push_warning("└── [P2P] Packet failed to send.")
+
+
+func read_all_p2p_msg_packets(read_count: int = 0):
+	if read_count >= PACKET_READ_LIMIT:
+		return
+	if Steam.getAvailableP2PPacketSize() > 0:
+		read_p2p_msg_packet()
+		read_all_p2p_msg_packets(read_count + 1)
+
+
+func read_all_p2p_voice_packets(read_count: int = 0):
+	if read_count >= PACKET_READ_LIMIT:
+		return
+	if Steam.getAvailableP2PPacketSize(1) > 0:
+		read_p2p_voice_packet()
+		read_all_p2p_msg_packets(read_count + 1)
+
+
+func read_p2p_msg_packet():
+	var packet_size: int = Steam.getAvailableP2PPacketSize(0)
+	if packet_size > 0:
+		var this_packet: Dictionary = Steam.readP2PPacket(packet_size, 0)
+		var packet_sender: int = this_packet["remote_steam_id"]
+		var packet_code: PackedByteArray = this_packet["data"]
+		var readable_data: Dictionary = bytes_to_var(packet_code)
+		if readable_data.has("message"):
+			match readable_data["message"]:
+				"handshake":
+					print("PLAYER: ", readable_data["username"], " has joined!")
+					get_lobby_members()
+
+
+func read_p2p_voice_packet():
+	var packet_size: int = Steam.getAvailableP2PPacketSize(1)
+	if packet_size > 0:
+		var this_packet: Dictionary = Steam.readP2PPacket(packet_size, 1)
+		var packet_sender: int = this_packet["remote_steam_id"]
+		print("[P2P] Reading voice packet from %s..." % Steam.getFriendPersonaName(packet_sender))
+		var packet_code: PackedByteArray = this_packet["data"]
+		var readable_data: Dictionary = bytes_to_var(packet_code)
+		if readable_data.has("voice_data"):
+			var players_in_scene: Array = get_tree().get_nodes_in_group("Player")
+			for player in players_in_scene:
+				if player.steam_id == packet_sender:
+					print_rich("[color=Dimgray][INFO] Found matching player: %s[/color]" % player.steam_username)
+					player.process_voice_data(readable_data, "network")
+				else:
+					pass
+
 
 #endregion
