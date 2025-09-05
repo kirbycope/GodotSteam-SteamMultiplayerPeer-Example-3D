@@ -21,6 +21,7 @@ Press and hold [Tab] while in game to talk, release to mute.
 1. Enable "Audio" > "Driver" > "Enable Input"
 1. Restart Godot
 1. Change [Player_3d.gd](/scenes/main/player_3d.gd) to extend your Player script
+1. Update your Player scene to use the new script
 1. Add the following to the beginning of any `_input()`, `_process()`, `_physics_process()`, or anything else that would affect the player state, for all related scripts
     ```
     # Do nothing if not the authority
