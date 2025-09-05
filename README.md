@@ -1,5 +1,5 @@
 # GodotSteam-SteamMultiplayerPeer-Example-3D
-A 3D example for the [GodotSteam](https://godotsteam.com/) GDExtension and [Steam Multiplayer Peer](https://godotengine.org/asset-library/asset/2258) GDExtensions. The alternative would be to use the [SteamMultiplayerPeer](https://godotsteam.com/getting_started/what_are_you_making/#multiplayer-using-godots-multiplayerpeer-nodes) custom Godot Build. See the [godotsteam-multiplayerpeer-example](https://github.com/kirbycope/godotsteam-multiplayerpeer-example) example project if you're interested. I just wanted a single editor on my multiple machines, so this example was created.
+A 3D example for the [GodotSteam](https://godotsteam.com/) GDExtension and [Steam Multiplayer Peer](https://godotengine.org/asset-library/asset/2258) GDExtensions. The alternative would be to use the [SteamMultiplayerPeer](https://godotsteam.com/getting_started/what_are_you_making/#multiplayer-using-godots-multiplayerpeer-nodes) custom Godot Build. See the [godotsteam-multiplayerpeer-example](https://github.com/kirbycope/godotsteam-multiplayerpeer-example) project if you're interested. I just wanted a single editor on my multiple machines, so this example was created.
 
 ## How It Works
 [GodotSteam](https://godotsteam.com/) handles the Steam API initialization and lobbies.</br>
