@@ -18,8 +18,12 @@ var packet_read_limit: int = 5
 @onready var proximity_chat_network: AudioStreamPlayer3D = $ProximityChatNetwork
 
 
-## Called when the node enters the scene tree for the first time.
+## @override Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	# Set the canvas layer behind all other Control nodes
+	$Controls.layer = -1
+	# Start "standing"
+	$States/Standing.start()
 	# Uncomment the next line(s) if using GodotSteam	
 	proximity_chat_local.stream.mix_rate = current_sample_rate
 	proximity_chat_local.play()
