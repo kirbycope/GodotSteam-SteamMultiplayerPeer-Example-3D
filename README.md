@@ -1,10 +1,10 @@
 # GodotSteam-SteamMultiplayerPeer-Example-3D
-A 3D example for the `GodotSteam` GDExtension and `SteamMultiplayerPeer` GDExtensions. The alternative would be to use the [SteamMultiplayerPeer](https://godotsteam.com/getting_started/what_are_you_making/#multiplayer-using-godots-multiplayerpeer-nodes) custom Godot Build. See the [godotsteam-multiplayerpeer-example](https://github.com/kirbycope/godotsteam-multiplayerpeer-example) example project if you're interested. I just wanted a single editor on my multiple machines, so this example was created.
+A 3D example for the [GodotSteam](https://godotsteam.com/) GDExtension and Steam Multiplayer Peer](https://godotengine.org/asset-library/asset/2258) GDExtensions. The alternative would be to use the [SteamMultiplayerPeer](https://godotsteam.com/getting_started/what_are_you_making/#multiplayer-using-godots-multiplayerpeer-nodes) custom Godot Build. See the [godotsteam-multiplayerpeer-example](https://github.com/kirbycope/godotsteam-multiplayerpeer-example) example project if you're interested. I just wanted a single editor on my multiple machines, so this example was created.
 
 ## How It Works
 [GodotSteam](https://godotsteam.com/) handles the Steam API initialization and lobbies.</br>
-[Steam-Multiplayer-Peer](https://godotengine.org/asset-library/asset/2258) handles the P2P communication between the lobby host and clients.</br>
-Proximity Voice Chat is enabled through the GodotSteam API and Steam-Multiplayer-Peer. Press and hold [TAB] to speak and release to stop.
+[Steam Multiplayer Peer](https://godotengine.org/asset-library/asset/2258) handles the P2P communication between the lobby host and clients.</br>
+Proximity Voice Chat is enabled through the GodotSteam API and Steam-Multiplayer-Peer.
 
 ## How It is Implemented
 This example uses the [Godot 3D Player Controller](https://github.com/kirbycope/godot-3d-player-controller). The idea is that you could use any CharacterBody3D (`.tscn/.gd`) with minimal modifications.
@@ -13,6 +13,9 @@ This example uses the [Godot 3D Player Controller](https://github.com/kirbycope/
 Press and hold [Tab] while in game to talk, release to mute.
 
 ### Changes to Make for Steam
+1. Open "Project" > "Project Settings" and enable "Advanced Settings"
+1. Enable "Audio" > "Driver" > "Enable Input"
+1. Restart Godot
 1. Change [Player_3d.gd](/scenes/main/player_3d.gd) to extend your Player script
 1. Add the following to the beginning of any `_input()`, `_process()`, `_physics_process()`, or anything else that would affect the player state, for all related scripts
     ```
