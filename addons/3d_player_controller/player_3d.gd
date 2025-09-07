@@ -22,6 +22,8 @@ const STATES = preload("uid://dodroqwgmf811")
 @export var enable_noclip: bool = false ## Enable noclip
 @export var enable_paragliding: bool = true ## Enable paragliding
 @export var enable_punching: bool = true ## Enable punching
+@export var enable_rolling: bool = true ## Enable rolling
+@export var enable_sliding: bool = true ## Enable sliding
 @export var enable_sprinting: bool = true ## Enable sprinting
 @export var enable_vibration: bool = false ## Enable controller vibration
 @export_group("Camera Settings")
@@ -40,6 +42,7 @@ const STATES = preload("uid://dodroqwgmf811")
 @export var speed_flying: float = 5.0 ## Speed while flying
 @export var speed_flying_fast: float = 10.0 ## Speed while flying fast
 @export var speed_hanging: float = 0.25 ## Speed while hanging (shimmying)
+@export var speed_rolling: float = 2.0 ## Speed while rolling
 @export var speed_running: float = 3.5 ## Speed while running
 @export var speed_sprinting: float = 5.0 ## Speed while sprinting
 @export var speed_swimming: float = 3.0 ## Speed while swimming
@@ -86,6 +89,7 @@ var is_pushing: bool = false ## Is the player pushing something?
 var is_reeling: bool = false ## Is the player reeling in a fishing line?
 var is_rotating_object: bool = false ## Is the player rotating an object being held in front of them?
 var is_running: bool = false ## Is the player running?
+var is_sliding: bool = false ## Is the player sliding?
 var is_shimmying: bool = false ## Is the player shimmying along a ledge?
 var is_skateboarding: bool = false ## Is the player skateboarding?
 var is_sprinting: bool = false ## Is the player sprinting?
@@ -94,6 +98,8 @@ var is_swinging_left: bool = false ## Is the player swinging with the left arm?
 var is_swinging_right: bool = false ## Is the player swinging with the right arm?
 var is_swimming_in ## The Node the player is swimming in
 var is_swimming: bool = false ## Is the player swimming?
+var is_sitting: bool = false ## Is the player sitting?
+var is_rolling: bool = false ## Is the player rolling?
 var is_using: bool = false ## Is the player using an object?
 var is_walking: bool = false ## Is the player walking?
 var virtual_velocity: Vector3 = Vector3.ZERO ## The velocity of the player if they moved, to be used when movement is locked.
@@ -153,6 +159,11 @@ func _ready() -> void:
 	$Controls.layer = -1
 	# Start "standing"
 	$States/Standing.start()
+	# Add sitting state node if not present
+	if not $States.has_node("Sitting"):
+		var sitting_node = load("res://addons/3d_player_controller/states/sitting.gd").new()
+		sitting_node.name = "Sitting"
+		$States.add_child(sitting_node)
 
 
 ## Called each physics frame with the time since the last physics frame as argument (delta, in seconds).

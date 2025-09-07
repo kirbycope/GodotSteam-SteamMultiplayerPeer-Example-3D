@@ -15,7 +15,7 @@ func _input(event: InputEvent) -> void:
 	# [R] key to trigger ragdoll for testing (only when debug panel is visible)
 	if visible and event is InputEventKey and event.pressed:
 		if event.keycode == KEY_R:
-			# Get the current state name and transition to ragdoll
+			# Get the current state name
 			var current_state_name = player.base_state.get_state_name(player.current_state)
 			# Transition to ragdoll state
 			player.base_state.transition(current_state_name, "Ragdoll")
@@ -43,9 +43,11 @@ func _process(_delta: float) -> void:
 		$Panel1/IsPunchingLeft.button_pressed = player.is_punching_left
 		$Panel1/IsPunchingRight.button_pressed = player.is_punching_right
 		$Panel1/IsPushing.button_pressed = player.is_pushing
+		$Panel1/IsRolling.button_pressed = player.is_rolling
 		$Panel1/IsRunning.button_pressed = player.is_running
 		$Panel1/IsSkateboarding.button_pressed = player.is_skateboarding
 		$Panel1/IsShimmying.button_pressed = player.is_shimmying
+		$Panel1/IsSitting.button_pressed = player.is_sitting
 		$Panel1/IsSprinting.button_pressed = player.is_sprinting
 		$Panel1/IsStanding.button_pressed = player.is_standing
 		$Panel1/IsSwimming.button_pressed = player.is_swimming
@@ -75,6 +77,7 @@ func _process(_delta: float) -> void:
 		$Panel2/EnableKicking.button_pressed = player.enable_kicking
 		$Panel2/EnableParagliding.button_pressed = player.enable_paragliding
 		$Panel2/EnablePunching.button_pressed = player.enable_punching
+		$Panel2/EnableRolling.button_pressed = player.enable_rolling
 		$Panel2/EnableSprinting.button_pressed = player.enable_sprinting
 		$Panel2/EnableVibration.button_pressed = player.enable_vibration
 		$Panel2/LockCamera.button_pressed = player.lock_camera
@@ -130,6 +133,11 @@ func _on_enable_paragliding_toggled(toggled_on: bool) -> void:
 ## Called when the "enable_punching" toggle option is changed.
 func _on_enable_punching_toggled(toggled_on: bool) -> void:
 	player.enable_punching = toggled_on
+
+
+## Called when the "enable_rolling" toggle option is changed.
+func _on_enable_rolling_toggled(toggled_on: bool) -> void:
+	player.enable_rolling = toggled_on
 
 
 ## Called when the "enable_sprinting" toggle option is changed.
