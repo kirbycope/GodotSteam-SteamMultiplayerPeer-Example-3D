@@ -6,7 +6,9 @@ A 3D example for the [GodotSteam](https://godotsteam.com/) GDExtension and [Stea
     <div style="text-align: right">source - [https://godotsteam.com/getting_started/what_are_you_making/#multiplayer-using-godots-multiplayerpeer-nodes](https://godotsteam.com/getting_started/what_are_you_making/#multiplayer-using-godots-multiplayerpeer-nodes)</div>
 
 ## How It Works
+![GodotSteam](/assets/GodotSteam_icon.png "GodotSteam GDExtension")</br>
 [GodotSteam](https://godotsteam.com/) handles the Steam API initialization and lobbies.</br>
+![Steam Multiplayer Peer](/assets/SteamMultiplayerPeer_icon.png "[Steam Multiplayer Peer GDExtension")</br>
 [Steam Multiplayer Peer](https://godotengine.org/asset-library/asset/2258) handles the P2P communication between the lobby host and clients.</br>
 Proximity Voice Chat is enabled through the GodotSteam API and Steam-Multiplayer-Peer.
 

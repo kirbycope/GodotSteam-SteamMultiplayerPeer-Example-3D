@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://ddqj7tbseeds"]
+[gd_scene load_steps=9 format=3 uid="uid://ddqj7tbseeds"]
 
 [ext_resource type="PackedScene" uid="uid://ujh51l2wv1vk" path="res://addons/3d_player_controller/player_3d.tscn" id="1_epnma"]
 [ext_resource type="Texture2D" uid="uid://bdu3nvt8krswd" path="res://assets/kenney_prototype-textures/PNG/Dark/texture_01.png" id="1_rl6yr"]
@@ -18,16 +18,9 @@ sky = SubResource("Sky_iwtyf")
 tonemap_mode = 2
 glow_enabled = true
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_la06y"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rl6yr"]
 albedo_texture = ExtResource("1_rl6yr")
 uv1_triplanar = true
-
-[sub_resource type="BoxMesh" id="BoxMesh_rw20u"]
-material = SubResource("StandardMaterial3D_la06y")
-size = Vector3(64, 1, 64)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_iqr5q"]
-size = Vector3(64, 1, 64)
 
 [node name="Level0" type="Node3D"]
 
@@ -37,15 +30,6 @@ environment = SubResource("Environment_7nfv4")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
 shadow_enabled = true
-
-[node name="Ground" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.999975, -0.0070685246, 0, 0.0070685246, 0.999975, 0, -0.5, 0)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
-mesh = SubResource("BoxMesh_rw20u")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
-shape = SubResource("BoxShape3D_iqr5q")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 spawn_path = NodePath(".")
@@ -58,3 +42,9 @@ fov = 50.0
 
 [node name="Prototype" parent="." instance=ExtResource("3_7nfv4")]
 transform = Transform3D(-1, 0, -8.940697e-08, 0, 1, 0, 8.940697e-08, 0, -1, -0.2, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+use_collision = true
+size = Vector3(128, 1, 128)
+material = SubResource("StandardMaterial3D_rl6yr")
