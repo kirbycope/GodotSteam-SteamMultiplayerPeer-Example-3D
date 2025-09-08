@@ -5,6 +5,7 @@ extends "res://addons/3d_player_controller/player_3d.gd"
 @export var has_loopback: bool = false ## Does the player have Steam voice chat loopback enabled?
 @export var steam_id: int = 0 ## The Steam ID of the player
 @export var steam_username: String = "" ## The Steam username of the player
+@export var is_using_x_bot: bool = false : set = _set_is_using_x_bot ## Is the player using the X_Bot model (false = Y_Bot, true = X_Bot)
 
 var current_sample_rate: int = 48000
 var local_playback: AudioStreamGeneratorPlayback = null
@@ -32,6 +33,9 @@ func _ready() -> void:
 	proximity_chat_network.play()
 	network_playback = proximity_chat_network.get_stream_playback()
 	if !is_multiplayer_authority():
+		# For non-authority players, ensure the correct bot model is loaded based on replicated state
+		if is_using_x_bot:
+			_perform_bot_model_swap()
 		return
 	steam_id = Steam.getSteamID()
 	steam_username = Steam.getPersonaName()
@@ -87,6 +91,16 @@ func get_username() -> String:
 	return username
 
 
+## Setter for is_using_x_bot that triggers model swap when value changes
+func _set_is_using_x_bot(value: bool) -> void:
+	if is_using_x_bot != value:
+		is_using_x_bot = value
+		# Only perform the swap if we're not the authority (to avoid double-swapping)
+		# The authority will have already swapped via the RPC call
+		if not is_multiplayer_authority():
+			_perform_bot_model_swap()
+
+
 ## Processes and plays back the decompressed voice data.
 func process_voice_data(voice_data: Dictionary, voice_source: String) -> void:
 	get_sample_rate()
@@ -123,3 +137,59 @@ func record_voice(is_recording: bool) -> void:
 	else:
 		Steam.stopVoiceRecording()
 		print("└── Recording stopped.")
+
+
+## Swaps between Y_Bot and X_Bot models across the network
+@rpc("any_peer", "call_local")
+func swap_bot_model_network(use_x_bot: bool) -> void:
+	# Update the exported variable that will be replicated
+	is_using_x_bot = use_x_bot
+	# Call the actual model swapping function
+	_perform_bot_model_swap()
+
+
+## Performs the actual bot model swap locally
+func _perform_bot_model_swap() -> void:
+	# Preload the bot scenes
+	const X_BOT_SCENE = preload("uid://dsp7vcraux38l")
+	const Y_BOT_SCENE = preload("uid://c714y0011rxmt")
+	
+	# Get the current AuxScene
+	var current_aux_scene = get_node("Visuals/AuxScene")
+	# Get the current AuxScene's animation
+	var current_animation = current_aux_scene.get_node("AnimationPlayer").current_animation
+	# Preserve the full global transform (position + rotation + scale) before removal
+	var saved_transform: Transform3D = current_aux_scene.global_transform
+	# Remove the current AuxScene immediately
+	get_node("Visuals").remove_child(current_aux_scene)
+	current_aux_scene.free()
+	# Instantiate the new bot scene
+	var new_scene
+	if is_using_x_bot:
+		new_scene = X_BOT_SCENE.instantiate()
+	else:
+		new_scene = Y_BOT_SCENE.instantiate()
+	# Set the scene name
+	new_scene.name = "AuxScene"
+	# Ensure the new AuxScene is top-level so it ignores parent transforms (matches original setup)
+	new_scene.top_level = true
+	# Add the new scene to the Visuals node first
+	get_node("Visuals").add_child(new_scene)
+	# Restore the saved global transform to retain exact orientation & position
+	new_scene.global_transform = saved_transform
+	# Update all the player's references to the new AuxScene and its children
+	visuals_aux_scene = new_scene
+	visuals_aux_scene_position = new_scene.position
+	animation_player = new_scene.get_node("AnimationPlayer")
+	# Update skeleton and bone attachment references
+	var new_skeleton = new_scene.get_node("GeneralSkeleton")
+	player_skeleton = new_skeleton
+	bone_attachment_left_foot = new_skeleton.get_node("BoneAttachment3D_LeftFoot")
+	bone_attachment_right_foot = new_skeleton.get_node("BoneAttachment3D_RightFoot")
+	bone_attachment_left_hand = new_skeleton.get_node("BoneAttachment3D_LeftHand")
+	bone_attachment_right_hand = new_skeleton.get_node("BoneAttachment3D_RightHand")
+	look_at_modifier = new_skeleton.get_node("LookAtModifier3D")
+	physical_bone_simulator = new_skeleton.get_node_or_null("PhysicalBoneSimulator3D")
+	# Restore animation if there was one playing
+	if current_animation != "" and animation_player != null:
+		animation_player.play(current_animation)

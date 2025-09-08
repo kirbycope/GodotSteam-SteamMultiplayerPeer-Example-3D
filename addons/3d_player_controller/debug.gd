@@ -3,9 +3,6 @@ extends Control
 # Note: `@onready` variables are set when the scene is loaded.
 @onready var player: CharacterBody3D = get_parent().get_parent().get_parent()
 
-# Track which bot model is currently loaded
-var is_using_x_bot: bool = false
-
 # Preload the bot scenes
 const X_BOT_SCENE = preload("uid://dsp7vcraux38l")
 const Y_BOT_SCENE = preload("uid://c714y0011rxmt")
@@ -184,44 +181,6 @@ func _on_lock_perspective_toggled(toggled_on: bool) -> void:
 
 ## Swaps between Y_Bot and X_Bot models
 func swap_bot_model() -> void:
-	# Get the current AuxScene
-	var current_aux_scene = player.get_node("Visuals/AuxScene")
-	# Get the current AuxScene's animation
-	var current_animation = current_aux_scene.get_node("AnimationPlayer").current_animation
-	# Preserve the full global transform (position + rotation + scale) before removal
-	var saved_transform: Transform3D = current_aux_scene.global_transform
-	# Remove the current AuxScene immediately
-	player.get_node("Visuals").remove_child(current_aux_scene)
-	current_aux_scene.free()
-	# Instantiate the new bot scene
-	var new_scene
-	if is_using_x_bot:
-		new_scene = Y_BOT_SCENE.instantiate()
-		is_using_x_bot = false
-	else:
-		new_scene = X_BOT_SCENE.instantiate()
-		is_using_x_bot = true
-	# Set the scene name
-	new_scene.name = "AuxScene"
-	# Ensure the new AuxScene is top-level so it ignores parent transforms (matches original setup)
-	new_scene.top_level = true
-	# Add the new scene to the Visuals node first
-	player.get_node("Visuals").add_child(new_scene)
-	# Restore the saved global transform to retain exact orientation & position
-	new_scene.global_transform = saved_transform
-	# Update all the player's references to the new AuxScene and its children
-	player.visuals_aux_scene = new_scene
-	player.visuals_aux_scene_position = new_scene.position
-	player.animation_player = new_scene.get_node("AnimationPlayer")
-	# Update skeleton and bone attachment references
-	var new_skeleton = new_scene.get_node("GeneralSkeleton")
-	player.player_skeleton = new_skeleton
-	player.bone_attachment_left_foot = new_skeleton.get_node("BoneAttachment3D_LeftFoot")
-	player.bone_attachment_right_foot = new_skeleton.get_node("BoneAttachment3D_RightFoot")
-	player.bone_attachment_left_hand = new_skeleton.get_node("BoneAttachment3D_LeftHand")
-	player.bone_attachment_right_hand = new_skeleton.get_node("BoneAttachment3D_RightHand")
-	player.look_at_modifier = new_skeleton.get_node("LookAtModifier3D")
-	player.physical_bone_simulator = new_skeleton.get_node_or_null("PhysicalBoneSimulator3D")
-	# Restore animation if there was one playing
-	if current_animation != "" and player.animation_player != null:
-		player.animation_player.play(current_animation)
+	# Toggle the bot model and call the network function
+	var new_bot_state = !player.is_using_x_bot
+	player.swap_bot_model_network.rpc(new_bot_state)

@@ -75,6 +75,9 @@ properties/7/replication_mode = 2
 properties/8/path = NodePath(".:steam_username")
 properties/8/spawn = true
 properties/8/replication_mode = 2
+properties/9/path = NodePath(".:is_using_x_bot")
+properties/9/spawn = true
+properties/9/replication_mode = 1
 
 [node name="Player" type="CharacterBody3D" groups=["Player"]]
 script = ExtResource("1_ypjv0")
