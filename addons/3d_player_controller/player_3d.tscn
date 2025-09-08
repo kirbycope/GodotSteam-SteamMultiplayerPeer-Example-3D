@@ -1,6 +1,6 @@
 [gd_scene load_steps=40 format=3 uid="uid://ujh51l2wv1vk"]
 
-[ext_resource type="Script" uid="uid://2iaqywmqcahl" path="res://addons/3d_player_controller/player_3d.gd" id="1_f3dlg"]
+[ext_resource type="Script" uid="uid://l2neow4t3b80" path="res://scenes/main/player_3d.gd" id="1_ypjv0"]
 [ext_resource type="PackedScene" uid="uid://cx7x0f3lh4aus" path="res://addons/virtual_controller/scenes/canvas_layer.tscn" id="2_j65kv"]
 [ext_resource type="PackedScene" uid="uid://dv80q7jwkx20r" path="res://addons/3d_player_controller/debug.tscn" id="3_xex47"]
 [ext_resource type="PackedScene" uid="uid://c714y0011rxmt" path="res://addons/3d_player_controller/y_bot.tscn" id="4_swcjt"]
@@ -77,7 +77,7 @@ properties/8/spawn = true
 properties/8/replication_mode = 2
 
 [node name="Player" type="CharacterBody3D" groups=["Player"]]
-script = ExtResource("1_f3dlg")
+script = ExtResource("1_ypjv0")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
 volume_db = -10.0
