@@ -168,7 +168,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 billboard = 1
 script = ExtResource("31_ij4ox")
 
-[node name="ProximintyChatIndicator" type="MeshInstance3D" parent="."]
+[node name="ProximityChatIndicator" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0)
 visible = false
 mesh = SubResource("QuadMesh_h7acy")
