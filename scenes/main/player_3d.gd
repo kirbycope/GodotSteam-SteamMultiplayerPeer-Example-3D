@@ -15,6 +15,7 @@ var network_voice_buffer: PackedByteArray = PackedByteArray()
 var packet_read_limit: int = 5
 
 # Note: `@onready` variables are set when the scene is loaded.
+@onready var proximity_chat_indicator: MeshInstance3D = $ProximityChatIndicator
 @onready var proximity_chat_local: AudioStreamPlayer3D = $ProximityChatLocal
 @onready var proximity_chat_network: AudioStreamPlayer3D = $ProximityChatNetwork
 
@@ -137,6 +138,7 @@ func record_voice(is_recording: bool) -> void:
 	else:
 		Steam.stopVoiceRecording()
 		print("└── Recording stopped.")
+	proximity_chat_indicator.visible = is_recording
 
 
 ## Swaps between Y_Bot and X_Bot models across the network
