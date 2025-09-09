@@ -1,7 +1,7 @@
 ![Thumbnail](/ci/thumbnail.png)
 
 # GodotSteam-SteamMultiplayerPeer-Example-3D
-A 3D example for the [GodotSteam](https://godotsteam.com/) GDExtension and [Steam Multiplayer Peer](https://godotengine.org/asset-library/asset/2258) GDExtensions. The alternative would be to use the [SteamMultiplayerPeer](https://godotsteam.com/getting_started/what_are_you_making/#multiplayer-using-godots-multiplayerpeer-nodes) custom Godot Build. See the [godotsteam-multiplayerpeer-example-3d](https://github.com/kirbycope/godotsteam-multiplayerpeer-example-3d) project if you're interested. I  wanted a single editor on my multiple machines for multiple projects, so this example was created.
+A 3D example for the [GodotSteam](https://godotsteam.com/) GDExtension and [Steam Multiplayer Peer](https://godotengine.org/asset-library/asset/2258) GDExtension. The alternative would be to use the [SteamMultiplayerPeer](https://godotsteam.com/getting_started/what_are_you_making/#multiplayer-using-godots-multiplayerpeer-nodes) custom Godot Build. See the [godotsteam-multiplayerpeer-example-3d](https://github.com/kirbycope/godotsteam-multiplayerpeer-example-3d) project if you're interested. I  wanted a single editor on my multiple machines for multiple projects, so this example was created.
 ![GodotSteam](/docs/01.png "GodotSteam GDExtension")
     <div style="text-align: right">source - [https://godotsteam.com/getting_started/what_are_you_making/#singleplayer-or-steam-networking](https://godotsteam.com/getting_started/what_are_you_making/#singleplayer-or-steam-networking)</div>
 ![Steam Multiplayer Peer](/docs/02.png "Steam Multiplayer Peer GDExtension")
