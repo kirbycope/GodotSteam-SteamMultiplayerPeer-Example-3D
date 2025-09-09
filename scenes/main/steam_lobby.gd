@@ -55,8 +55,6 @@ func create_lobby() -> void:
 		# https://youtu.be/fUBdnocrc3Y?t=360
 		# Spawn the new scene
 		$"..".spawner.spawn("res://scenes/level_0/level_0.tscn")
-		# Hide the Lobby GUI
-		$"../GUI".hide()
 
 
 # https://godotsteam.com/tutorials/lobbies/#creating-lobbies

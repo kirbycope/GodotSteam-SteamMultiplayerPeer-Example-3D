@@ -1,7 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://ddqj7tbseeds"]
+[gd_scene load_steps=7 format=3 uid="uid://ddqj7tbseeds"]
 
 [ext_resource type="PackedScene" uid="uid://ujh51l2wv1vk" path="res://addons/3d_player_controller/player_3d.tscn" id="1_epnma"]
-[ext_resource type="Texture2D" uid="uid://bdu3nvt8krswd" path="res://assets/kenney_prototype-textures/PNG/Dark/texture_01.png" id="1_rl6yr"]
 [ext_resource type="Script" uid="uid://dfk1vf0blob8u" path="res://scenes/level_0/multiplayer_spawner.gd" id="2_iwtyf"]
 [ext_resource type="PackedScene" uid="uid://bpckfpjav5yc0" path="res://scenes/level_0/prototype.tscn" id="3_7nfv4"]
 
@@ -18,10 +17,6 @@ sky = SubResource("Sky_iwtyf")
 tonemap_mode = 2
 glow_enabled = true
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rl6yr"]
-albedo_texture = ExtResource("1_rl6yr")
-uv1_triplanar = true
-
 [node name="Level0" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -36,15 +31,5 @@ spawn_path = NodePath(".")
 script = ExtResource("2_iwtyf")
 player_scene = ExtResource("1_epnma")
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-0.8475609, 0.15928797, -0.5062292, -0.020645916, 0.9432738, 0.33137333, 0.53029656, 0.2913106, -0.7961933, -2.9907339, 4.6359982, -3.0137901)
-fov = 50.0
-
 [node name="Prototype" parent="." instance=ExtResource("3_7nfv4")]
-transform = Transform3D(-1, 0, -8.940697e-08, 0, 1, 0, 8.940697e-08, 0, -1, -0.2, 0, 1)
-
-[node name="CSGBox3D" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
-use_collision = true
-size = Vector3(128, 1, 128)
-material = SubResource("StandardMaterial3D_rl6yr")
+transform = Transform3D(-2, 0, -3.019916e-07, 0, 2, 0, 3.019916e-07, 0, -2, -0.2, 0, 0)

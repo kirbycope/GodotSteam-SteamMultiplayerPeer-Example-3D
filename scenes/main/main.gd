@@ -32,9 +32,8 @@ func _process(_delta: float) -> void:
 					$SteamLobby.leave_lobby()
 					# Clean up multiplayer peer
 					multiplayer.set_multiplayer_peer(null)
-					# Show lobby UI again
-					if $GUI:
-						$GUI.show()
+					# Show lobby GUI again
+					show_lobby()
 					# Reset lobby info
 					$SteamLobby.lobby_id = 0
 					$SteamLobby.lobby_members.clear()
@@ -45,6 +44,8 @@ func _process(_delta: float) -> void:
 func _on_create_lobby_pressed() -> void:
 	if $SteamLobby.lobby_id == 0:
 		$SteamLobby.create_lobby()
+	# Hide the Lobby GUI
+	hide_lobby()
 
 
 ## Connected to the Signal: $GetLobbyLists.pressed()
@@ -95,11 +96,26 @@ func join_lobby(this_lobby_id: int) -> void:
 	$SteamLobby.lobby_members.clear()
 	# Make the lobby join request to Steam
 	Steam.joinLobby(this_lobby_id)
-	# Hide the Lobby GUI
-	$"GUI".hide()
+	# Hide the Lobby
+	hide_lobby()
 
 
 # https://youtu.be/fUBdnocrc3Y?t=322
 func spawn_level(data):
 	# Instantiate and then return the loaded scene
 	return (load(data) as PackedScene).instantiate()
+
+
+func hide_lobby() -> void:
+	# Remove the prototype level
+	$Prototype.queue_free()
+	# Hide the Lobby GUI
+	$"GUI".hide()
+
+
+func show_lobby() -> void:
+	$GUI.show()
+	# Recreate the prototype level
+	var prototype_scene: PackedScene = load("res://scenes/main/Prototype.tscn")
+	var prototype_instance: Node3D = prototype_scene.instantiate()
+	add_child(prototype_instance)
