@@ -12,7 +12,7 @@ A 3D example for Gramps' [GodotSteam](https://godotengine.org/asset-library/asse
 [GodotSteam](https://godotsteam.com/) handles the Steam API initialization and lobbies.</br>
 ![Steam Multiplayer Peer](/assets/SteamMultiplayerPeer_icon.png "[Steam Multiplayer Peer GDExtension")</br>
 [Steam Multiplayer Peer](https://godotengine.org/asset-library/asset/2258) handles the P2P communication between the lobby host and clients.</br>
-Proximity Voice Chat is enabled through the GodotSteam API and Steam-Multiplayer-Peer.
+Proximity Voice Chat is enabled through the GodotSteam API and Steam Multiplayer Peer.
 
 ## How It is Implemented
 This example uses the [Godot 3D Player Controller](https://github.com/kirbycope/godot-3d-player-controller). The idea is that you could use any CharacterBody3D (`.tscn/.gd`) with minimal modifications.
