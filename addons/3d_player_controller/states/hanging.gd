@@ -6,6 +6,7 @@ const ANIMATION_BRACED_HANG_SHIMMY_RIGHT := "Braced_Hang_Shimmy_Right_In_Place" 
 const ANIMATION_HANGING := "Hanging_Idle" + "/mixamo_com"
 const ANIMATION_HANGING_SHIMMY_LEFT := "Hanging_Shimmy_Left_In_Place" + "/mixamo_com"
 const ANIMATION_HANGING_SHIMMY_RIGHT := "Hanging_Shimmy_Right_In_Place" + "/mixamo_com"
+const ANIMATION_MANTLE := "Climbing_On" + "/mixamo_com"
 const NODE_NAME := "Hanging"
 
 
@@ -25,18 +26,25 @@ func _input(event: InputEvent) -> void:
 			player.raycast_jumptarget.force_raycast_update()
 			# Check if there is a raycast collision
 			if player.raycast_jumptarget.is_colliding():
+				# Flag the animation player as locked
+				player.is_animation_locked = true
+				# Play the "mantle" animation
+				player.animation_player.play(ANIMATION_MANTLE)
+				# Tween the player camera to follow the player during the mantle
+				var camera_tween = create_tween()
+				camera_tween.tween_property(player.camera, "global_position:y", player.camera.global_position.y + 1.2, 2.6678)
+				await player.animation_player.animation_finished
+				# Play the "stand" animation
+				player.animation_player.play("Stand" + "/mixamo_com", 0.0, 1.5)
 				# Get the collision point
 				var collision_point = player.raycast_jumptarget.get_collision_point()
 				# Temporarily disable player collision to avoid physics interference during mantle
 				player.collision_shape.disabled = true
+				# Set the player's position to the collision point
+				player.global_position = collision_point
 				# Reset velocity to prevent unwanted movement
 				player.velocity = Vector3.ZERO
 				player.virtual_velocity = Vector3.ZERO
-				# Set the player's position to the collision point
-				var tween = get_tree().create_tween()
-				tween.tween_property(player, "position", collision_point, 0.2)
-				# Wait for the tween to complete
-				await tween.finished
 				# Wait an additional frame for physics to settle
 				await get_tree().physics_frame
 				# Re-enable collision after positioning is complete
@@ -45,6 +53,8 @@ func _input(event: InputEvent) -> void:
 				if player.perspective == 1:
 					# Rotate the body to match the camera_mount
 					player.visuals.rotation = Vector3(0.0, player.camera_mount.rotation.y, player.camera_mount.rotation.z)
+				# Flag the animation player as unlocked
+				player.is_animation_locked = false
 				# Start "standing"
 				transition(NODE_NAME, "Standing")
 
@@ -117,20 +127,12 @@ func play_animation() -> void:
 			if player.is_braced:
 				# Check if the current animation is not "braced hang idle"
 				if player.animation_player.current_animation != ANIMATION_BRACED_HANG:
-					# [Hack] Adjust visuals for animation
-					player.player_skeleton.position.x = 0.0
-					player.player_skeleton.position.y = -0.55
-					player.player_skeleton.position.z = 0.0
 					# Play the "braced hang idle" animation
 					player.animation_player.play(ANIMATION_BRACED_HANG)
 			# The player must not be braced
 			else:
 				# Check if playing the "hanging idle" animation
 				if player.animation_player.current_animation != ANIMATION_HANGING:
-					# [Hack] Adjust visuals for hanging
-					player.player_skeleton.position.x = 0.0
-					player.player_skeleton.position.y = -0.9
-					player.player_skeleton.position.z = 0.35
 					# Play the "hanging idle" animation
 					player.animation_player.play(ANIMATION_HANGING)
 				else:
@@ -139,10 +141,6 @@ func play_animation() -> void:
 		if Input.is_action_pressed("move_left"):
 			# Check if the player is braced
 			if player.is_braced:
-				# [Hack] Adjust visuals for shimmying
-				player.player_skeleton.position.x = 0.0
-				player.player_skeleton.position.y = -1.0
-				player.player_skeleton.position.z = 0.0
 				# Check if playing the "braced hang, shimmy left" animation
 				if player.animation_player.current_animation != ANIMATION_BRACED_HANG_SHIMMY_LEFT:
 					# Play the "braced hang, shimmy left" animation
@@ -151,10 +149,6 @@ func play_animation() -> void:
 			else:
 				# Check if playing the "hanging, shimmy left" animation
 				if player.animation_player.current_animation != ANIMATION_HANGING_SHIMMY_LEFT:
-					# [Hack] Adjust visuals for shimmying
-					player.player_skeleton.position.x = 0.0
-					player.player_skeleton.position.y = -0.9
-					player.player_skeleton.position.z = 0.35
 					# Play the "hanging, shimmy left" animation
 					player.animation_player.play(ANIMATION_HANGING_SHIMMY_LEFT)
 				else:
@@ -163,20 +157,12 @@ func play_animation() -> void:
 		if Input.is_action_pressed("move_right"):
 			# Check if the player is braced
 			if player.is_braced:
-				# [Hack] Adjust visuals for shimmying
-				player.player_skeleton.position.x = 0.0
-				player.player_skeleton.position.y = -1.0
-				player.player_skeleton.position.z = 0.0
 				# Check if playing the "braced hang, shimmy right" animation
 				if player.animation_player.current_animation != ANIMATION_BRACED_HANG_SHIMMY_RIGHT:
 					# Play the "braced hang, shimmy right" animation
 					player.animation_player.play(ANIMATION_BRACED_HANG_SHIMMY_RIGHT)
 				# The player must not be braced
 			else:
-				# [Hack] Adjust visuals for shimmying
-				player.player_skeleton.position.x = 0.0
-				player.player_skeleton.position.y = -0.9
-				player.player_skeleton.position.z = 0.35
 				# Check if playing the "hanging, shimmy right" animation
 				if player.animation_player.current_animation != ANIMATION_HANGING_SHIMMY_RIGHT:
 					# Play the "hanging, shimmy right" animation
@@ -228,8 +214,6 @@ func start() -> void:
 	await get_tree().process_frame
 	# Make the player face the wall while keeping upright
 	player.visuals.look_at(player.position + wall_direction, Vector3.UP)
-	# [Hack] Adjust player visuals for animation
-	player.animation_player.playback_default_blend_time = 0.0
 	# Flag the animation player as locked
 	player.is_animation_locked = true
 	# Delay execution to ensure position is properly set and no input interference
@@ -248,8 +232,3 @@ func stop() -> void:
 	player.is_shimmying = false
 	# Make the player start falling again
 	player.velocity.y = - player.gravity
-	# [Hack] Reset player visuals for animation
-	player.player_skeleton.position.x = 0.0
-	player.player_skeleton.position.y = 0.0
-	player.player_skeleton.position.z = 0.0
-	player.animation_player.playback_default_blend_time = 0.2

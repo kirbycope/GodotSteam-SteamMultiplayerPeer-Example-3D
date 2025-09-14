@@ -42,7 +42,6 @@ height = 1.8
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nin8p"]
 transparency = 1
-cull_mode = 2
 shading_mode = 0
 albedo_texture = ExtResource("11_58nn8")
 billboard_mode = 1
@@ -87,12 +86,9 @@ properties/7/replication_mode = 2
 properties/8/path = NodePath(".:steam_username")
 properties/8/spawn = true
 properties/8/replication_mode = 2
-properties/9/path = NodePath(".:is_using_x_bot")
+properties/9/path = NodePath("ProximityChatIndicator:visible")
 properties/9/spawn = true
-properties/9/replication_mode = 2
-properties/10/path = NodePath("ProximityChatIndicator:visible")
-properties/10/spawn = true
-properties/10/replication_mode = 2
+properties/9/replication_mode = 1
 
 [node name="Player" type="CharacterBody3D" groups=["Player"]]
 script = ExtResource("1_ypjv0")
