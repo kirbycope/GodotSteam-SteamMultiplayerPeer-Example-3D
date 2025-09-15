@@ -32,14 +32,10 @@ func _ready() -> void:
 	proximity_chat_network.stream.mix_rate = current_sample_rate
 	proximity_chat_network.play()
 	network_playback = proximity_chat_network.get_stream_playback()
-	if !is_multiplayer_authority():
-		# For non-authority players, ensure the correct bot model is loaded based on replicated state
-		if is_using_x_bot:
-			_perform_bot_model_swap()
-		return
-	steam_id = Steam.getSteamID()
-	steam_username = Steam.getPersonaName()
-	print("steam username: %s" % steam_username)
+	if is_multiplayer_authority():
+		steam_id = Steam.getSteamID()
+		steam_username = Steam.getPersonaName()
+		print("steam username: %s" % steam_username)
 
 
 ## Called when there is an input event.
