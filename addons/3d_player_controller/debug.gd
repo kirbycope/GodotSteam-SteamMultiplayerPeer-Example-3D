@@ -184,6 +184,11 @@ func _on_lock_perspective_toggled(toggled_on: bool) -> void:
 
 ## Swaps between Y_Bot and X_Bot models
 func swap_bot_model() -> void:
+	# Toggle the bot model and call the network function
+	var new_bot_state = !player.is_using_x_bot
+	player.swap_bot_model_network.rpc(new_bot_state)
+	return
+
 	# Get the current AuxScene
 	var current_aux_scene = player.get_node("Visuals/AuxScene")
 	# Get the current AuxScene's animation
