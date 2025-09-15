@@ -1,5 +1,6 @@
-[gd_scene load_steps=114 format=4 uid="uid://dsp7vcraux38l"]
+[gd_scene load_steps=117 format=4 uid="uid://dsp7vcraux38l"]
 
+[ext_resource type="AnimationLibrary" uid="uid://dyu5wrd8ti6wx" path="res://addons/3d_player_controller/assets/animations/Braced_Hang_Hop_Up.fbx" id="1_2egcl"]
 [ext_resource type="AnimationLibrary" uid="uid://cvbhfxl2l2fhl" path="res://addons/3d_player_controller/assets/animations/Braced_Hang_Shimmy_Left_In_Place.fbx" id="1_kwlrt"]
 [ext_resource type="AnimationLibrary" uid="uid://2usq2nacxd5s" path="res://addons/3d_player_controller/assets/animations/Braced_Hang_Shimmy_Right_In_Place.fbx" id="2_m5q07"]
 [ext_resource type="AnimationLibrary" uid="uid://ckbxjfrc6snak" path="res://addons/3d_player_controller/assets/animations/Clapping.fbx" id="3_ioqwq"]
@@ -8,6 +9,7 @@
 [ext_resource type="AnimationLibrary" uid="uid://dy5wse6m8moax" path="res://addons/3d_player_controller/assets/animations/Crawling_In_Place.fbx" id="5_lqjxp"]
 [ext_resource type="AnimationLibrary" uid="uid://b1ktdijxiigqi" path="res://addons/3d_player_controller/assets/animations/Crouching_Idle.fbx" id="6_3y8m8"]
 [ext_resource type="AnimationLibrary" uid="uid://ce8470f66dniu" path="res://addons/3d_player_controller/assets/animations/Crying.fbx" id="7_0u42q"]
+[ext_resource type="AnimationLibrary" uid="uid://bybcnhxog04vl" path="res://addons/3d_player_controller/assets/animations/Climbing_On.fbx" id="7_58b8i"]
 [ext_resource type="AnimationLibrary" uid="uid://bhxki3v64td0k" path="res://addons/3d_player_controller/assets/animations/Driving.fbx" id="8_gyc3a"]
 [ext_resource type="AnimationLibrary" uid="uid://bncjftq7urkqp" path="res://addons/3d_player_controller/assets/animations/Entering_Car.fbx" id="9_yfxfk"]
 [ext_resource type="AnimationLibrary" uid="uid://bukg24fwg8dsf" path="res://addons/3d_player_controller/assets/animations/Exiting_Car.fbx" id="10_ieyuu"]
@@ -80,6 +82,7 @@
 [ext_resource type="AnimationLibrary" uid="uid://vaktvrtxoht5" path="res://addons/3d_player_controller/assets/animations/Tool_Walking_In_Place.fbx" id="70_jse1y"]
 [ext_resource type="AnimationLibrary" uid="uid://nnj37g60akh6" path="res://addons/3d_player_controller/assets/animations/Standing_1H_Magic_Attack_01_Left.fbx" id="70_pfmy7"]
 [ext_resource type="AnimationLibrary" uid="uid://dd05uxik7rtsk" path="res://addons/3d_player_controller/assets/animations/Treading_Water.fbx" id="71_8etri"]
+[ext_resource type="AnimationLibrary" uid="uid://d1luoukrukn4m" path="res://addons/3d_player_controller/assets/animations/Stand.fbx" id="71_ik7pw"]
 [ext_resource type="AnimationLibrary" uid="uid://byv057jnnc7dh" path="res://addons/3d_player_controller/assets/animations/Standing_1H_Magic_Attack_01_Right.fbx" id="71_o0d2l"]
 [ext_resource type="AnimationLibrary" uid="uid://cn6g6rkeajb4u" path="res://addons/3d_player_controller/assets/animations/Standing_Block_Idle_Left.fbx" id="72_l88ok"]
 [ext_resource type="AnimationLibrary" uid="uid://boy31s33tmvhh" path="res://addons/3d_player_controller/assets/animations/Walk_With_Rifle_Low.fbx" id="72_ssq8y"]
@@ -1275,16 +1278,6 @@ symmetry_limitation = true
 primary_limit_angle = 2.26893
 primary_damp_threshold = 1.0
 
-[node name="BoneAttachment3D_RightFoot" type="BoneAttachment3D" parent="GeneralSkeleton"]
-transform = Transform3D(-1, -2.9596223e-15, 6.7992744e-14, 6.7992744e-14, -2.3283e-09, 1, -2.959622e-15, 1, 2.3283e-09, -0.08207842, 0.087295294, -0.027428744)
-bone_name = "LeftFoot"
-bone_idx = 57
-
-[node name="BoneAttachment3D_RightHand" type="BoneAttachment3D" parent="GeneralSkeleton"]
-transform = Transform3D(2.9802342e-07, -1, 7.1054274e-15, -1.0658141e-14, -1.0658141e-14, -1, 1, 2.9802342e-07, -7.1054274e-15, -0.8044134, 1.4354361, -0.032886483)
-bone_name = "LeftIndexProximal"
-bone_idx = 15
-
 [node name="BoneAttachment3D_LeftFoot" type="BoneAttachment3D" parent="GeneralSkeleton"]
 transform = Transform3D(-1, 3.1499395e-12, -3.0559e-10, -3.0559e-10, 3.8776093e-09, 1, 3.1499408e-12, 1, -3.8776093e-09, 0.08207736, 0.08729601, -0.027427161)
 bone_name = "RightFoot"
@@ -1294,6 +1287,16 @@ bone_idx = 62
 transform = Transform3D(-5.364414e-07, 1, 5.9604563e-08, 5.96046e-08, 5.96046e-08, -1, -1, -5.364414e-07, -5.9604634e-08, 0.80442464, 1.4354331, -0.032886095)
 bone_name = "RightIndexProximal"
 bone_idx = 39
+
+[node name="BoneAttachment3D_RightFoot" type="BoneAttachment3D" parent="GeneralSkeleton"]
+transform = Transform3D(-1, -2.9596223e-15, 6.7992744e-14, 6.7992744e-14, -2.3283e-09, 1, -2.959622e-15, 1, 2.3283e-09, -0.08207842, 0.087295294, -0.027428744)
+bone_name = "LeftFoot"
+bone_idx = 57
+
+[node name="BoneAttachment3D_RightHand" type="BoneAttachment3D" parent="GeneralSkeleton"]
+transform = Transform3D(2.9802342e-07, -1, 7.1054274e-15, -1.0658141e-14, -1.0658141e-14, -1, 1, 2.9802342e-07, -7.1054274e-15, -0.8044134, 1.4354361, -0.032886483)
+bone_name = "LeftIndexProximal"
+bone_idx = 15
 
 [node name="PhysicalBoneSimulator3D" type="PhysicalBoneSimulator3D" parent="GeneralSkeleton"]
 active = false
@@ -1525,11 +1528,13 @@ shape = SubResource("CapsuleShape3D_p3g86")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_w5ayq"),
+&"Braced_Hang_Hop_Up": ExtResource("1_2egcl"),
 &"Braced_Hang_Idle": ExtResource("18_jaqgt"),
 &"Braced_Hang_Shimmy_Left_In_Place": ExtResource("1_kwlrt"),
 &"Braced_Hang_Shimmy_Right_In_Place": ExtResource("2_m5q07"),
 &"Button_Pushing": ExtResource("4_hbryt"),
 &"Clapping": ExtResource("3_ioqwq"),
+&"Climbing_On": ExtResource("7_58b8i"),
 &"Climbing_Up_Wall_In_Place": ExtResource("4_j8jih"),
 &"Crawling_In_Place": ExtResource("5_lqjxp"),
 &"Crouching_Idle": ExtResource("6_3y8m8"),
@@ -1593,6 +1598,7 @@ libraries = {
 &"Skateboarding_Slow_In_Place": ExtResource("59_0ipoi"),
 &"Sneaking_In_Place": ExtResource("60_j5i2e"),
 &"Sprinting_In_Place": ExtResource("61_hdy52"),
+&"Stand": ExtResource("71_ik7pw"),
 &"Stand_To_Roll_In_Place": ExtResource("69_7ddjp"),
 &"Standing_1H_Magic_Attack_01_Left": ExtResource("70_pfmy7"),
 &"Standing_1H_Magic_Attack_01_Right": ExtResource("71_o0d2l"),
