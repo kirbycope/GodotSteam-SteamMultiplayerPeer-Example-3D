@@ -2,6 +2,8 @@ extends Control
 
 # Note: `@onready` variables are set when the scene is loaded.
 @onready var player: CharacterBody3D = get_parent().get_parent().get_parent()
+@onready var x_bot = player.get_node("Visuals/XBot")
+@onready var y_bot = player.get_node("Visuals/YBot")
 
 # Track which bot model is currently loaded
 var is_using_x_bot: bool = false
@@ -86,6 +88,7 @@ func _process(_delta: float) -> void:
 		$Panel2/EnableParagliding.button_pressed = player.enable_paragliding
 		$Panel2/EnablePunching.button_pressed = player.enable_punching
 		$Panel2/EnableRolling.button_pressed = player.enable_rolling
+		$Panel2/EnableSmoothing.button_pressed = player.enable_smoothing
 		$Panel2/EnableSprinting.button_pressed = player.enable_sprinting
 		$Panel2/EnableVibration.button_pressed = player.enable_vibration
 		$Panel2/LockCamera.button_pressed = player.lock_camera
@@ -148,6 +151,11 @@ func _on_enable_rolling_toggled(toggled_on: bool) -> void:
 	player.enable_rolling = toggled_on
 
 
+## Called when the "enable_smoothing" toggle option is changed.
+func _on_enable_smoothing_toggled(toggled_on):
+	player.enable_smoothing = toggled_on
+
+
 ## Called when the "enable_sprinting" toggle option is changed.
 func _on_enable_sprinting_toggled(toggled_on: bool) -> void:
 	player.enable_sprinting = toggled_on
@@ -189,9 +197,6 @@ func trigger_swap_model(use_x_bot: bool) -> void:
 
 ## Performs the actual bot model swap locally
 func _perform_bot_model_swap() -> void:
-	# Preload the bot scenes
-	const X_BOT_SCENE = preload("res://addons/3d_player_controller/x_bot.tscn")
-	const Y_BOT_SCENE = preload("res://addons/3d_player_controller/y_bot.tscn")
 	# Get the current AuxScene
 	var current_aux_scene = player.get_node("Visuals/AuxScene")
 	# Get the current AuxScene's animation
@@ -201,12 +206,14 @@ func _perform_bot_model_swap() -> void:
 	# Remove the current AuxScene immediately
 	player.get_node("Visuals").remove_child(current_aux_scene)
 	current_aux_scene.free()
-	# Instantiate the new bot scene
+	# Create a duplicate of the existing bot node
 	var new_scene
 	if is_using_x_bot:
-		new_scene = X_BOT_SCENE.instantiate()
+		new_scene = x_bot.duplicate()
 	else:
-		new_scene = Y_BOT_SCENE.instantiate()
+		new_scene = y_bot.duplicate()
+	# Set the scene visibility
+	new_scene.visible = true
 	# Set the scene name
 	new_scene.name = "AuxScene"
 	# Ensure the new AuxScene is top-level so it ignores parent transforms (matches original setup)
