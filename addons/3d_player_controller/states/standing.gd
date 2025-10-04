@@ -28,8 +28,6 @@ func _input(event: InputEvent) -> void:
 	if !is_multiplayer_authority(): return
 	# Check if the game is not paused
 	if !player.game_paused:
-		# Web fix - Input is required before the mouse can be captured so onready wont work
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		# Ⓐ/[Space] _pressed_ and jumping is enabled -> Start "jumping"
 		if event.is_action_pressed("button_0") and player.enable_jumping and !player.is_animation_locked:
 			# Start "jumping"
@@ -206,6 +204,10 @@ func _process(_delta: float) -> void:
 	if !is_multiplayer_authority(): return
 	# Check if the game is not paused
 	if !player.game_paused:
+		# Check if the player is "navigating"
+		if player.is_navigating:
+			# Start "running"
+			transition(NODE_NAME, "Running")
 		# Ⓨ/[Ctrl] _pressed_ and crouching is enabled -> Start "crouching"
 		if Input.is_action_pressed("button_3") and player.enable_crouching and !player.is_crouching:
 			# Check if the animation player is not locked
@@ -248,10 +250,12 @@ func _process(_delta: float) -> void:
 					transition(NODE_NAME, "Sprinting")
 		# Check if the player is not moving but input is pressed and blocked by obstacle
 		elif not player.is_animation_locked and (Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right") or Input.is_action_pressed("move_up") or Input.is_action_pressed("move_down")):
-			# Check if there is something in front of the player
-			if player.raycast_middle.is_colliding() or player.raycast_high.is_colliding():
-				# Start "pushing"
-				transition(NODE_NAME, "Pushing")
+			# Check if pushing is enabled
+			if player.enable_pushing:
+				# Check if there is something in front of the player
+				if player.raycast_middle.is_colliding() or player.raycast_high.is_colliding():
+					# Start "pushing"
+					transition(NODE_NAME, "Pushing")
 	# Check if the player is "standing"
 	if player.is_standing:
 		# Play the animation
